@@ -1,0 +1,81 @@
+{%- liquid
+  assign card_product = blank
+  if product != blank
+    assign card_product = product
+  endif
+  if product_handle != blank
+    assign card_product = all_products[product_handle]
+  endif
+
+  assign card_title = title
+  if card_title == blank and card_product != blank
+    assign card_title = card_product.title
+  endif
+  if card_title == blank
+    assign card_title = 'Daily Balance Ritual'
+  endif
+
+  assign card_description = description
+  if card_description == blank
+    assign card_description = 'A gentle daily support pick for your routine.'
+  endif
+
+  assign card_url = product_url
+  if card_url == blank and card_product != blank
+    assign card_url = card_product.url
+  endif
+  if card_url == blank
+    assign card_url = routes.all_products_collection_url
+  endif
+
+  assign card_price = price_text
+  if card_price == blank and card_product != blank
+    assign card_price = card_product.price | money
+  endif
+  if card_price == blank
+    assign card_price = 'Price available in store'
+  endif
+
+  assign image_alt = card_title | escape
+-%}
+
+<article class="btq-rec-card">
+  <a class="btq-rec-card__media" href="{{ card_url }}" aria-label="{{ card_title | escape }}">
+    {%- if card_product.featured_image != blank -%}
+      {{
+        card_product.featured_image
+        | image_url: width: 720
+        | image_tag:
+          loading: 'lazy',
+          widths: '240, 360, 540, 720',
+          sizes: '(min-width: 990px) 320px, 90vw',
+          alt: image_alt
+      }}
+    {%- elsif fallback_image != blank -%}
+      {{
+        fallback_image
+        | image_url: width: 720
+        | image_tag:
+          loading: 'lazy',
+          widths: '240, 360, 540, 720',
+          sizes: '(min-width: 990px) 320px, 90vw',
+          alt: image_alt
+      }}
+    {%- else -%}
+      <div class="btq-rec-card__placeholder" aria-hidden="true">
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    {%- endif -%}
+  </a>
+  <div class="btq-rec-card__content">
+    <p class="btq-rec-card__eyebrow">{{ eyebrow | default: 'Recommended pick' | escape }}</p>
+    <h3 class="btq-rec-card__title">
+      <a href="{{ card_url }}">{{ card_title | escape }}</a>
+    </h3>
+    <p class="btq-rec-card__description">{{ card_description | escape }}</p>
+    <p class="btq-rec-card__price">{{ card_price | escape }}</p>
+    <a class="button button--primary btq-rec-card__button" href="{{ card_url }}">
+      {{ button_label | default: 'Shop recommendation' | escape }}
+    </a>
+  </div>
+</article>

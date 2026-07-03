@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "body_type_quiz": {
+      "type": "body-type-quiz",
+      "settings": {
+        "eyebrow": "Help Me Choose",
+        "heading": "Find your daily wellness match",
+        "heading_size": "h1",
+        "text": "<p>Take a short body tendency quiz inspired by nine traditional constitution patterns: balanced, qi support, warmth support, cooling moisture, clear-light, ease and flow, and related daily signals. Your result is a wellness reference only.</p>",
+        "progress_label": "Quiz progress",
+        "disclaimer": "This quiz is for general wellness reference only. It does not diagnose, treat, cure, or confirm any health condition.",
+        "shop_label": "Browse products first",
+        "shop_link": "shopify://collections/all",
+        "reset_label": "Retake quiz",
+        "all_products_label": "Shop all formulas",
+        "all_products_link": "shopify://collections/all",
+        "card_button_label": "Shop recommendation",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "body_type_quiz"
+  ]
+}

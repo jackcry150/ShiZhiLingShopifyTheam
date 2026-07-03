@@ -1,51 +1,98 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "body_type_story_hero": {
+      "type": "body-type-story-hero",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "trust_quiz": {
+          "type": "trust_item",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "text": "10-question guided match"
           }
         },
-        "button": {
-          "type": "buttons",
+        "trust_reference": {
+          "type": "trust_item",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "text": "Wellness reference, not diagnosis"
+          }
+        },
+        "trust_shop": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Shop formulas by daily tendency"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "trust_quiz",
+        "trust_reference",
+        "trust_shop"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "eyebrow": "Daily wellness by body tendency",
+        "heading": "Find the ritual that fits how your body feels today",
+        "heading_size": "h0",
+        "text": "<p>Explore story-led wellness formulas inspired by traditional body constitution patterns. Start with the story, then take the quiz when you want help choosing.</p>",
+        "primary_label": "Shop daily rituals",
+        "primary_link": "shopify://collections/all",
+        "secondary_label": "Find My Best Match",
+        "secondary_link": "/pages/body-type-quiz",
+        "quiz_page_url": "/pages/body-type-quiz",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "body_type_story_guide": {
+      "type": "body-type-story-guide",
+      "blocks": {
+        "step_signals": {
+          "type": "step",
+          "settings": {
+            "title": "Read your daily signals",
+            "text": "Energy, temperature, digestion, sleep, and mood shape the recommendation."
+          }
+        },
+        "step_tendency": {
+          "type": "step",
+          "settings": {
+            "title": "Match a tendency",
+            "text": "The quiz weighs several constitution-inspired dimensions and shows the strongest tendency."
+          }
+        },
+        "step_shop": {
+          "type": "step",
+          "settings": {
+            "title": "Shop with context",
+            "text": "Each result suggests one main formula and one pairing for a simple routine."
+          }
+        }
+      },
+      "block_order": [
+        "step_signals",
+        "step_tendency",
+        "step_shop"
+      ],
+      "settings": {
+        "secondary_image_alt": "Wellness product ritual",
+        "eyebrow": "Story-led guidance",
+        "heading": "From body signals to a daily ritual",
+        "heading_size": "h1",
+        "text": "<p>Body constitution ideas can make wellness shopping feel more personal. Begin with beautiful rituals and product stories, then use the quiz as a decision-support tool when you are choosing between formulas.</p>",
+        "quiz_label": "Take the Quiz",
+        "quiz_link": "/pages/body-type-quiz",
+        "shop_label": "Shop all formulas",
+        "shop_link": "shopify://collections/all",
+        "note": "Results are wellness references only and do not diagnose, treat, cure, or confirm a condition.",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
+        "title": "Shop body-support rituals",
         "heading_size": "h2",
-        "description": "",
-        "show_description": false,
+        "description": "<p>Choose a formula directly, or use the quiz when you want a guided recommendation.</p>",
+        "show_description": true,
         "description_style": "body",
         "collection": "all",
         "products_to_show": 8,
@@ -69,7 +116,8 @@
     }
   },
   "order": [
-    "image_banner",
+    "body_type_story_hero",
+    "body_type_story_guide",
     "featured_collection"
   ]
 }

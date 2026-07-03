@@ -1,0 +1,174 @@
+{{ 'body-type-quiz.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'body-type-quiz.js' | asset_url }}" defer="defer"></script>
+
+<section class="body-type-quiz color-{{ section.settings.color_scheme }}">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="body-type-quiz__shell" data-body-type-quiz>
+      <div class="body-type-quiz__intro">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="body-type-quiz__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        <h1 class="body-type-quiz__heading {{ section.settings.heading_size }}">
+          {{ section.settings.heading | escape }}
+        </h1>
+        {%- if section.settings.text != blank -%}
+          <div class="body-type-quiz__text rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+        <div class="body-type-quiz__actions">
+          {%- if section.settings.shop_label != blank -%}
+            <a class="button button--secondary" href="{{ section.settings.shop_link | default: routes.all_products_collection_url }}">
+              {{ section.settings.shop_label | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+        <div class="body-type-quiz__note">
+          {{ section.settings.disclaimer | escape }}
+        </div>
+      </div>
+
+      <div class="btq-panel">
+        <div class="btq-progress" aria-label="Quiz progress">
+          <div class="btq-progress__label">
+            <span>{{ section.settings.progress_label | escape }}</span>
+            <span data-btq-progress-count>0 of 10</span>
+          </div>
+          <div class="btq-progress__track" aria-hidden="true">
+            <span class="btq-progress__bar" data-btq-progress-bar></span>
+          </div>
+        </div>
+
+        <div class="btq-question-list" data-btq-question-list></div>
+
+        <div class="btq-result" data-btq-result aria-live="polite">
+          <span class="btq-result__badge" data-btq-result-badge></span>
+          <h2 class="btq-result__title h1" data-btq-result-title></h2>
+          <p class="btq-result__copy" data-btq-result-copy></p>
+          <p class="btq-result__reason" data-btq-result-reason></p>
+          <div class="btq-result__cards" data-btq-result-cards></div>
+          <div class="btq-result__actions">
+            <button class="button button--secondary" type="button" data-btq-reset>
+              {{ section.settings.reset_label | escape }}
+            </button>
+            {%- if section.settings.all_products_label != blank -%}
+              <a class="button button--primary" href="{{ section.settings.all_products_link | default: routes.all_products_collection_url }}">
+                {{ section.settings.all_products_label | escape }}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="btq-template-store" aria-hidden="true">
+          {%- assign result_keys = 'balanced,qi,yang,yin,damp,stress' | split: ',' -%}
+          {%- for key in result_keys -%}
+            {%- liquid
+              assign main_handle_key = key | append: '_main_product'
+              assign pair_handle_key = key | append: '_pair_product'
+            -%}
+            <template data-btq-template="{{ key }}">
+              {% render 'body-type-recommendation-card',
+                eyebrow: 'Main formula',
+                product: section.settings[main_handle_key],
+                fallback_image: section.settings.fallback_image,
+                button_label: section.settings.card_button_label
+              %}
+              {% render 'body-type-recommendation-card',
+                eyebrow: 'Pairing support',
+                product: section.settings[pair_handle_key],
+                fallback_image: section.settings.fallback_image,
+                button_label: section.settings.card_button_label
+              %}
+            </template>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Body type quiz",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Help Me Choose" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Take the 10-question body tendency quiz" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "h1",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ]
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Intro text",
+      "default": "<p>Answer quick lifestyle questions and get a daily wellness reference inspired by traditional body constitution patterns. Your result points to a tendency, not a diagnosis.</p>"
+    },
+    { "type": "text", "id": "progress_label", "label": "Progress label", "default": "Your progress" },
+    { "type": "text", "id": "disclaimer", "label": "Compliance note", "default": "This quiz is for general wellness reference only. It does not diagnose, treat, cure, or confirm any health condition." },
+    { "type": "text", "id": "shop_label", "label": "Intro shop button label", "default": "Browse products first" },
+    { "type": "url", "id": "shop_link", "label": "Intro shop button link" },
+    { "type": "text", "id": "reset_label", "label": "Reset button label", "default": "Retake quiz" },
+    { "type": "text", "id": "all_products_label", "label": "All products button label", "default": "Shop all formulas" },
+    { "type": "url", "id": "all_products_link", "label": "All products button link" },
+    { "type": "text", "id": "card_button_label", "label": "Recommendation button label", "default": "Shop recommendation" },
+    { "type": "image_picker", "id": "fallback_image", "label": "Fallback recommendation image" },
+
+    { "type": "header", "content": "Balanced result" },
+    { "type": "product", "id": "balanced_main_product", "label": "Main product" },
+    { "type": "product", "id": "balanced_pair_product", "label": "Pairing product" },
+
+    { "type": "header", "content": "Qi support result" },
+    { "type": "product", "id": "qi_main_product", "label": "Main product" },
+    { "type": "product", "id": "qi_pair_product", "label": "Pairing product" },
+
+    { "type": "header", "content": "Warmth support result" },
+    { "type": "product", "id": "yang_main_product", "label": "Main product" },
+    { "type": "product", "id": "yang_pair_product", "label": "Pairing product" },
+
+    { "type": "header", "content": "Cooling moisture result" },
+    { "type": "product", "id": "yin_main_product", "label": "Main product" },
+    { "type": "product", "id": "yin_pair_product", "label": "Pairing product" },
+
+    { "type": "header", "content": "Clear-light result" },
+    { "type": "product", "id": "damp_main_product", "label": "Main product" },
+    { "type": "product", "id": "damp_pair_product", "label": "Pairing product" },
+
+    { "type": "header", "content": "Ease and flow result" },
+    { "type": "product", "id": "stress_main_product", "label": "Main product" },
+    { "type": "product", "id": "stress_pair_product", "label": "Pairing product" },
+
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 64 }
+  ],
+  "presets": [
+    {
+      "name": "Body type quiz"
+    }
+  ]
+}
+{% endschema %}
