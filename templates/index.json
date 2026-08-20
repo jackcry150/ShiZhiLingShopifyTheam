@@ -5,93 +5,37 @@
       "blocks": {
         "trust_quiz": {
           "type": "trust_item",
-          "settings": {
-            "text": "10-question guided match"
-          }
+          "settings": { "text": "63 considered questions" }
         },
-        "trust_reference": {
+        "trust_profile": {
           "type": "trust_item",
-          "settings": {
-            "text": "Wellness reference, not diagnosis"
-          }
+          "settings": { "text": "Nine constitution dimensions" }
         },
-        "trust_shop": {
+        "trust_rules": {
           "type": "trust_item",
-          "settings": {
-            "text": "Shop formulas by daily tendency"
-          }
+          "settings": { "text": "Rule-based recommendations" }
         }
       },
-      "block_order": [
-        "trust_quiz",
-        "trust_reference",
-        "trust_shop"
-      ],
+      "block_order": ["trust_quiz", "trust_profile", "trust_rules"],
       "settings": {
-        "eyebrow": "Daily wellness by body tendency",
-        "heading": "Find the ritual that fits how your body feels today",
+        "eyebrow": "Traditional rhythm, made personal",
+        "heading": "Wellness begins by noticing your own rhythm",
         "heading_size": "h0",
-        "text": "<p>Explore story-led wellness formulas inspired by traditional body constitution patterns. Start with the story, then take the quiz when you want help choosing.</p>",
-        "primary_label": "Shop daily rituals",
-        "primary_link": "shopify://collections/all",
-        "secondary_label": "Find My Best Match",
-        "secondary_link": "/pages/body-type-quiz",
+        "text": "<p>Discover herbs in season, understand your constitution profile, and explore a daily blend through THYLING's deterministic wellness guide.</p>",
+        "primary_label": "Take the Constitution Quiz",
+        "primary_link": "/pages/body-type-quiz",
+        "secondary_label": "Explore the blends",
+        "secondary_link": "shopify://collections/all",
         "quiz_page_url": "/pages/body-type-quiz",
         "color_scheme": "scheme-1"
-      }
-    },
-    "body_type_story_guide": {
-      "type": "body-type-story-guide",
-      "blocks": {
-        "step_signals": {
-          "type": "step",
-          "settings": {
-            "title": "Read your daily signals",
-            "text": "Energy, temperature, digestion, sleep, and mood shape the recommendation."
-          }
-        },
-        "step_tendency": {
-          "type": "step",
-          "settings": {
-            "title": "Match a tendency",
-            "text": "The quiz weighs several constitution-inspired dimensions and shows the strongest tendency."
-          }
-        },
-        "step_shop": {
-          "type": "step",
-          "settings": {
-            "title": "Shop with context",
-            "text": "Each result suggests one main formula and one pairing for a simple routine."
-          }
-        }
-      },
-      "block_order": [
-        "step_signals",
-        "step_tendency",
-        "step_shop"
-      ],
-      "settings": {
-        "secondary_image_alt": "Wellness product ritual",
-        "eyebrow": "Story-led guidance",
-        "heading": "From body signals to a daily ritual",
-        "heading_size": "h1",
-        "text": "<p>Body constitution ideas can make wellness shopping feel more personal. Begin with beautiful rituals and product stories, then use the quiz as a decision-support tool when you are choosing between formulas.</p>",
-        "quiz_label": "Take the Quiz",
-        "quiz_link": "/pages/body-type-quiz",
-        "shop_label": "Shop all formulas",
-        "shop_link": "shopify://collections/all",
-        "note": "Results are wellness references only and do not diagnose, treat, cure, or confirm a condition.",
-        "color_scheme": "scheme-1",
-        "padding_top": 64,
-        "padding_bottom": 64
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Shop body-support rituals",
-        "heading_size": "h2",
-        "description": "<p>Choose a formula directly, or use the quiz when you want a guided recommendation.</p>",
+        "title": "Blends for the rhythms of real life",
+        "heading_size": "h1",
+        "description": "<p>Thoughtful herbal rituals for energy, rest, warmth, lightness, and the changing pace of each day.</p>",
         "show_description": true,
         "description_style": "body",
         "collection": "all",
@@ -102,22 +46,220 @@
         "show_view_all": true,
         "view_all_style": "solid",
         "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
+        "swipe_on_mobile": true,
+        "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
         "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "herb_stories": {
+      "type": "body-type-herb-stories",
+      "blocks": {
+        "suanzaoren": {
+          "type": "herb",
+          "settings": {
+            "asset_key": "suanzaoren",
+            "name": "Suan Zao Ren",
+            "origin": "Neiqiu, Hebei",
+            "text": "Harvested around the turning of autumn, when timing and patience matter as much as place.",
+            "status": "Seasonal harvest"
+          }
+        },
+        "luohanguo": {
+          "type": "herb",
+          "settings": {
+            "asset_key": "luohanguo",
+            "name": "Luo Han Guo",
+            "origin": "Yongfu, Guangxi",
+            "text": "A mountain fruit allowed to ripen in its own time before a slow, careful drying process.",
+            "status": "Mountain origin"
+          }
+        },
+        "wuzhimaotao": {
+          "type": "herb",
+          "settings": {
+            "asset_key": "wuzhimaotao",
+            "name": "Five-Fingered Fig Root",
+            "origin": "Southern China",
+            "text": "A familiar root in southern seasonal food traditions, remembered through family kitchens.",
+            "status": "Food tradition"
+          }
+        },
+        "huangqi": {
+          "type": "herb",
+          "settings": {
+            "asset_key": "huangqi",
+            "name": "Huang Qi",
+            "origin": "Minxian, Dingxi, Gansu",
+            "text": "A source story shaped by highland air, careful growing, and the pace of the local season.",
+            "status": "Regional source"
+          }
+        },
+        "heye": {
+          "type": "herb",
+          "settings": {
+            "asset_key": "heye",
+            "name": "Lotus Leaf",
+            "origin": "Hangzhou, Zhejiang",
+            "text": "Gathered from a landscape where lotus and summer have long shared the same visual memory.",
+            "status": "Seasonal botanical"
+          }
+        },
+        "lingzhi": {
+          "type": "herb",
+          "settings": {
+            "asset_key": "lingzhi",
+            "name": "Lingzhi",
+            "origin": "China",
+            "text": "An enduring botanical symbol in traditional wellness culture and everyday ritual.",
+            "status": "Heritage ingredient"
+          }
+        },
+        "xiyangshen": {
+          "type": "herb",
+          "settings": {
+            "asset_key": "xiyangshen",
+            "name": "American Ginseng",
+            "origin": "Changbai Mountains, Jilin",
+            "text": "Presented through its mountain-growing context, with origin placed before product promise.",
+            "status": "Mountain source"
+          }
+        },
+        "foshou": {
+          "type": "herb",
+          "settings": {
+            "asset_key": "foshou",
+            "name": "Fingered Citron",
+            "origin": "China",
+            "text": "A fragrant citrus form whose character is carried through aroma, place, and preparation.",
+            "status": "Botanical archive"
+          }
+        },
+        "hongshen": {
+          "type": "herb",
+          "settings": {
+            "asset_key": "hongshen",
+            "name": "Red Ginseng",
+            "origin": "China",
+            "text": "A prepared root whose story begins with cultivation and continues through a deliberate making process.",
+            "status": "Prepared botanical"
+          }
+        },
+        "yuzhu": {
+          "type": "herb",
+          "settings": {
+            "asset_key": "yuzhu",
+            "name": "Yu Zhu",
+            "origin": "China",
+            "text": "A quiet ingredient story centered on texture, season, and a long relationship with food culture.",
+            "status": "Food heritage"
+          }
+        }
+      },
+      "block_order": ["suanzaoren", "luohanguo", "wuzhimaotao", "huangqi", "heye", "lingzhi", "xiyangshen", "foshou", "hongshen", "yuzhu"],
+      "settings": {
+        "section_name": "The rhythm beneath the soil",
+        "heading": "Every formula begins with a source",
+        "text": "<p>Each ingredient carries a place, a season, and a way of waiting. These are the origins behind the THYLING ritual.</p>",
+        "color_scheme": "scheme-2"
+      }
+    },
+    "personalized_formula": {
+      "type": "body-type-personalized-formula",
+      "blocks": {
+        "step_signals": {
+          "type": "step",
+          "settings": {
+            "title": "Notice recurring signals",
+            "text": "Answer 63 frequency-based questions across energy, temperature, digestion, sleep, mood, skin, and sensitivity."
+          }
+        },
+        "step_profile": {
+          "type": "step",
+          "settings": {
+            "title": "See all nine dimensions",
+            "text": "A normalized profile identifies a primary tendency and up to two secondary tendencies."
+          }
+        },
+        "step_formula": {
+          "type": "step",
+          "settings": {
+            "title": "Explore a safety-first match",
+            "text": "Fixed combination, exclusion, sensitivity, and sleep rules determine the product starting point."
+          }
+        }
+      },
+      "block_order": ["step_signals", "step_profile", "step_formula"],
+      "settings": {
+        "section_name": "The wisdom, made personal",
+        "heading": "A clearer path from body signals to a daily formula",
+        "text": "<p>Sixty-three questions are scored across nine constitution dimensions. A fixed rule engine then identifies your strongest tendencies and applies safety-first product rules.</p>",
+        "quiz_label": "Take the Constitution Quiz",
+        "quiz_link": "/pages/body-type-quiz",
+        "shop_label": "Browse every blend",
+        "shop_link": "shopify://collections/all",
+        "note": "Results are for general wellness and lifestyle reference only and are not a medical diagnosis.",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "proof": {
+      "type": "body-type-proof",
+      "blocks": {
+        "source_record": {
+          "type": "standard",
+          "settings": {
+            "short_label": "源",
+            "title": "Origin before promise",
+            "text": "Ingredient stories identify source regions and traditions without turning provenance into a medical claim."
+          }
+        },
+        "rule_engine": {
+          "type": "standard",
+          "settings": {
+            "short_label": "则",
+            "title": "Deterministic guidance",
+            "text": "Quiz results use a fixed, reviewable rule set rather than AI-generated health conclusions."
+          }
+        },
+        "registration": {
+          "type": "standard",
+          "settings": {
+            "short_label": "证",
+            "title": "Registration with context",
+            "text": "Food-facility registration records are kept on file. Registration does not mean FDA product approval."
+          }
+        }
+      },
+      "block_order": ["source_record", "rule_engine", "registration"],
+      "settings": {
+        "section_name": "How we speak about evidence",
+        "heading": "Clarity is part of the ritual",
+        "text": "<p>THYLING separates documented facts from wellness guidance and makes the limits of each claim clear.</p>",
+        "footer_text": "Explore the complete THYLING ritual collection.",
+        "button_label": "Discover all blends",
+        "button_link": "shopify://collections/all",
+        "color_scheme": "scheme-2"
+      }
+    },
+    "quiz_popup": {
+      "type": "body-type-quiz-popup",
+      "settings": {
+        "delay": 12,
+        "badge": "Nine-Constitution Wellness Quiz",
+        "heading": "Not sure where to begin?",
+        "text": "Build a nine-dimension constitution profile and receive a rule-based product starting point.",
+        "quiz_label": "Take the 63-question quiz",
+        "quiz_link": "/pages/body-type-quiz",
+        "dismiss_label": "Keep browsing",
+        "note": "General wellness and lifestyle reference only — not a medical diagnosis."
       }
     }
   },
-  "order": [
-    "body_type_story_hero",
-    "body_type_story_guide",
-    "featured_collection"
-  ]
+  "order": ["body_type_story_hero", "featured_collection", "herb_stories", "personalized_formula", "proof", "quiz_popup"]
 }

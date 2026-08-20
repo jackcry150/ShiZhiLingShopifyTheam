@@ -1,24 +1,6 @@
 {{ 'body-type-quiz.css' | asset_url | stylesheet_tag }}
 
 <section class="body-type-story-hero color-{{ section.settings.color_scheme }}">
-  <div class="body-type-story-hero__media">
-    {%- if section.settings.image != blank -%}
-      {{
-        section.settings.image
-        | image_url: width: 2400
-        | image_tag:
-          loading: 'eager',
-          widths: '750, 1100, 1500, 2000, 2400',
-          sizes: '100vw',
-          alt: section.settings.heading
-      }}
-    {%- else -%}
-      <div class="body-type-story-hero__placeholder">
-        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
-      </div>
-    {%- endif -%}
-  </div>
-  <div class="body-type-story-hero__overlay" aria-hidden="true"></div>
   <div class="body-type-story-hero__content page-width">
     <div class="body-type-story-hero__copy">
       {%- if section.settings.eyebrow != blank -%}
@@ -43,14 +25,35 @@
         {%- endif -%}
       </div>
     </div>
-  </div>
-
-  <div class="body-type-story-hero__trust" aria-label="Wellness promises">
-    {%- for block in section.blocks -%}
-      <div class="body-type-story-hero__trust-item" {{ block.shopify_attributes }}>
-        {{ block.settings.text | escape }}
-      </div>
-    {%- endfor -%}
+    <div class="body-type-story-hero__media">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 1400
+          | image_tag:
+            loading: 'eager',
+            widths: '520, 760, 980, 1200, 1400',
+            sizes: '(min-width: 990px) 44vw, 100vw',
+            alt: section.settings.heading
+        }}
+      {%- else -%}
+        <img
+          src="{{ 'thyling-herb-luohanguo.png' | asset_url }}"
+          width="1080"
+          height="1620"
+          loading="eager"
+          alt="Luo Han Guo growing in its mountain origin"
+        >
+      {%- endif -%}
+      <span class="body-type-story-hero__seal" aria-hidden="true">时令<br>而养</span>
+    </div>
+    <div class="body-type-story-hero__trust" aria-label="How the THYLING quiz works">
+      {%- for block in section.blocks -%}
+        <div class="body-type-story-hero__trust-item" {{ block.shopify_attributes }}>
+          {{ block.settings.text | escape }}
+        </div>
+      {%- endfor -%}
+    </div>
   </div>
 </section>
 
@@ -72,13 +75,13 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "Daily wellness by body tendency"
+      "default": "Traditional rhythm, made personal"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Find the ritual that fits how your body feels today"
+      "default": "Wellness begins by noticing your own rhythm"
     },
     {
       "type": "select",
@@ -95,13 +98,13 @@
       "type": "richtext",
       "id": "text",
       "label": "Text",
-      "default": "<p>Explore story-led wellness formulas inspired by traditional body constitution patterns. This guide offers daily health reference only, not diagnosis or treatment.</p>"
+      "default": "<p>Discover herbs in season, understand your constitution profile, and explore a daily blend through THYLING's deterministic wellness guide.</p>"
     },
     {
       "type": "text",
       "id": "primary_label",
       "label": "Primary button label",
-      "default": "Shop daily rituals"
+      "default": "Take the Constitution Quiz"
     },
     {
       "type": "url",
@@ -112,7 +115,7 @@
       "type": "text",
       "id": "secondary_label",
       "label": "Secondary button label",
-      "default": "Find My Best Match"
+      "default": "Explore the blends"
     },
     {
       "type": "url",
@@ -150,9 +153,9 @@
     {
       "name": "Body type story hero",
       "blocks": [
-        { "type": "trust_item", "settings": { "text": "10-question guided match" } },
-        { "type": "trust_item", "settings": { "text": "Health reference, not diagnosis" } },
-        { "type": "trust_item", "settings": { "text": "Shop formulas by daily tendency" } }
+        { "type": "trust_item", "settings": { "text": "63 considered questions" } },
+        { "type": "trust_item", "settings": { "text": "Nine constitution dimensions" } },
+        { "type": "trust_item", "settings": { "text": "Rule-based recommendations" } }
       ]
     }
   ]

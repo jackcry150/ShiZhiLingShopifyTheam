@@ -61,6 +61,14 @@
           sizes: '(min-width: 990px) 320px, 90vw',
           alt: image_alt
       }}
+    {%- elsif fallback_asset != blank -%}
+      <img
+        src="{{ fallback_asset | asset_url }}"
+        width="1080"
+        height="1620"
+        loading="lazy"
+        alt="{{ image_alt }}"
+      >
     {%- else -%}
       <div class="btq-rec-card__placeholder" aria-hidden="true">
         {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}

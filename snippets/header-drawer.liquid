@@ -21,7 +21,14 @@
         <div class="menu-drawer__navigation-container">
           <nav class="menu-drawer__navigation">
             <ul class="menu-drawer__menu has-submenu list-menu" role="list">
-              {%- for link in section.settings.menu.links -%}
+              {%- if section.settings.enable_brand_navigation -%}
+                <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.all_products_collection_url }}">PRODUCTS</a></li>
+                <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.root_url }}#meet-the-herbs">MEET THE HERBS</a></li>
+                <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.root_url }}#about-us">ABOUT US</a></li>
+                <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.root_url }}#the-wisdom">THE WISDOM</a></li>
+                <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.root_url }}pages/body-type-quiz">TAKE THE QUIZ</a></li>
+              {%- else -%}
+                {%- for link in section.settings.menu.links -%}
                 <li>
                   {%- if link.links != blank -%}
                     <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
@@ -132,7 +139,8 @@
                     </a>
                   {%- endif -%}
                 </li>
-              {%- endfor -%}
+                {%- endfor -%}
+              {%- endif -%}
             </ul>
           </nav>
           <div class="menu-drawer__utility-links">

@@ -1,0 +1,103 @@
+{{ 'body-type-home.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'body-type-home.js' | asset_url }}" defer="defer"></script>
+
+<body-type-quiz-popup
+  class="bt-quiz-prompt"
+  data-delay="{{ section.settings.delay | times: 1000 }}"
+  data-storage-key="bt-quiz-prompt-{{ section.id }}"
+>
+  <dialog class="bt-quiz-prompt__dialog" aria-labelledby="QuizPromptTitle-{{ section.id }}">
+    <button class="bt-quiz-prompt__close" type="button" data-quiz-prompt-close aria-label="Close quiz invitation">
+      {{- 'icon-close.svg' | inline_asset_content -}}
+    </button>
+    <div class="bt-quiz-prompt__visual" aria-hidden="true">
+      <span class="bt-quiz-prompt__orbit bt-quiz-prompt__orbit--one"></span>
+      <span class="bt-quiz-prompt__orbit bt-quiz-prompt__orbit--two"></span>
+      <span class="bt-quiz-prompt__monogram">时</span>
+    </div>
+    <div class="bt-quiz-prompt__content">
+      <span class="bt-home__chip">{{ section.settings.badge | escape }}</span>
+      <h2 id="QuizPromptTitle-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      <p>{{ section.settings.text | escape }}</p>
+      <div class="bt-quiz-prompt__actions">
+        <a class="button button--primary" href="{{ section.settings.quiz_link | default: '/pages/body-type-quiz' }}">
+          {{ section.settings.quiz_label | escape }}
+        </a>
+        <button class="bt-home__text-link" type="button" data-quiz-prompt-close>
+          {{ section.settings.dismiss_label | escape }}
+        </button>
+      </div>
+      <small>{{ section.settings.note | escape }}</small>
+    </div>
+  </dialog>
+</body-type-quiz-popup>
+
+{% schema %}
+{
+  "name": "THYLING quiz popup",
+  "tag": "section",
+  "class": "section section--quiz-popup",
+  "limit": 1,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "delay",
+      "min": 5,
+      "max": 15,
+      "step": 1,
+      "unit": "s",
+      "label": "Delay",
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge",
+      "default": "Nine-Constitution Wellness Quiz"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Not sure where to begin?"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Build a nine-dimension constitution profile and receive a rule-based product starting point."
+    },
+    {
+      "type": "text",
+      "id": "quiz_label",
+      "label": "Quiz button label",
+      "default": "Take the 63-question quiz"
+    },
+    {
+      "type": "url",
+      "id": "quiz_link",
+      "label": "Quiz link"
+    },
+    {
+      "type": "text",
+      "id": "dismiss_label",
+      "label": "Dismiss label",
+      "default": "Keep browsing"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Note",
+      "default": "General wellness and lifestyle reference only — not a medical diagnosis."
+    }
+  ],
+  "presets": [
+    {
+      "name": "THYLING quiz popup"
+    }
+  ]
+}
+{% endschema %}

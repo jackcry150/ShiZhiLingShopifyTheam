@@ -81,6 +81,25 @@
     padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem;
   }
 
+  .header__brand-logo {
+    position: relative;
+    display: block;
+    width: 5.2rem;
+    height: 6rem;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  .header__brand-logo img {
+    position: absolute;
+    top: -75.7%;
+    left: -91.3%;
+    display: block;
+    width: 290.7%;
+    max-width: none;
+    height: auto;
+  }
+
   .section-header {
     position: sticky; /* This is for fixing a Safari z-index issue. PR #2147 */
     margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
@@ -136,13 +155,13 @@
       assign localization_forms = true
     endif
   -%}
-  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
+  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank or section.settings.enable_brand_navigation %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
     {%- liquid
-      if section.settings.menu != blank
+      if section.settings.menu != blank or section.settings.enable_brand_navigation
         render 'header-drawer'
       endif
 
-      if section.settings.logo_position == 'top-center' or section.settings.menu == blank
+      if section.settings.logo_position == 'top-center' or section.settings.menu == blank and section.settings.enable_brand_navigation == false
         render 'header-search', input_id: 'Search-In-Modal-1'
       endif
     -%}
@@ -171,6 +190,10 @@
                 preload: true
             }}
           </div>
+        {%- elsif section.settings.enable_brand_navigation -%}
+          <span class="header__brand-logo">
+            <img src="{{ 'thyling-logo.png' | asset_url }}" width="901" height="901" alt="{{ section.settings.brand_name | default: 'THYLING' | escape }}">
+          </span>
         {%- else -%}
           <span class="h2">{{ shop.name }}</span>
         {%- endif -%}
@@ -181,7 +204,7 @@
     {%- endif -%}
 
     {%- liquid
-      if section.settings.menu != blank
+      if section.settings.menu != blank or section.settings.enable_brand_navigation
         if section.settings.menu_type_desktop == 'dropdown'
           render 'header-dropdown-menu'
         elsif section.settings.menu_type_desktop != 'drawer'
@@ -214,6 +237,10 @@
                 preload: true
             }}
           </div>
+        {%- elsif section.settings.enable_brand_navigation -%}
+          <span class="header__brand-logo">
+            <img src="{{ 'thyling-logo.png' | asset_url }}" width="901" height="901" alt="{{ section.settings.brand_name | default: 'THYLING' | escape }}">
+          </span>
         {%- else -%}
           <span class="h2">{{ shop.name }}</span>
         {%- endif -%}
@@ -518,6 +545,24 @@
       "id": "menu",
       "default": "main-menu",
       "label": "t:sections.header.settings.menu.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_brand_navigation",
+      "default": false,
+      "label": "Enable THYLING brand navigation"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "default": "时之令",
+      "label": "Brand name (logo alt text)"
+    },
+    {
+      "type": "text",
+      "id": "brand_subtitle",
+      "default": "THYLING",
+      "label": "Legacy brand subtitle"
     },
     {
       "type": "select",

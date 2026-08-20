@@ -1,0 +1,708 @@
+:root {
+  --bt-ink: #202622;
+  --bt-plum: #4a214b;
+  --bt-plum-dark: #2f1734;
+  --bt-sage: #dfe7df;
+  --bt-leaf: #566b59;
+  --bt-mist: #f7f7f5;
+  --bt-white: #ffffff;
+  --bt-line: rgba(32, 38, 34, 0.16);
+  --bt-radius: 1.2rem;
+}
+
+.bt-home {
+  color: var(--bt-ink);
+  scroll-margin-top: 10rem;
+}
+
+.bt-home > .page-width {
+  padding-top: clamp(6.4rem, 9vw, 12rem);
+  padding-bottom: clamp(6.4rem, 9vw, 12rem);
+}
+
+.bt-home__heading-row,
+.bt-proof__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(28rem, 0.7fr);
+  gap: clamp(2.4rem, 7vw, 9rem);
+  align-items: end;
+  margin-bottom: clamp(3.2rem, 6vw, 6rem);
+}
+
+.bt-home__section-name {
+  margin: 0 0 1.2rem;
+  color: var(--bt-plum);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.bt-home__heading {
+  max-width: 15ch;
+  margin: 0;
+  color: inherit;
+  font-family: Iowan Old Style, Baskerville, Georgia, serif;
+  font-size: clamp(3.6rem, 5vw, 6.8rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.bt-home__intro {
+  max-width: 64ch;
+  color: rgba(32, 38, 34, 0.78);
+  font-size: clamp(1.55rem, 1.5vw, 1.8rem);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.bt-home__chip {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  min-height: 2.6rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 99rem;
+  background: var(--bt-sage);
+  color: #2f4634;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.bt-home__text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  border: 0;
+  padding: 0.8rem 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  text-underline-offset: 0.4rem;
+  cursor: pointer;
+}
+
+.bt-home__text-link:hover {
+  text-decoration: underline;
+}
+
+.bt-home__text-link span {
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bt-home__text-link:hover span {
+  transform: translateX(0.35rem);
+}
+
+.bt-herbs {
+  background: #edf1ed;
+}
+
+.bt-herbs__rail {
+  display: flex;
+  gap: 1.2rem;
+  margin-right: calc((100vw - min(100vw, var(--page-width))) / -2);
+  padding-right: max(1.5rem, calc((100vw - var(--page-width)) / 2));
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: rgba(74, 33, 75, 0.32) transparent;
+}
+
+.bt-herb {
+  flex: 0 0 min(31rem, 76vw);
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--bt-radius);
+  background: var(--bt-white);
+  scroll-snap-align: start;
+}
+
+.bt-herb__media {
+  position: relative;
+  overflow: hidden;
+  background: #d9dfd9;
+}
+
+.bt-herb__media img,
+.bt-herb__media svg {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 18%;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bt-herb:hover .bt-herb__media img,
+.bt-herb:hover .bt-herb__media svg {
+  transform: scale(1.025);
+}
+
+.bt-herb__placeholder {
+  position: relative;
+}
+
+.bt-herb__placeholder > span {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
+  z-index: 1;
+  color: var(--bt-plum);
+  font-family: Iowan Old Style, Baskerville, Georgia, serif;
+  font-size: 2rem;
+}
+
+.bt-herb__placeholder .placeholder-svg {
+  fill: #819183;
+  background: #dfe6df;
+}
+
+.bt-herb__content {
+  display: flex;
+  min-height: 22rem;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.bt-herb__meta {
+  width: 100%;
+}
+
+.bt-herb__meta h3 {
+  margin: 0;
+  color: var(--bt-ink);
+  font-family: Iowan Old Style, Baskerville, Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.bt-herb__meta span {
+  display: block;
+  margin-top: 0.5rem;
+  color: #59625c;
+  font-size: 1.2rem;
+}
+
+.bt-herb__content > p {
+  margin: 1.4rem 0 2rem;
+  color: #454e48;
+  font-size: 1.35rem;
+  line-height: 1.55;
+}
+
+.bt-herb__content .bt-home__chip {
+  margin-top: auto;
+}
+
+.bt-formula {
+  background: var(--bt-mist);
+}
+
+.bt-formula__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  overflow: hidden;
+  border-radius: 1.6rem;
+  background: var(--bt-white);
+}
+
+.bt-formula__visual {
+  min-height: 64rem;
+  background: #e3e9e3;
+}
+
+.bt-formula__visual img,
+.bt-formula__visual svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 64rem;
+  object-fit: cover;
+}
+
+.bt-formula__placeholder {
+  position: relative;
+  height: 100%;
+}
+
+.bt-formula__placeholder .placeholder-svg {
+  fill: #687c6b;
+  background: #dfe7df;
+}
+
+.bt-formula__placeholder > span {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  padding: 0.7rem 1rem;
+  border-radius: 99rem;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--bt-ink);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.bt-formula__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(3.2rem, 6vw, 7rem);
+}
+
+.bt-formula__content .bt-home__heading {
+  max-width: 12ch;
+  font-size: clamp(3.6rem, 4.7vw, 6rem);
+}
+
+.bt-formula__content .bt-home__intro {
+  margin-top: 2rem;
+}
+
+.bt-formula__steps {
+  display: grid;
+  gap: 0;
+  margin: 3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bt-formula__steps li {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  gap: 1.4rem;
+  padding: 1.7rem 0;
+  border-top: 0.1rem solid var(--bt-line);
+}
+
+.bt-formula__steps li > span {
+  display: inline-flex;
+  width: 2.8rem;
+  height: 2.8rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bt-plum);
+  color: var(--bt-white);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.bt-formula__steps h3 {
+  margin: 0;
+  color: var(--bt-ink);
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+.bt-formula__steps p {
+  margin: 0.4rem 0 0;
+  color: #505953;
+  font-size: 1.35rem;
+  line-height: 1.55;
+}
+
+.bt-formula__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem 2.4rem;
+  align-items: center;
+  margin-top: 2.8rem;
+}
+
+.bt-formula__note {
+  margin: 2rem 0 0;
+  color: #626b65;
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+
+.bt-proof {
+  background: var(--bt-plum-dark);
+  color: #fbf8fb;
+}
+
+.bt-proof .bt-home__section-name {
+  color: #d9b8dc;
+}
+
+.bt-proof .bt-home__intro {
+  color: rgba(251, 248, 251, 0.76);
+}
+
+.bt-proof__standards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 0.1rem solid rgba(255, 255, 255, 0.24);
+  border-bottom: 0.1rem solid rgba(255, 255, 255, 0.24);
+}
+
+.bt-proof__standard {
+  display: grid;
+  grid-template-columns: 4.8rem minmax(0, 1fr);
+  gap: 1.4rem;
+  padding: 2.8rem clamp(1.6rem, 3vw, 3.2rem);
+}
+
+.bt-proof__standard + .bt-proof__standard {
+  border-left: 0.1rem solid rgba(255, 255, 255, 0.24);
+}
+
+.bt-proof__mark {
+  display: inline-flex;
+  width: 4.4rem;
+  height: 4.4rem;
+  align-items: center;
+  justify-content: center;
+  border: 0.1rem solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  color: #e6c7e8;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.bt-proof__standard h3 {
+  margin: 0;
+  color: inherit;
+  font-size: 1.65rem;
+}
+
+.bt-proof__standard p {
+  margin: 0.7rem 0 0;
+  color: rgba(251, 248, 251, 0.7);
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+.bt-proof__reviews {
+  margin-top: clamp(4rem, 7vw, 8rem);
+}
+
+.bt-proof__reviews-heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.bt-proof__reviews-heading h3 {
+  margin: 0;
+  color: inherit;
+  font-family: Iowan Old Style, Baskerville, Georgia, serif;
+  font-size: clamp(2.8rem, 4vw, 4.4rem);
+  font-weight: 500;
+}
+
+.bt-proof__reviews-heading span {
+  color: #d7bfd9;
+  font-size: 1.2rem;
+}
+
+.bt-proof__review-rail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.bt-proof__review {
+  display: flex;
+  min-height: 25rem;
+  flex-direction: column;
+  margin: 0;
+  padding: 2.4rem;
+  border-radius: var(--bt-radius);
+  background: var(--bt-mist);
+  color: var(--bt-ink);
+}
+
+.bt-proof__stars {
+  color: #9d5a43;
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+}
+
+.bt-proof__review blockquote {
+  margin: 2rem 0 3rem;
+  font-family: Iowan Old Style, Baskerville, Georgia, serif;
+  font-size: 2rem;
+  line-height: 1.35;
+}
+
+.bt-proof__review figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: auto;
+}
+
+.bt-proof__review figcaption strong {
+  font-size: 1.3rem;
+}
+
+.bt-proof__review figcaption span {
+  color: #626b65;
+  font-size: 1.1rem;
+}
+
+.bt-proof__footer {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2.8rem;
+}
+
+.bt-proof__footer p {
+  margin: 0;
+  color: rgba(251, 248, 251, 0.76);
+}
+
+.bt-proof__footer .button {
+  --color-button: 255, 255, 255;
+  --color-button-text: 47, 23, 52;
+}
+
+.section--quiz-popup {
+  position: relative;
+  z-index: 50;
+}
+
+.bt-quiz-prompt__dialog {
+  width: min(76rem, calc(100vw - 3.2rem));
+  max-height: calc(100vh - 3.2rem);
+  overflow: auto;
+  border: 0;
+  border-radius: 1.4rem;
+  padding: 0;
+  background: var(--bt-mist);
+  color: var(--bt-ink);
+  box-shadow: 0 2.4rem 7rem rgba(22, 12, 24, 0.32);
+}
+
+.bt-quiz-prompt__dialog[open] {
+  display: grid;
+  grid-template-columns: minmax(20rem, 0.72fr) minmax(0, 1.28fr);
+}
+
+.bt-quiz-prompt__dialog::backdrop {
+  background: rgba(23, 16, 24, 0.68);
+  backdrop-filter: blur(0.4rem);
+}
+
+.bt-quiz-prompt__close {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+  z-index: 1;
+  display: inline-flex;
+  width: 4rem;
+  height: 4rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--bt-ink);
+  cursor: pointer;
+}
+
+.bt-quiz-prompt__close svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.bt-quiz-prompt__visual {
+  position: relative;
+  display: grid;
+  min-height: 42rem;
+  place-items: center;
+  overflow: hidden;
+  background: var(--bt-plum);
+}
+
+.bt-quiz-prompt__monogram {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-family: Iowan Old Style, Baskerville, Georgia, serif;
+  font-size: 9rem;
+  line-height: 1;
+}
+
+.bt-quiz-prompt__orbit {
+  position: absolute;
+  border: 0.1rem solid rgba(255, 255, 255, 0.36);
+  border-radius: 50%;
+}
+
+.bt-quiz-prompt__orbit--one {
+  width: 25rem;
+  height: 25rem;
+}
+
+.bt-quiz-prompt__orbit--two {
+  width: 36rem;
+  height: 36rem;
+}
+
+.bt-quiz-prompt__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(3.2rem, 6vw, 6rem);
+}
+
+.bt-quiz-prompt__content h2 {
+  max-width: 10ch;
+  margin: 1.8rem 0 0;
+  color: var(--bt-ink);
+  font-family: Iowan Old Style, Baskerville, Georgia, serif;
+  font-size: clamp(3.4rem, 5vw, 5.6rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.bt-quiz-prompt__content > p {
+  max-width: 50ch;
+  margin: 1.8rem 0 0;
+  color: #505953;
+  line-height: 1.6;
+}
+
+.bt-quiz-prompt__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem 2rem;
+  align-items: center;
+  margin-top: 2.4rem;
+}
+
+.bt-quiz-prompt__content small {
+  margin-top: 2rem;
+  color: #68716b;
+  line-height: 1.45;
+}
+
+@media screen and (max-width: 989px) {
+  .bt-home__heading-row,
+  .bt-proof__top,
+  .bt-formula__panel {
+    grid-template-columns: 1fr;
+  }
+
+  .bt-home__intro {
+    max-width: 70ch;
+  }
+
+  .bt-herb {
+    flex: 0 0 min(34rem, 82vw);
+  }
+
+  .bt-formula__visual,
+  .bt-formula__visual img,
+  .bt-formula__visual svg {
+    min-height: 46rem;
+    max-height: 56rem;
+  }
+
+  .bt-proof__standards {
+    grid-template-columns: 1fr;
+  }
+
+  .bt-proof__standard + .bt-proof__standard {
+    border-top: 0.1rem solid rgba(255, 255, 255, 0.24);
+    border-left: 0;
+  }
+
+  .bt-proof__review-rail {
+    display: flex;
+    margin-right: -1.5rem;
+    padding-right: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .bt-proof__review {
+    flex: 0 0 min(36rem, 84vw);
+    scroll-snap-align: start;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .bt-home > .page-width {
+    padding-top: 5.6rem;
+    padding-bottom: 5.6rem;
+  }
+
+  .bt-home__heading {
+    font-size: clamp(3.4rem, 11vw, 4.8rem);
+  }
+
+  .bt-formula__panel {
+    border-radius: 1.2rem;
+  }
+
+  .bt-formula__visual,
+  .bt-formula__visual img,
+  .bt-formula__visual svg {
+    min-height: 34rem;
+  }
+
+  .bt-formula__content {
+    padding: 3rem 2.2rem;
+  }
+
+  .bt-proof__standard {
+    padding-inline: 0;
+  }
+
+  .bt-proof__footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .bt-quiz-prompt__dialog {
+    width: min(94vw, 52rem);
+  }
+
+  .bt-quiz-prompt__dialog[open] {
+    display: block;
+  }
+
+  .bt-quiz-prompt__visual {
+    min-height: 16rem;
+  }
+
+  .bt-quiz-prompt__monogram {
+    font-size: 5rem;
+  }
+
+  .bt-quiz-prompt__orbit--one {
+    width: 15rem;
+    height: 15rem;
+  }
+
+  .bt-quiz-prompt__orbit--two {
+    width: 22rem;
+    height: 22rem;
+  }
+
+  .bt-quiz-prompt__content {
+    padding: 3rem 2.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bt-herb__media img,
+  .bt-herb__media svg,
+  .bt-home__text-link span {
+    transition: none;
+  }
+}

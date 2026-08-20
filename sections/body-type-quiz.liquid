@@ -3,82 +3,105 @@
 
 <section class="body-type-quiz color-{{ section.settings.color_scheme }}">
   <div class="page-width section-{{ section.id }}-padding">
-    <div class="body-type-quiz__shell" data-body-type-quiz>
-      <div class="body-type-quiz__intro">
+    <div class="body-type-quiz__shell" data-body-type-quiz data-storage-key="thyling-quiz-{{ section.id }}">
+      <aside class="body-type-quiz__intro">
         {%- if section.settings.eyebrow != blank -%}
           <p class="body-type-quiz__eyebrow">{{ section.settings.eyebrow | escape }}</p>
         {%- endif -%}
-        <h1 class="body-type-quiz__heading {{ section.settings.heading_size }}">
-          {{ section.settings.heading | escape }}
-        </h1>
+        <h1 class="body-type-quiz__heading {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h1>
         {%- if section.settings.text != blank -%}
           <div class="body-type-quiz__text rte">{{ section.settings.text }}</div>
         {%- endif -%}
-        <div class="body-type-quiz__actions">
-          {%- if section.settings.shop_label != blank -%}
-            <a class="button button--secondary" href="{{ section.settings.shop_link | default: routes.all_products_collection_url }}">
-              {{ section.settings.shop_label | escape }}
-            </a>
-          {%- endif -%}
-        </div>
-        <div class="body-type-quiz__note">
-          {{ section.settings.disclaimer | escape }}
-        </div>
-      </div>
+
+        <dl class="body-type-quiz__facts">
+          <div><dt>63</dt><dd>considered questions</dd></div>
+          <div><dt>9</dt><dd>constitution dimensions</dd></div>
+          <div><dt>1–5</dt><dd>frequency scale</dd></div>
+        </dl>
+
+        <div class="body-type-quiz__note">{{ section.settings.disclaimer | escape }}</div>
+        <p class="body-type-quiz__privacy">Your answers are processed in this browser and are not submitted by this theme.</p>
+
+        {%- if section.settings.shop_label != blank -%}
+          <a class="bt-home__text-link" href="{{ section.settings.shop_link | default: routes.all_products_collection_url }}">
+            {{ section.settings.shop_label | escape }} <span aria-hidden="true">→</span>
+          </a>
+        {%- endif -%}
+      </aside>
 
       <div class="btq-panel">
-        <div class="btq-progress" aria-label="Quiz progress">
+        <div class="btq-progress" data-btq-progress role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="63" aria-valuenow="0">
           <div class="btq-progress__label">
             <span>{{ section.settings.progress_label | escape }}</span>
-            <span data-btq-progress-count>0 of 10</span>
+            <span data-btq-progress-count>Question 1 of 63</span>
           </div>
           <div class="btq-progress__track" aria-hidden="true">
             <span class="btq-progress__bar" data-btq-progress-bar></span>
           </div>
         </div>
 
-        <div class="btq-question-list" data-btq-question-list></div>
+        <div class="btq-stage" data-btq-stage>
+          <p class="btq-stage__group" data-btq-group></p>
+          <div class="btq-stage__question-number" data-btq-question-number></div>
+          <h2 class="btq-stage__question" data-btq-question></h2>
+          <p class="btq-stage__prompt">How often has this felt true for you recently?</p>
+          <div class="btq-scale" data-btq-options role="group" aria-label="Answer scale"></div>
+          <button class="btq-skip" type="button" data-btq-skip hidden>Not applicable — skip this question</button>
+          <p class="btq-stage__hint">Tip: use number keys 1–5 to answer.</p>
+          <div class="btq-navigation">
+            <button class="button button--secondary" type="button" data-btq-previous>Previous</button>
+            <button class="button button--primary" type="button" data-btq-next disabled>Next question</button>
+          </div>
+        </div>
 
         <div class="btq-result" data-btq-result aria-live="polite">
-          <span class="btq-result__badge" data-btq-result-badge></span>
-          <h2 class="btq-result__title h1" data-btq-result-title></h2>
+          <div class="btq-result__header">
+            <div>
+              <span class="btq-result__badge" data-btq-result-badge></span>
+              <h2 class="btq-result__title" data-btq-result-title></h2>
+              <p class="btq-result__keyword" data-btq-result-keyword></p>
+            </div>
+            <div class="btq-radar" data-btq-radar></div>
+          </div>
           <p class="btq-result__copy" data-btq-result-copy></p>
-          <p class="btq-result__reason" data-btq-result-reason></p>
+          <div class="btq-result__secondary" data-btq-result-secondary hidden></div>
+          <div class="btq-result__caution" data-btq-result-caution hidden></div>
           <div class="btq-result__cards" data-btq-result-cards></div>
+          <div class="btq-result__set" data-btq-result-set></div>
+          <p class="btq-result__disclaimer">{{ section.settings.disclaimer | escape }}</p>
           <div class="btq-result__actions">
-            <button class="button button--secondary" type="button" data-btq-reset>
-              {{ section.settings.reset_label | escape }}
-            </button>
+            <button class="button button--secondary" type="button" data-btq-reset>{{ section.settings.reset_label | escape }}</button>
             {%- if section.settings.all_products_label != blank -%}
-              <a class="button button--primary" href="{{ section.settings.all_products_link | default: routes.all_products_collection_url }}">
-                {{ section.settings.all_products_label | escape }}
-              </a>
+              <a class="button button--primary" href="{{ section.settings.all_products_link | default: routes.all_products_collection_url }}">{{ section.settings.all_products_label | escape }}</a>
             {%- endif -%}
           </div>
         </div>
 
         <div class="btq-template-store" aria-hidden="true">
-          {%- assign result_keys = 'balanced,qi,yang,yin,damp,stress' | split: ',' -%}
-          {%- for key in result_keys -%}
-            {%- liquid
-              assign main_handle_key = key | append: '_main_product'
-              assign pair_handle_key = key | append: '_pair_product'
-            -%}
-            <template data-btq-template="{{ key }}">
-              {% render 'body-type-recommendation-card',
-                eyebrow: 'Main formula',
-                product: section.settings[main_handle_key],
-                fallback_image: section.settings.fallback_image,
-                button_label: section.settings.card_button_label
-              %}
-              {% render 'body-type-recommendation-card',
-                eyebrow: 'Pairing support',
-                product: section.settings[pair_handle_key],
-                fallback_image: section.settings.fallback_image,
-                button_label: section.settings.card_button_label
-              %}
-            </template>
-          {%- endfor -%}
+          <template data-btq-product-template="yufengyou">
+            {% render 'body-type-recommendation-card', eyebrow: 'Recommended blend', product: section.settings.product_yufengyou, title: 'Yu Feng You', description: 'A light, refreshing blend for days when rich food or a heavy routine leaves you feeling weighed down.', fallback_image: section.settings.fallback_image, fallback_asset: 'thyling-herb-luohanguo.png', button_label: section.settings.card_button_label %}
+          </template>
+          <template data-btq-product-template="yunkaijian">
+            {% render 'body-type-recommendation-card', eyebrow: 'Recommended blend', product: section.settings.product_yunkaijian, title: 'Yun Kai Jian', description: 'Best suited to profiles marked by heaviness, sluggishness, oiliness, and a sticky or weighed-down feeling.', fallback_image: section.settings.fallback_image, fallback_asset: 'thyling-herb-wuzhimaotao.png', button_label: section.settings.card_button_label %}
+          </template>
+          <template data-btq-product-template="fuyaoshang">
+            {% render 'body-type-recommendation-card', eyebrow: 'Recommended blend', product: section.settings.product_fuyaoshang, title: 'Fu Yao Shang', description: 'A restorative blend for late nights, screen-heavy days, dryness, and periods of mental pressure.', fallback_image: section.settings.fallback_image, fallback_asset: 'thyling-herb-yuzhu.png', button_label: section.settings.card_button_label %}
+          </template>
+          <template data-btq-product-template="rantaoyao">
+            {% render 'body-type-recommendation-card', eyebrow: 'Recommended blend', product: section.settings.product_rantaoyao, title: 'Ran Tao Yao', description: 'A warming, nourishing blend for cold-prone, low-energy profiles. Not recommended when strong heat-and-dryness tendencies are present.', fallback_image: section.settings.fallback_image, fallback_asset: 'thyling-herb-hongshen.jpg', button_label: section.settings.card_button_label %}
+          </template>
+          <template data-btq-product-template="yuseying">
+            {% render 'body-type-recommendation-card', eyebrow: 'Recommended blend', product: section.settings.product_yuseying, title: 'Yu Se Ying', description: 'A nourishing blend for low-energy days and for supporting a more vibrant, well-rested appearance.', fallback_image: section.settings.fallback_image, fallback_asset: 'thyling-herb-xiyangshen.jpg', button_label: section.settings.card_button_label %}
+          </template>
+          <template data-btq-product-template="yuexiahan">
+            {% render 'body-type-recommendation-card', eyebrow: 'Recommended blend', product: section.settings.product_yuexiahan, title: 'Yue Xia Han', description: 'A nighttime blend for profiles where restless, easily interrupted, or emotion-affected sleep is the most prominent concern.', fallback_image: section.settings.fallback_image, fallback_asset: 'thyling-herb-suanzaoren.png', button_label: section.settings.card_button_label %}
+          </template>
+          <template data-btq-product-template="quanshengmo">
+            {% render 'body-type-recommendation-card', eyebrow: 'Explore the collection', product: section.settings.product_quanshengmo, title: 'Quan Sheng Mo', description: 'Explore the full ingredient details and decide with your own needs and sensitivities in mind.', fallback_image: section.settings.fallback_image, fallback_asset: 'thyling-herb-foshou.jpg', button_label: section.settings.card_button_label %}
+          </template>
+          <template data-btq-product-template="sevenday">
+            {% render 'body-type-recommendation-card', eyebrow: 'Complete weekly ritual', product: section.settings.product_sevenday, title: 'Seven-Day Set', description: 'A seven-day ritual designed around different daily states and shown as the complete-routine option.', fallback_image: section.settings.fallback_image, fallback_asset: 'thyling-herb-lingzhi.jpg', button_label: section.settings.card_button_label %}
+          </template>
         </div>
       </div>
     </div>
@@ -90,7 +113,6 @@
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
-
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
@@ -101,15 +123,13 @@
 
 {% schema %}
 {
-  "name": "Body type quiz",
+  "name": "THYLING constitution quiz",
   "tag": "section",
   "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Help Me Choose" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Take the 10-question body tendency quiz" },
+    { "type": "text", "id": "eyebrow", "label": "Intro label", "default": "Nine-Constitution Wellness Quiz" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Understand your constitution profile" },
     {
       "type": "select",
       "id": "heading_size",
@@ -121,54 +141,29 @@
         { "value": "h0", "label": "Large" }
       ]
     },
-    {
-      "type": "richtext",
-      "id": "text",
-      "label": "Intro text",
-      "default": "<p>Answer quick lifestyle questions and get a daily wellness reference inspired by traditional body constitution patterns. Your result points to a tendency, not a diagnosis.</p>"
-    },
-    { "type": "text", "id": "progress_label", "label": "Progress label", "default": "Your progress" },
-    { "type": "text", "id": "disclaimer", "label": "Compliance note", "default": "This quiz is for general wellness reference only. It does not diagnose, treat, cure, or confirm any health condition." },
-    { "type": "text", "id": "shop_label", "label": "Intro shop button label", "default": "Browse products first" },
-    { "type": "url", "id": "shop_link", "label": "Intro shop button link" },
-    { "type": "text", "id": "reset_label", "label": "Reset button label", "default": "Retake quiz" },
-    { "type": "text", "id": "all_products_label", "label": "All products button label", "default": "Shop all formulas" },
-    { "type": "url", "id": "all_products_link", "label": "All products button link" },
-    { "type": "text", "id": "card_button_label", "label": "Recommendation button label", "default": "Shop recommendation" },
+    { "type": "richtext", "id": "text", "label": "Intro text", "default": "<p>Notice recurring patterns across energy, temperature, digestion, sleep, mood, skin, and sensitivity. Your answers create a nine-dimension wellness profile and a rule-based product starting point.</p>" },
+    { "type": "text", "id": "progress_label", "label": "Progress label", "default": "Your constitution profile" },
+    { "type": "textarea", "id": "disclaimer", "label": "Compliance note", "default": "This quiz is intended for general wellness and lifestyle reference only and is not a medical diagnosis or a substitute for professional medical advice. If you have persistent symptoms, a known medical condition, take medication, are pregnant, or have known allergies, please consult a qualified healthcare professional before using any related product." },
+    { "type": "text", "id": "shop_label", "label": "Intro shop link label", "default": "Browse all blends first" },
+    { "type": "url", "id": "shop_link", "label": "Intro shop link" },
+    { "type": "text", "id": "reset_label", "label": "Reset button label", "default": "Retake the Quiz" },
+    { "type": "text", "id": "all_products_label", "label": "All products button label", "default": "Explore all blends" },
+    { "type": "url", "id": "all_products_link", "label": "All products link" },
+    { "type": "text", "id": "card_button_label", "label": "Recommendation button label", "default": "Explore This Blend" },
     { "type": "image_picker", "id": "fallback_image", "label": "Fallback recommendation image" },
-
-    { "type": "header", "content": "Balanced result" },
-    { "type": "product", "id": "balanced_main_product", "label": "Main product" },
-    { "type": "product", "id": "balanced_pair_product", "label": "Pairing product" },
-
-    { "type": "header", "content": "Qi support result" },
-    { "type": "product", "id": "qi_main_product", "label": "Main product" },
-    { "type": "product", "id": "qi_pair_product", "label": "Pairing product" },
-
-    { "type": "header", "content": "Warmth support result" },
-    { "type": "product", "id": "yang_main_product", "label": "Main product" },
-    { "type": "product", "id": "yang_pair_product", "label": "Pairing product" },
-
-    { "type": "header", "content": "Cooling moisture result" },
-    { "type": "product", "id": "yin_main_product", "label": "Main product" },
-    { "type": "product", "id": "yin_pair_product", "label": "Pairing product" },
-
-    { "type": "header", "content": "Clear-light result" },
-    { "type": "product", "id": "damp_main_product", "label": "Main product" },
-    { "type": "product", "id": "damp_pair_product", "label": "Pairing product" },
-
-    { "type": "header", "content": "Ease and flow result" },
-    { "type": "product", "id": "stress_main_product", "label": "Main product" },
-    { "type": "product", "id": "stress_pair_product", "label": "Pairing product" },
-
+    { "type": "header", "content": "Product mapping" },
+    { "type": "product", "id": "product_yufengyou", "label": "Yu Feng You" },
+    { "type": "product", "id": "product_yunkaijian", "label": "Yun Kai Jian" },
+    { "type": "product", "id": "product_fuyaoshang", "label": "Fu Yao Shang" },
+    { "type": "product", "id": "product_rantaoyao", "label": "Ran Tao Yao" },
+    { "type": "product", "id": "product_yuseying", "label": "Yu Se Ying" },
+    { "type": "product", "id": "product_yuexiahan", "label": "Yue Xia Han" },
+    { "type": "product", "id": "product_quanshengmo", "label": "Quan Sheng Mo" },
+    { "type": "product", "id": "product_sevenday", "label": "Seven-Day Set" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 64 },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 64 }
   ],
-  "presets": [
-    {
-      "name": "Body type quiz"
-    }
-  ]
+  "presets": [{ "name": "THYLING constitution quiz" }]
 }
 {% endschema %}

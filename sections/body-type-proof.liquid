@@ -1,0 +1,169 @@
+{{ 'body-type-home.css' | asset_url | stylesheet_tag }}
+
+<section id="about-us" class="bt-home bt-proof color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="bt-proof__top">
+      <div>
+        <p class="bt-home__section-name">{{ section.settings.section_name | escape }}</p>
+        <h2 class="bt-home__heading">{{ section.settings.heading | escape }}</h2>
+      </div>
+      {%- if section.settings.text != blank -%}
+        <div class="bt-home__intro rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="bt-proof__standards" role="list" aria-label="THYLING transparency principles">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'standard' -%}
+          <div class="bt-proof__standard" role="listitem" {{ block.shopify_attributes }}>
+            <span class="bt-proof__mark" aria-hidden="true">{{ block.settings.short_label | escape }}</span>
+            <div>
+              <h3>{{ block.settings.title | escape }}</h3>
+              <p>{{ block.settings.text | escape }}</p>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- assign review_blocks = section.blocks | where: 'type', 'review' -%}
+    {%- if review_blocks.size > 0 -%}
+      <div class="bt-proof__reviews">
+        <div class="bt-proof__reviews-heading">
+          <h3>{{ section.settings.reviews_heading | escape }}</h3>
+          <span>{{ section.settings.reviews_note | escape }}</span>
+        </div>
+        <div class="bt-proof__review-rail" role="list">
+          {%- for block in review_blocks -%}
+            <figure class="bt-proof__review" role="listitem" {{ block.shopify_attributes }}>
+              <blockquote>“{{ block.settings.quote | escape }}”</blockquote>
+              <figcaption>
+                <strong>{{ block.settings.name | escape }}</strong>
+                <span>{{ block.settings.label | escape }}</span>
+              </figcaption>
+            </figure>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="bt-proof__footer">
+      <p>{{ section.settings.footer_text | escape }}</p>
+      <a class="button button--primary" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+        {{ section.settings.button_label | escape }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "THYLING transparency",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_name",
+      "label": "Section name",
+      "default": "About our standards"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Evidence should be easy to inspect"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Introduction",
+      "default": "<p>We separate documented facts from wellness guidance, and make the limits of each claim clear.</p>"
+    },
+    {
+      "type": "text",
+      "id": "footer_text",
+      "label": "Footer text",
+      "default": "Explore the complete THYLING ritual collection."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Discover all products"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "standard",
+      "name": "Proof point",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "short_label",
+          "label": "Short label",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Transparency principle"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Explain the evidence, the method, and the limits of the claim."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "THYLING transparency",
+      "blocks": [
+        {
+          "type": "standard",
+          "settings": {
+            "short_label": "源",
+            "title": "Origin before promise",
+            "text": "Place ingredient source and preparation context before marketing language."
+          }
+        },
+        {
+          "type": "standard",
+          "settings": {
+            "short_label": "则",
+            "title": "Deterministic guidance",
+            "text": "Use a fixed, reviewable rule set rather than generated health conclusions."
+          }
+        },
+        {
+          "type": "standard",
+          "settings": {
+            "short_label": "证",
+            "title": "Registration with context",
+            "text": "State clearly that facility registration does not mean product approval."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
