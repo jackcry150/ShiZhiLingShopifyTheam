@@ -250,7 +250,7 @@
     "quiz_popup": {
       "type": "body-type-quiz-popup",
       "settings": {
-        "delay": 12,
+        "delay": 8,
         "badge": "Nine-Constitution Wellness Quiz",
         "heading": "Not sure where to begin?",
         "text": "Build a nine-dimension constitution profile and receive a rule-based product starting point.",
