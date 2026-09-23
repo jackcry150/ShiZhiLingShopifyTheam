@@ -375,7 +375,7 @@
       progress.setAttribute('aria-valuenow', String(answered));
     }
 
-    function choose(value, shouldAdvance) {
+    function choose(value) {
       const question = QUESTIONS[state.current];
       state.answers[question.id] = value;
       save();
@@ -386,15 +386,6 @@
       });
       next.disabled = false;
       updateProgress();
-
-      if (shouldAdvance) {
-        window.setTimeout(() => {
-          if (state.current < QUESTIONS.length - 1) {
-            state.current += 1;
-            renderQuestion(true);
-          }
-        }, 160);
-      }
     }
 
     function renderQuestion(focusQuestion) {
@@ -420,7 +411,7 @@
         button.dataset.value = String(item.value);
         button.setAttribute('aria-pressed', String(selected));
         button.innerHTML = `<span>${item.value}</span><strong>${item.label}</strong>`;
-        button.addEventListener('click', () => choose(item.value, state.current < QUESTIONS.length - 1));
+        button.addEventListener('click', () => choose(item.value));
         options.appendChild(button);
       });
 
@@ -517,7 +508,7 @@
     });
 
     skip.addEventListener('click', () => {
-      choose(0, false);
+      choose(0);
       if (state.current === QUESTIONS.length - 1) showResult();
       else {
         state.current += 1;
@@ -539,7 +530,7 @@
     root.addEventListener('keydown', (event) => {
       if (stage.hidden || event.altKey || event.ctrlKey || event.metaKey) return;
       const value = Number(event.key);
-      if (value >= 1 && value <= 5) choose(value, state.current < QUESTIONS.length - 1);
+      if (value >= 1 && value <= 5) choose(value);
     });
 
     const answeredCount = QUESTIONS.filter((question) => hasOwn(state.answers, question.id)).length;
