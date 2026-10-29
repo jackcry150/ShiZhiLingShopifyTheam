@@ -25,8 +25,12 @@
                 <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.all_products_collection_url }}">PRODUCTS</a></li>
                 <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.root_url }}#meet-the-herbs">MEET THE HERBS</a></li>
                 <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.root_url }}#about-us">ABOUT US</a></li>
-                <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.root_url }}#the-wisdom">THE WISDOM</a></li>
-                <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.root_url }}pages/body-type-quiz">TAKE THE QUIZ</a></li>
+                {%- if request.page_type == 'index' -%}
+                  <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="#home-newsletter">MEMBERSHIP</a></li>
+                {%- else -%}
+                  <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.root_url }}#the-wisdom">THE WISDOM</a></li>
+                  <li><a class="menu-drawer__menu-item list-menu__item link link--text focus-inset" href="{{ routes.root_url }}pages/body-type-quiz">TAKE THE QUIZ</a></li>
+                {%- endif -%}
               {%- else -%}
                 {%- for link in section.settings.menu.links -%}
                 <li>

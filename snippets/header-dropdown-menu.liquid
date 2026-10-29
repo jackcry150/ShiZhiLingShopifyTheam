@@ -11,8 +11,12 @@
       <li><a class="header__menu-item list-menu__item link focus-inset" href="{{ routes.all_products_collection_url }}"><span>PRODUCTS</span></a></li>
       <li><a class="header__menu-item list-menu__item link focus-inset" href="{{ routes.root_url }}#meet-the-herbs"><span>MEET THE HERBS</span></a></li>
       <li><a class="header__menu-item list-menu__item link focus-inset" href="{{ routes.root_url }}#about-us"><span>ABOUT US</span></a></li>
-      <li><a class="header__menu-item list-menu__item link focus-inset" href="{{ routes.root_url }}#the-wisdom"><span>THE WISDOM</span></a></li>
-      <li><a class="header__menu-item list-menu__item link focus-inset" href="{{ routes.root_url }}pages/body-type-quiz"><span>TAKE THE QUIZ</span></a></li>
+      {%- if request.page_type == 'index' -%}
+        <li><a class="header__menu-item list-menu__item link focus-inset" href="#home-newsletter"><span>MEMBERSHIP</span></a></li>
+      {%- else -%}
+        <li><a class="header__menu-item list-menu__item link focus-inset" href="{{ routes.root_url }}#the-wisdom"><span>THE WISDOM</span></a></li>
+        <li><a class="header__menu-item list-menu__item link focus-inset" href="{{ routes.root_url }}pages/body-type-quiz"><span>TAKE THE QUIZ</span></a></li>
+      {%- endif -%}
     {%- else -%}
       {%- for link in section.settings.menu.links -%}
       <li>

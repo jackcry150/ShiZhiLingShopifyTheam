@@ -1,0 +1,93 @@
+{{ 'thyling-home.css' | asset_url | stylesheet_tag }}
+
+<div class="thyling-home">
+  <section class="home-hero" aria-labelledby="home-title">
+    <picture><source media="(max-width: 749px)" srcset="{{ 'home-hero-mobile.webp' | asset_url }}"><img class="home-hero__image" src="{{ 'home-hero.webp' | asset_url }}" width="1440" height="883" alt="" fetchpriority="high"></picture>
+    <div class="home-hero__mobile-copy">
+      <h2 id="home-title">From a centuries-old library to your <em>daily ritual.</em></h2>
+      <p>Time-honoured herbal wisdom, reimagined as simple daily rituals to help you live in rhythm with your body and the seasons.</p>
+    </div>
+    <div class="home-hero__actions">
+      <a class="home-pill home-pill--red" href="#our-products">Explore the rituals</a>
+      <a class="home-pill home-pill--light" href="{{ section.settings.quiz_link | default: '/pages/body-type-quiz' }}">Find your rhythm</a>
+    </div>
+  </section>
+
+  <a class="home-join" href="#home-newsletter">Join us &amp; get 20% off</a>
+
+  <section class="home-products" id="our-products" aria-labelledby="products-heading">
+    <div class="home-products__heading">
+      <h2 id="products-heading">Our product</h2>
+      <p>Seven daily formulas come together as one complete weekly botanical ritual.</p>
+    </div>
+    <div class="home-products__track" tabindex="0" aria-label="Products">
+      <a class="home-product" href="{{ section.settings.product_1_link | default: routes.all_products_collection_url }}" aria-label="Shop the seven-day set"><img src="{{ 'home-product-1.webp' | asset_url }}" width="314" height="570" alt="Seven-day set" loading="lazy"></a>
+      <a class="home-product" href="{{ section.settings.product_2_link | default: routes.all_products_collection_url }}" aria-label="Shop the gift set"><img src="{{ 'home-product-2.webp' | asset_url }}" width="314" height="570" alt="Gift set" loading="lazy"></a>
+      <div class="home-product"><img src="{{ 'home-product-3.webp' | asset_url }}" width="314" height="570" alt="Herbal formula, coming soon" loading="lazy"></div>
+      <div class="home-product"><img src="{{ 'home-product-4.webp' | asset_url }}" width="314" height="570" alt="Herbal formula, coming soon" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="home-herbs" id="meet-the-herbs" aria-label="Meet the herbs">
+    <img class="home-herbs__scene" src="{{ 'home-herbs-scene.webp' | asset_url }}" width="2200" height="1997" alt="Meet the herbs. Trace every formula back to place, climate, texture and the traditions that shaped it." loading="lazy">
+    <div class="home-herbs__cards">
+      <img src="{{ 'home-herb-1.webp' | asset_url }}" width="1324" height="1844" alt="Shu Di Huang" loading="lazy">
+      <img src="{{ 'home-herb-2.webp' | asset_url }}" width="1324" height="1844" alt="Suan Zao Ren" loading="lazy">
+      <img src="{{ 'home-herb-3.webp' | asset_url }}" width="1324" height="1844" alt="Wu Zhi Mao Tao" loading="lazy">
+    </div>
+  </section>
+
+  <section class="home-ritual" aria-label="A ritual for everyday">
+    <img src="{{ 'home-ritual.webp' | asset_url }}" width="1440" height="851" alt="A ritual for everyday. Lotus leaf and winter melon open the seven-day rhythm." loading="lazy">
+    <a href="{{ section.settings.ritual_link | default: routes.all_products_collection_url }}" class="home-ritual__button">Shop now <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section class="home-wisdom" id="the-wisdom" style="background-image: url('{{ 'home-wisdom.webp' | asset_url }}')">
+    <h2>Wisdom,<br>passed through time.</h2>
+    <p>Trace every formula back to place, climate,<br>texture and the traditions that shaped it.</p>
+  </section>
+
+  <section class="home-social" id="about-us">
+    <h2>Keep the ritual<br>going.</h2>
+    <div class="home-social__links">
+      {% if section.settings.xiaohongshu_link != blank %}<a href="{{ section.settings.xiaohongshu_link }}">小红书 <span>Xiaohongshu</span></a>{% endif %}
+      {% if settings.social_instagram_link != blank %}<a href="{{ settings.social_instagram_link }}">Instagram</a>{% endif %}
+      {% if settings.social_tiktok_link != blank %}<a href="{{ settings.social_tiktok_link }}">TikTok</a>{% endif %}
+    </div>
+    <p>Traditional herbal wisdom,<br>shaped into a clear and<br>contemporary daily practice.</p>
+  </section>
+
+  <footer class="home-footer">
+    <div class="home-footer__columns">
+      <div><h2>Shop</h2><a href="{{ routes.all_products_collection_url }}">All products</a>{% if section.settings.product_1_link != blank %}<a href="{{ section.settings.product_1_link }}">Seven-day set</a>{% endif %}{% if section.settings.product_2_link != blank %}<a href="{{ section.settings.product_2_link }}">Gift sets</a>{% endif %}</div>
+      <div><h2>Discover</h2><a href="#meet-the-herbs">Meet the herbs</a><a href="#the-wisdom">Our story</a></div>
+      <div><h2>About us</h2><a href="{{ section.settings.contact_link | default: '/pages/contact' }}">Contact us</a></div>
+      <div class="home-footer__newsletter" id="home-newsletter">
+        <h2>Join the ritual</h2>
+        {% form 'customer', id: 'HomeNewsletter' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="visually-hidden" for="HomeNewsletterEmail">Email address</label>
+          <div class="home-footer__form"><input id="HomeNewsletterEmail" type="email" name="contact[email]" value="{{ form.email }}" placeholder="Email address" autocomplete="email" required><button type="submit" aria-label="Subscribe">→</button></div>
+          {% if form.errors %}<p role="alert">{{ form.errors | default_errors }}</p>{% endif %}
+          {% if form.posted_successfully? %}<p role="status">Thank you for subscribing.</p>{% endif %}
+        {% endform %}
+      </div>
+    </div>
+    <div class="home-footer__copyright">© {{ 'now' | date: '%Y' }} THYLING</div>
+  </footer>
+</div>
+
+{% schema %}
+{
+  "name": "THYLING homepage",
+  "settings": [
+    {"type":"url","id":"quiz_link","label":"Find your rhythm link"},
+    {"type":"url","id":"product_1_link","label":"Seven-day set link"},
+    {"type":"url","id":"product_2_link","label":"Gift set link"},
+    {"type":"url","id":"ritual_link","label":"Everyday ritual link"},
+    {"type":"url","id":"xiaohongshu_link","label":"Xiaohongshu link"},
+    {"type":"url","id":"contact_link","label":"Contact link"}
+  ],
+  "presets": [{"name":"THYLING homepage"}]
+}
+{% endschema %}
