@@ -1,0 +1,51 @@
+.thyling-collection-page { background: #f6f4ee; }
+.thyling-collection-page .announcement-bar-section { display: none; }
+.thyling-collection-page .header-wrapper { background: #f1eee7; color: #2e231d; }
+.plp-intro, .plp-product-section, .plp-ingredients { background: #f6f4ee; color: #30231e; }
+.plp-intro__image { display: block; width: 100%; height: auto; }
+.plp-categories { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.6rem 4rem; padding: clamp(4rem, 6.5vw, 8rem) 2rem 3rem; }
+.plp-categories__link { display: inline-flex; align-items: center; justify-content: center; min-height: 4.8rem; min-width: 11rem; padding: .8rem 3.4rem; border: 1.5px solid #bd2917; border-radius: 100px; color: #b62414; font: 700 1.5rem/1.2 Arial, sans-serif; letter-spacing: .04em; text-decoration: none; text-transform: uppercase; }
+.plp-categories__link:hover, .plp-categories__link.is-active { color: #fff; background: #b62414; }
+.plp-intro__collection { padding-top: 1rem; padding-bottom: 1rem; text-align: center; }
+.plp-intro__collection h2 { margin: 0; color: #30231e; font: 400 clamp(2.8rem, 3vw, 4.2rem)/1.1 Georgia, serif; }
+.plp-intro__collection .rte { max-width: 70ch; margin: 1rem auto 0; }
+.plp-product-section .page-width { max-width: 144rem; }
+.plp-product-section .facets-wrapper { padding-top: 0; }
+.plp-product-section .product-grid { display: grid; grid-template-columns: repeat(var(--plp-columns-desktop, 4), minmax(0, 1fr)); gap: 0; margin: 0; border-top: 1px solid #c8c1bb; border-left: 1px solid #c8c1bb; }
+.plp-product-section .product-grid > .grid__item { width: auto; max-width: none; border-right: 1px solid #c8c1bb; border-bottom: 1px solid #c8c1bb; background: #fff; }
+.plp-card { display: flex; flex-direction: column; height: 100%; background: #fff; }
+.plp-card__image { display: block; aspect-ratio: 1 / 1.18; background: #fff; overflow: hidden; }
+.plp-card__image img, .plp-card__image svg { display: block; width: 100%; height: 100%; object-fit: contain; }
+.plp-card__content { display: flex; flex: 1; flex-direction: column; align-items: stretch; padding: 2.2rem; border-top: 1px solid #eeeae5; }
+.plp-card__type { margin: 0 0 1rem; color: #b62414; font: 700 1rem/1.3 Arial, sans-serif; letter-spacing: .09em; text-transform: uppercase; }
+.plp-card h3 { margin: 0; color: #30231e; font: 400 clamp(2rem, 2.2vw, 3rem)/1.02 Georgia, serif; text-transform: uppercase; overflow-wrap: anywhere; }
+.plp-card h3 a { color: inherit; text-decoration: none; }
+.plp-card h3 a:hover { text-decoration: underline; text-underline-offset: .15em; }
+.plp-card__description { margin: 1.4rem 0; color: #665b54; font: 400 1.45rem/1.5 Arial, sans-serif; }
+.plp-card__price { margin-top: auto; padding: .8rem 0 1.5rem; color: #30231e; }
+.plp-card__action { display: flex; min-height: 4.3rem; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 1.5rem; color: #fff; background: #b62414; font: 700 1.05rem/1.3 Arial, sans-serif; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; }
+.plp-card__action:hover { color: #fff; background: #891b0e; }
+.plp-card__action span:last-child { font-size: 1.9rem; line-height: 1; }
+.plp-ingredients { padding: 6.5rem 6% 9rem; }
+.plp-ingredients h2 { margin: 0 0 6rem; color: #171513; text-align: center; text-transform: uppercase; font: 700 clamp(2.2rem, 2.5vw, 3.2rem)/1.2 Arial, sans-serif; }
+.plp-ingredients__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.6rem; max-width: 112rem; margin: auto; }
+.plp-ingredients__grid img { display: block; width: 100%; height: auto; }
+.thyling-collection-page a:focus-visible, .thyling-collection-page button:focus-visible, .thyling-collection-page select:focus-visible { outline: 3px solid #2764b7; outline-offset: 3px; }
+.thyling-collection-page .footer { background: #1d2637; color: #f3eadb; }
+.thyling-collection-page .footer h2, .thyling-collection-page .footer a, .thyling-collection-page .footer .copyright__content { color: #f3eadb; }
+@media (max-width: 989px) {
+  .plp-product-section .product-grid { grid-template-columns: repeat(var(--plp-columns-mobile, 2), minmax(0, 1fr)); }
+}
+@media (max-width: 749px) {
+  .plp-intro__image { min-height: 20rem; object-fit: cover; }
+  .plp-categories { justify-content: center; gap: 1rem; padding: 3rem 1.5rem 2rem; }
+  .plp-categories__link { min-height: 4.4rem; min-width: 0; padding: .8rem 1.7rem; font-size: 1.2rem; }
+  .plp-product-section .page-width { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .plp-card__content { padding: 1.5rem; }
+  .plp-card h3 { font-size: 2rem; }
+  .plp-card__description { font-size: 1.3rem; }
+  .plp-card__action { padding: 1rem; font-size: 1rem; }
+  .plp-ingredients { padding: 5rem 1.5rem 6rem; }
+  .plp-ingredients h2 { margin-bottom: 3rem; }
+  .plp-ingredients__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+}

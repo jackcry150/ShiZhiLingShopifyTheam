@@ -1,0 +1,32 @@
+{%- liquid
+  assign fallback_image = blank
+  assign product_title = card_product.title | downcase
+  if card_product.handle contains 'seven-day' or product_title contains 'seven-day' or product_title contains '七日酝'
+    assign fallback_image = 'plp-product-1.webp'
+  elsif card_product.handle contains 'ran-tao' or product_title contains 'ran tao' or product_title contains '染桃夭'
+    assign fallback_image = 'plp-product-2.webp'
+  elsif card_product.handle contains 'yue-xia' or product_title contains 'yue xia' or product_title contains '月下酣'
+    assign fallback_image = 'plp-product-3.webp'
+  elsif card_product.handle contains 'yun-kai' or product_title contains 'yun kai' or product_title contains '云开见'
+    assign fallback_image = 'plp-product-4.webp'
+  endif
+-%}
+<product-component class="plp-card" data-product-id="{{ card_product.id }}" data-product-url="{{ card_product.url }}" data-section-id="{{ section_id }}">
+  <a class="plp-card__image" href="{{ card_product.url }}" tabindex="-1" aria-hidden="true">
+    {%- if card_product.featured_media -%}
+      {{ card_product.featured_media | image_url: width: 800 | image_tag: widths: '320, 480, 640, 800', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw', loading: 'lazy', alt: card_product.featured_media.alt }}
+    {%- elsif fallback_image != blank -%}
+      <img src="{{ fallback_image | asset_url }}" width="810" height="1032" alt="{{ card_product.title | escape }}" loading="lazy">
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </a>
+  <div class="plp-card__content">
+    {%- if card_product.type != blank -%}<p class="plp-card__type">{{ card_product.type | escape }}</p>{%- endif -%}
+    <h3><a href="{{ card_product.url }}">{{ card_product.title | escape }}</a></h3>
+    {%- if card_product.description != blank -%}<p class="plp-card__description">{{ card_product.description | strip_html | truncate: 120 | escape }}</p>{%- endif -%}
+    {%- unless card_product.available -%}<p class="plp-card__availability">{{ 'products.product.sold_out' | t }}</p>{%- endunless -%}
+    <div class="plp-card__price">{% render 'price', product: card_product, show_compare_at_price: true %}</div>
+    <a class="plp-card__action" href="{{ card_product.url }}"><span>{{ 'products.product.view_full_details' | t }}</span><span aria-hidden="true">→</span></a>
+  </div>
+</product-component>

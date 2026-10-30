@@ -1,0 +1,16 @@
+<section class="plp-ingredients" aria-labelledby="PlpIngredients-{{ section.id }}">
+  <h2 id="PlpIngredients-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+  <div class="plp-ingredients__grid">
+    <img src="{{ 'plp-ingredient-1.webp' | asset_url }}" width="280" height="420" alt="American ginseng" loading="lazy">
+    <img src="{{ 'plp-ingredient-2.webp' | asset_url }}" width="280" height="420" alt="Reishi mushroom" loading="lazy">
+    <img src="{{ 'plp-ingredient-3.webp' | asset_url }}" width="280" height="420" alt="Solomon's seal" loading="lazy">
+    <img src="{{ 'plp-ingredient-4.webp' | asset_url }}" width="280" height="420" alt="Buddha's hand citron" loading="lazy">
+  </div>
+</section>
+{% schema %}
+{
+  "name": "THYLING ingredients",
+  "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "What's inside our products" }],
+  "presets": [{ "name": "THYLING ingredients" }]
+}
+{% endschema %}

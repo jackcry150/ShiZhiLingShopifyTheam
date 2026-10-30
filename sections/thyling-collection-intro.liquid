@@ -1,0 +1,34 @@
+{{ 'thyling-collection.css' | asset_url | stylesheet_tag }}
+
+<section class="plp-intro" aria-labelledby="PlpTitle-{{ section.id }}">
+  <h1 id="PlpTitle-{{ section.id }}" class="visually-hidden">{{ collection.title | escape }}</h1>
+  {%- if section.settings.hero_image != blank -%}
+    {{ section.settings.hero_image | image_url: width: 2000 | image_tag: class: 'plp-intro__image', widths: '750, 1100, 1500, 2000', sizes: '100vw', fetchpriority: 'high' }}
+  {%- else -%}
+    <img class="plp-intro__image" src="{{ 'plp-hero.webp' | asset_url }}" width="1265" height="555" alt="THYLING herbal products arranged with botanicals" fetchpriority="high">
+  {%- endif -%}
+  {%- liquid
+    assign tea = section.settings.tea_collection | default: collections['herbal-tea']
+    assign taste = section.settings.taste_collection | default: collections['herbal-taste']
+    assign drink = section.settings.drink_collection | default: collections['herbal-drink']
+  -%}
+  <nav class="plp-categories" aria-label="Product categories">
+    <a href="{{ routes.all_products_collection_url }}" class="plp-categories__link{% if collection.handle == 'all' %} is-active{% endif %}"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>All</a>
+    {%- if tea != blank -%}<a href="{{ tea.url }}" class="plp-categories__link{% if collection.handle == tea.handle %} is-active{% endif %}"{% if collection.handle == tea.handle %} aria-current="page"{% endif %}>Herbal tea</a>{%- endif -%}
+    {%- if taste != blank -%}<a href="{{ taste.url }}" class="plp-categories__link{% if collection.handle == taste.handle %} is-active{% endif %}"{% if collection.handle == taste.handle %} aria-current="page"{% endif %}>Herbal taste</a>{%- endif -%}
+    {%- if drink != blank -%}<a href="{{ drink.url }}" class="plp-categories__link{% if collection.handle == drink.handle %} is-active{% endif %}"{% if collection.handle == drink.handle %} aria-current="page"{% endif %}>Herbal drink</a>{%- endif -%}
+  </nav>
+  {%- if collection.handle != 'all' -%}<div class="plp-intro__collection page-width"><h2>{{ collection.title | escape }}</h2>{% if collection.description != blank %}<div class="rte">{{ collection.description }}</div>{% endif %}</div>{%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "THYLING collection intro",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Collection banner image" },
+    { "type": "collection", "id": "tea_collection", "label": "Herbal tea collection" },
+    { "type": "collection", "id": "taste_collection", "label": "Herbal taste collection" },
+    { "type": "collection", "id": "drink_collection", "label": "Herbal drink collection" }
+  ]
+}
+{% endschema %}
