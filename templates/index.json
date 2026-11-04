@@ -1,4 +1,29 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "sections": {"home": {"type": "thyling-home", "settings": {}}},
-  "order": ["home"]
+  "sections": {
+    "home": {
+      "type": "thyling-home",
+      "settings": {
+        "quiz_link": "shopify://pages/body-type-quiz",
+        "product_1_link": "",
+        "product_2_link": "",
+        "product_3_link": "",
+        "product_4_link": "",
+        "ritual_link": "",
+        "xiaohongshu_link": "",
+        "contact_link": ""
+      }
+    }
+  },
+  "order": [
+    "home"
+  ]
 }
