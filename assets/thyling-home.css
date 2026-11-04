@@ -24,6 +24,7 @@
 .home-product img { width: 100%; height: auto; }
 .home-product[href]:hover img { filter: brightness(.9); }
 .home-herbs { position: relative; padding-bottom: 11%; }
+.home-herbs__scene-link { display: block; }
 .home-herbs__scene { width: 100%; height: auto; }
 .home-herbs__cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 3%; width: 74%; margin: -32% auto 0; position: relative; }
 .home-herbs__cards img { width: 100%; height: auto; }

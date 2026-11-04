@@ -37,11 +37,19 @@
   </section>
 
   <section class="home-herbs" id="meet-the-herbs" aria-label="Meet the herbs">
-    <img class="home-herbs__scene" src="{{ 'home-herbs-scene.webp' | asset_url }}" width="2200" height="1997" alt="Meet the herbs. Trace every formula back to place, climate, texture and the traditions that shaped it." loading="lazy">
+    {% if section.settings.herbs_page_link != blank %}<a class="home-herbs__scene-link" href="{{ section.settings.herbs_page_link }}">{% endif %}
+      <img class="home-herbs__scene" src="{{ 'home-herbs-scene.webp' | asset_url }}" width="2200" height="1997" alt="Meet the herbs. Trace every formula back to place, climate, texture and the traditions that shaped it." loading="lazy">
+    {% if section.settings.herbs_page_link != blank %}</a>{% endif %}
     <div class="home-herbs__cards">
-      <img src="{{ 'home-herb-1.webp' | asset_url }}" width="1324" height="1844" alt="Shu Di Huang" loading="lazy">
-      <img src="{{ 'home-herb-2.webp' | asset_url }}" width="1324" height="1844" alt="Suan Zao Ren" loading="lazy">
-      <img src="{{ 'home-herb-3.webp' | asset_url }}" width="1324" height="1844" alt="Wu Zhi Mao Tao" loading="lazy">
+      {% if section.settings.herb_1_link != blank %}<a href="{{ section.settings.herb_1_link }}">{% endif %}
+        <img src="{{ 'home-herb-1.webp' | asset_url }}" width="1324" height="1844" alt="Shu Di Huang" loading="lazy">
+      {% if section.settings.herb_1_link != blank %}</a>{% endif %}
+      {% if section.settings.herb_2_link != blank %}<a href="{{ section.settings.herb_2_link }}">{% endif %}
+        <img src="{{ 'home-herb-2.webp' | asset_url }}" width="1324" height="1844" alt="Suan Zao Ren" loading="lazy">
+      {% if section.settings.herb_2_link != blank %}</a>{% endif %}
+      {% if section.settings.herb_3_link != blank %}<a href="{{ section.settings.herb_3_link }}">{% endif %}
+        <img src="{{ 'home-herb-3.webp' | asset_url }}" width="1324" height="1844" alt="Wu Zhi Mao Tao" loading="lazy">
+      {% if section.settings.herb_3_link != blank %}</a>{% endif %}
     </div>
   </section>
 
@@ -67,8 +75,8 @@
 
   <footer class="home-footer">
     <div class="home-footer__columns">
-      <div><h2>Shop</h2><a href="{{ routes.all_products_collection_url }}">All products</a>{% if section.settings.product_1_link != blank %}<a href="{{ section.settings.product_1_link }}">Seven-day set</a>{% endif %}{% if section.settings.product_2_link != blank %}<a href="{{ section.settings.product_2_link }}">Gift sets</a>{% endif %}</div>
-      <div><h2>Discover</h2><a href="#meet-the-herbs">Meet the herbs</a><a href="#the-wisdom">Our story</a></div>
+      <div><h2>Shop</h2><a href="{{ section.settings.all_products_link | default: routes.all_products_collection_url }}">All products</a>{% if section.settings.product_1_link != blank %}<a href="{{ section.settings.product_1_link }}">Seven-day set</a>{% endif %}{% if section.settings.product_2_link != blank %}<a href="{{ section.settings.product_2_link }}">Gift sets</a>{% endif %}</div>
+      <div><h2>Discover</h2><a href="{{ section.settings.herbs_page_link | default: '#meet-the-herbs' }}">Meet the herbs</a><a href="{{ section.settings.story_link | default: '#the-wisdom' }}">Our story</a></div>
       <div><h2>About us</h2><a href="{{ section.settings.contact_link | default: '/pages/contact' }}">Contact us</a></div>
       <div class="home-footer__newsletter" id="home-newsletter">
         <h2>Join the ritual</h2>
@@ -99,6 +107,12 @@
     {"type":"image_picker","id":"product_4_image","label":"Fourth product image"},
     {"type":"url","id":"product_4_link","label":"Fourth product image link"},
     {"type":"url","id":"ritual_link","label":"Everyday ritual link"},
+    {"type":"url","id":"herbs_page_link","label":"Meet the herbs page link","info":"Used for the herb banner and footer link."},
+    {"type":"url","id":"herb_1_link","label":"Shu Di Huang page link"},
+    {"type":"url","id":"herb_2_link","label":"Suan Zao Ren page link"},
+    {"type":"url","id":"herb_3_link","label":"Wu Zhi Mao Tao page link"},
+    {"type":"url","id":"all_products_link","label":"All products page link"},
+    {"type":"url","id":"story_link","label":"Our story page link"},
     {"type":"url","id":"xiaohongshu_link","label":"Xiaohongshu link"},
     {"type":"url","id":"contact_link","label":"Contact link"}
   ],
