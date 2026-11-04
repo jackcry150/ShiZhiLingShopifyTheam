@@ -21,10 +21,18 @@
       <p>Seven daily formulas come together as one complete weekly botanical ritual.</p>
     </div>
     <div class="home-products__track" tabindex="0" aria-label="Products">
-      <a class="home-product" href="{{ section.settings.product_1_link | default: routes.all_products_collection_url }}" aria-label="Shop the seven-day set"><img src="{{ 'home-product-1.webp' | asset_url }}" width="314" height="570" alt="Seven-day set" loading="lazy"></a>
-      <a class="home-product" href="{{ section.settings.product_2_link | default: routes.all_products_collection_url }}" aria-label="Shop the gift set"><img src="{{ 'home-product-2.webp' | asset_url }}" width="314" height="570" alt="Gift set" loading="lazy"></a>
-      <div class="home-product"><img src="{{ 'home-product-3.webp' | asset_url }}" width="314" height="570" alt="Herbal formula, coming soon" loading="lazy"></div>
-      <div class="home-product"><img src="{{ 'home-product-4.webp' | asset_url }}" width="314" height="570" alt="Herbal formula, coming soon" loading="lazy"></div>
+      <a class="home-product" href="{{ section.settings.product_1_link | default: routes.all_products_collection_url }}">
+        {% render 'thyling-home-product-image', image: section.settings.product_1_image, fallback_asset: 'home-product-1.webp', fallback_alt: 'Seven-day set' %}
+      </a>
+      <a class="home-product" href="{{ section.settings.product_2_link | default: routes.all_products_collection_url }}">
+        {% render 'thyling-home-product-image', image: section.settings.product_2_image, fallback_asset: 'home-product-2.webp', fallback_alt: 'Gift set' %}
+      </a>
+      {% if section.settings.product_3_link != blank %}<a class="home-product" href="{{ section.settings.product_3_link }}">{% else %}<div class="home-product">{% endif %}
+        {% render 'thyling-home-product-image', image: section.settings.product_3_image, fallback_asset: 'home-product-3.webp', fallback_alt: 'Herbal formula 3' %}
+      {% if section.settings.product_3_link != blank %}</a>{% else %}</div>{% endif %}
+      {% if section.settings.product_4_link != blank %}<a class="home-product" href="{{ section.settings.product_4_link }}">{% else %}<div class="home-product">{% endif %}
+        {% render 'thyling-home-product-image', image: section.settings.product_4_image, fallback_asset: 'home-product-4.webp', fallback_alt: 'Herbal formula 4' %}
+      {% if section.settings.product_4_link != blank %}</a>{% else %}</div>{% endif %}
     </div>
   </section>
 
@@ -82,8 +90,14 @@
   "name": "THYLING homepage",
   "settings": [
     {"type":"url","id":"quiz_link","label":"Find your rhythm link"},
+    {"type":"image_picker","id":"product_1_image","label":"First product image"},
     {"type":"url","id":"product_1_link","label":"Seven-day set link"},
+    {"type":"image_picker","id":"product_2_image","label":"Second product image"},
     {"type":"url","id":"product_2_link","label":"Gift set link"},
+    {"type":"image_picker","id":"product_3_image","label":"Third product image"},
+    {"type":"url","id":"product_3_link","label":"Third product image link"},
+    {"type":"image_picker","id":"product_4_image","label":"Fourth product image"},
+    {"type":"url","id":"product_4_link","label":"Fourth product image link"},
     {"type":"url","id":"ritual_link","label":"Everyday ritual link"},
     {"type":"url","id":"xiaohongshu_link","label":"Xiaohongshu link"},
     {"type":"url","id":"contact_link","label":"Contact link"}
