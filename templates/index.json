@@ -85,7 +85,8 @@
         "ritual_seven_day"
       ],
       "settings": {
-        "ritual_autoplay": 5
+        "ritual_autoplay": 5,
+        "quiz_link": "shopify://pages/body-type-quiz"
       }
     }
   },
