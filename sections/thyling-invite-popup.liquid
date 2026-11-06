@@ -1,0 +1,70 @@
+{%- comment -%}
+  Site-wide membership invite. Rendered from layout/theme.liquid with {% section 'thyling-invite-popup' %}.
+  Opens once per browser session after the delay. Any link ending in "#join-thyling"
+  (e.g. a menu item "/#join-thyling") opens it again.
+{%- endcomment -%}
+{%- liquid
+  assign auto_open = section.settings.delay
+  if section.settings.enabled == false
+    assign auto_open = 0
+  endif
+  if template.suffix == 'membership' or request.page_type == 'password'
+    assign auto_open = 0
+  endif
+-%}
+{%- if section.settings.enabled or request.design_mode -%}
+  {{ 'thyling-pages.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'thyling-ui.js' | asset_url }}" defer="defer"></script>
+
+  <thyling-dialog id="join-thyling" data-section-id="{{ section.id }}" data-auto-open="{{ auto_open }}" data-session-key="thyling-invite">
+    <dialog class="tp tp-dialog" aria-labelledby="JoinThylingTitle">
+      <button type="button" class="tp-dialog__close" data-dialog-close aria-label="Close dialog">×</button>
+      <div class="tp-split">
+        <div class="tp-split__media">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 900 | image_tag: widths: '450, 900', sizes: '(min-width: 761px) 424px, 100vw', loading: 'lazy', alt: '' }}
+          {%- else -%}
+            <img src="{{ 'thyling-lake.webp' | asset_url }}" width="1066" height="1600" alt="" loading="lazy">
+          {%- endif -%}
+        </div>
+        <div class="tp-split__copy">
+          {%- if section.settings.eyebrow != blank -%}<span class="tp-eyebrow tp-red">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+          <h2 id="JoinThylingTitle">{{ section.settings.heading | escape }}</h2>
+          {%- assign benefits = section.settings.benefits | newline_to_br | split: '<br />' -%}
+          {%- if section.settings.benefits != blank -%}
+            <ul>
+              {%- for benefit in benefits -%}
+                {%- assign benefit_text = benefit | strip -%}
+                {%- if benefit_text != blank -%}<li>{{ benefit_text | escape }}</li>{%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if section.settings.primary_label != blank -%}<a class="tp-btn tp-pill" href="{{ section.settings.primary_link | default: '/pages/membership' }}">{{ section.settings.primary_label | escape }} <span aria-hidden="true">⟶</span></a>{%- endif -%}
+          {%- if section.settings.secondary_label != blank -%}<a class="tp-btn tp-pill tp-btn--outline" href="{{ section.settings.secondary_link | default: '/pages/body-type-quiz' }}">{{ section.settings.secondary_label | escape }} <span aria-hidden="true">↗</span></a>{%- endif -%}
+          {%- if section.settings.text_link_label != blank -%}<a class="tp-dialog__textlink" href="{{ section.settings.text_link | default: routes.all_products_collection_url }}">{{ section.settings.text_link_label | escape }}</a>{%- endif -%}
+        </div>
+      </div>
+    </dialog>
+  </thyling-dialog>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "THYLING membership invite",
+  "settings": [
+    { "type": "paragraph", "content": "全站会员邀请弹窗：每次浏览只自动弹出一次（会员页不自动弹出）。在菜单中添加链接 /#join-thyling 可随时打开。" },
+    { "type": "checkbox", "id": "enabled", "label": "Enable", "default": true },
+    { "type": "range", "id": "delay", "label": "Open after", "min": 1, "max": 30, "step": 1, "unit": "s", "default": 5 },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "A year in rhythm / THYLING" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "JOIN THYLING & GET 20% OFF." },
+    { "type": "textarea", "id": "benefits", "label": "Benefits", "info": "One per line.", "default": "20% off your first eligible order\nEarly access to new releases\nSeasonal gifts for members" },
+    { "type": "text", "id": "primary_label", "label": "Main button label", "default": "Join us now" },
+    { "type": "url", "id": "primary_link", "label": "Main button link", "info": "Defaults to /pages/membership." },
+    { "type": "text", "id": "secondary_label", "label": "Second button label", "default": "Know your body first" },
+    { "type": "url", "id": "secondary_link", "label": "Second button link", "info": "Defaults to the quiz page /pages/body-type-quiz." },
+    { "type": "text", "id": "text_link_label", "label": "Text link label", "default": "See all products first" },
+    { "type": "url", "id": "text_link", "label": "Text link", "info": "Defaults to all products." }
+  ]
+}
+{% endschema %}

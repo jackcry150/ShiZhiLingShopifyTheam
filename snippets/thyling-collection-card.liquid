@@ -10,6 +10,25 @@
   elsif card_product.handle contains 'yun-kai' or product_title contains 'yun kai' or product_title contains '云开见'
     assign fallback_image = 'plp-product-4.webp'
   endif
+
+  comment
+    Category label above the title. Priority:
+    1. Product metafield custom.category_label (e.g. "Complete boxed ritual")
+    2. Product type (Products > Product organization > Type)
+    3. First collection the product belongs to (excluding "all" / "frontpage")
+  endcomment
+  assign category_label = card_product.metafields.custom.category_label.value
+  if category_label == blank
+    assign category_label = card_product.type
+  endif
+  if category_label == blank
+    for product_collection in card_product.collections
+      unless product_collection.handle == 'all' or product_collection.handle == 'frontpage'
+        assign category_label = product_collection.title
+        break
+      endunless
+    endfor
+  endif
 -%}
 <product-component class="plp-card" data-product-id="{{ card_product.id }}" data-product-url="{{ card_product.url }}" data-section-id="{{ section_id }}">
   <a class="plp-card__image" href="{{ card_product.url }}" tabindex="-1" aria-hidden="true">
@@ -22,7 +41,7 @@
     {%- endif -%}
   </a>
   <div class="plp-card__content">
-    {%- if card_product.type != blank -%}<p class="plp-card__type">{{ card_product.type | escape }}</p>{%- endif -%}
+    {%- if category_label != blank -%}<p class="plp-card__type">{{ category_label | escape }}</p>{%- endif -%}
     <h3><a href="{{ card_product.url }}">{{ card_product.title | escape }}</a></h3>
     {%- if card_product.description != blank -%}<p class="plp-card__description">{{ card_product.description | strip_html | truncate: 120 | escape }}</p>{%- endif -%}
     {%- unless card_product.available -%}<p class="plp-card__availability">{{ 'products.product.sold_out' | t }}</p>{%- endunless -%}

@@ -1,0 +1,67 @@
+{{ 'thyling-pages.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Botanical index: one card per herb, each linking to its own herb page.
+  When a card has no link, it points to /pages/<herb-name-handle>
+  (e.g. "Wu Zhi Mao Tao" -> /pages/wu-zhi-mao-tao).
+{%- endcomment -%}
+<section class="tp tp-wrap{% if section.settings.rules %} tp-rules{% endif %}" id="botanical-index-{{ section.id }}">
+  {%- if section.settings.eyebrow != blank -%}<span class="tp-eyebrow tp-red">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+  <h2 class="tp-h2">{{ section.settings.heading | escape | newline_to_br }}</h2>
+  <div class="tp-cards" style="--tp-cards: {{ section.settings.columns }};">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign herb_link = block.settings.link
+        if herb_link == blank
+          assign herb_handle = block.settings.name | handleize
+          assign herb_link = '/pages/' | append: herb_handle
+        endif
+        assign number = forloop.index | prepend: '0' | slice: -2, 2
+        assign card_alt = block.settings.image.alt | default: block.settings.chinese_name | default: block.settings.name
+      -%}
+      <a class="tp-card" href="{{ herb_link }}"{% if request.page_type == 'page' and herb_link == page.url %} aria-current="page"{% endif %} {{ block.shopify_attributes }}>
+        <span class="tp-card__media{% if block.settings.specimen %} tp-card__media--specimen{% endif %}">
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 700 | image_tag: widths: '350, 500, 700', sizes: '(min-width: 761px) 20vw, 50vw', loading: 'lazy', alt: card_alt }}
+          {%- elsif block.settings.default_asset != blank -%}
+            <img src="{{ block.settings.default_asset | asset_url }}" width="750" height="855" alt="{{ card_alt | escape }}" loading="lazy">
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag }}
+          {%- endif -%}
+        </span>
+        <span class="tp-card__info">
+          <b>{{ block.settings.name | escape }}</b>
+          <small>{{ number }}{% if block.settings.chinese_name != blank %} / {{ block.settings.chinese_name | escape }}{% endif %} ↗</small>
+        </span>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "THYLING botanical index",
+  "settings": [
+    { "type": "paragraph", "content": "每个药材卡片对应一个药材页面。新增药材：在“页面”中新建页面并选择 herb 模板，再在这里添加一个卡片。" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "02 / The botanical index" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "ROOTED IN NATURE." },
+    { "type": "range", "id": "columns", "label": "Cards per row (desktop)", "min": 3, "max": 6, "step": 1, "default": 5 },
+    { "type": "checkbox", "id": "rules", "label": "Divider lines above and below", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "herb",
+      "name": "Herb",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "checkbox", "id": "specimen", "label": "Cut-out image on warm background", "info": "For transparent PNG herb photos.", "default": false },
+        { "type": "text", "id": "name", "label": "Name", "default": "Herb name" },
+        { "type": "text", "id": "chinese_name", "label": "Chinese name" },
+        { "type": "url", "id": "link", "label": "Herb page link", "info": "Defaults to /pages/ + the name, e.g. /pages/wu-zhi-mao-tao." },
+        { "type": "text", "id": "default_asset", "label": "Built-in default image", "info": "Theme file used until an image is uploaded." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "THYLING botanical index" }]
+}
+{% endschema %}

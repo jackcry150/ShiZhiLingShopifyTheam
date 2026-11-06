@@ -1,0 +1,37 @@
+{{ 'thyling-pages.css' | asset_url | stylesheet_tag }}
+
+<section class="tp tp-wrap{% if section.settings.rules %} tp-rules{% endif %}" id="{{ section.settings.anchor | default: 'faq' | handleize }}">
+  <div class="tp-faq">
+    {%- if section.settings.eyebrow != blank -%}<span class="tp-eyebrow tp-red">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+    <h2 class="tp-h2">{{ section.settings.heading | escape | newline_to_br }}</h2>
+    {%- for block in section.blocks -%}
+      <details {{ block.shopify_attributes }}>
+        <summary>{{ block.settings.question | escape }}</summary>
+        <div class="tp-faq__answer">{{ block.settings.answer }}</div>
+      </details>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "THYLING FAQ",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Membership / Questions" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "MEMBERSHIP FAQ." },
+    { "type": "text", "id": "anchor", "label": "Anchor", "default": "faq", "info": "Link to this section with #faq, e.g. /pages/membership#faq." },
+    { "type": "checkbox", "id": "rules", "label": "Divider lines above and below", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Answer</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "THYLING FAQ", "blocks": [{ "type": "question" }] }]
+}
+{% endschema %}

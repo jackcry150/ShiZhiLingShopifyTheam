@@ -26,7 +26,39 @@
     },
     "ingredients": {
       "type": "thyling-collection-ingredients",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "ingredient_xiyangshen": {
+          "type": "ingredient",
+          "settings": {
+            "name": "American ginseng"
+          }
+        },
+        "ingredient_lingzhi": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Reishi mushroom"
+          }
+        },
+        "ingredient_yuzhu": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Solomon's seal"
+          }
+        },
+        "ingredient_foshou": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Buddha's hand citron"
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_xiyangshen",
+        "ingredient_lingzhi",
+        "ingredient_yuzhu",
+        "ingredient_foshou"
+      ]
     }
   },
   "order": [

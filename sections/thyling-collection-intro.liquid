@@ -3,7 +3,13 @@
 <section class="plp-intro" aria-labelledby="PlpTitle-{{ section.id }}">
   <h1 id="PlpTitle-{{ section.id }}" class="visually-hidden">{{ collection.title | escape }}</h1>
   {%- if section.settings.hero_image != blank -%}
-    {{ section.settings.hero_image | image_url: width: 2000 | image_tag: class: 'plp-intro__image', widths: '750, 1100, 1500, 2000', sizes: '100vw', fetchpriority: 'high' }}
+    {%- assign hero_mobile = section.settings.hero_image_mobile | default: section.settings.hero_image -%}
+    {%- if section.settings.hero_link != blank -%}<a class="plp-intro__link" href="{{ section.settings.hero_link }}">{%- endif -%}
+    <picture>
+      <source media="(max-width: 749px)" srcset="{{ hero_mobile | image_url: width: 750 }} 750w, {{ hero_mobile | image_url: width: 1100 }} 1100w" sizes="100vw">
+      {{ section.settings.hero_image | image_url: width: 2400 | image_tag: class: 'plp-intro__image', widths: '1100, 1500, 2000, 2400', sizes: '100vw', fetchpriority: 'high', loading: 'eager' }}
+    </picture>
+    {%- if section.settings.hero_link != blank -%}</a>{%- endif -%}
   {%- else -%}
     <img class="plp-intro__image" src="{{ 'plp-hero.webp' | asset_url }}" width="1265" height="555" alt="THYLING herbal products arranged with botanicals" fetchpriority="high">
   {%- endif -%}
@@ -25,7 +31,11 @@
 {
   "name": "THYLING collection intro",
   "settings": [
-    { "type": "image_picker", "id": "hero_image", "label": "Collection banner image" },
+    { "type": "header", "content": "Banner / 商品首图" },
+    { "type": "image_picker", "id": "hero_image", "label": "Collection banner image (desktop)", "info": "Recommended 2400 x 1050 px. Leave empty to use the default banner." },
+    { "type": "image_picker", "id": "hero_image_mobile", "label": "Collection banner image (mobile)", "info": "Optional. Uses the desktop image when empty." },
+    { "type": "url", "id": "hero_link", "label": "Banner link", "info": "Optional." },
+    { "type": "header", "content": "Category buttons / 分类按钮" },
     { "type": "collection", "id": "tea_collection", "label": "Herbal tea collection" },
     { "type": "collection", "id": "taste_collection", "label": "Herbal taste collection" },
     { "type": "collection", "id": "drink_collection", "label": "Herbal drink collection" }

@@ -1,66 +1,249 @@
 {{ 'thyling-home.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'thyling-ui.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign product_blocks = section.blocks | where: 'type', 'product_card'
+  assign herb_blocks = section.blocks | where: 'type', 'herb_video'
+  assign ritual_blocks = section.blocks | where: 'type', 'ritual_slide'
+
+  assign herbs_stage = false
+  if section.settings.herbs_poster != blank or section.settings.herbs_video != blank or section.settings.herbs_video_url != blank
+    assign herbs_stage = true
+  endif
+  for block in herb_blocks
+    if block.settings.video != blank or block.settings.video_url != blank
+      assign herbs_stage = true
+    endif
+  endfor
+-%}
 
 <div class="thyling-home">
-  <section class="home-hero" aria-labelledby="home-title">
-    <picture><source media="(max-width: 749px)" srcset="{{ 'home-hero-mobile.webp' | asset_url }}"><img class="home-hero__image" src="{{ 'home-hero.webp' | asset_url }}" width="1440" height="883" alt="" fetchpriority="high"></picture>
-    <div class="home-hero__mobile-copy">
-      <h2 id="home-title">From a centuries-old library to your <em>daily ritual.</em></h2>
-      <p>Time-honoured herbal wisdom, reimagined as simple daily rituals to help you live in rhythm with your body and the seasons.</p>
+  {%- comment -%} 1. Hero: image and copy editable. Uploaded images show the editable copy on top. {%- endcomment -%}
+  <section class="home-hero{% if section.settings.hero_image != blank %} home-hero--custom{% endif %}" aria-labelledby="home-title-{{ section.id }}">
+    {%- if section.settings.hero_image != blank -%}
+      {%- assign hero_mobile = section.settings.hero_image_mobile | default: section.settings.hero_image -%}
+      <picture>
+        <source media="(max-width: 749px)" srcset="{{ hero_mobile | image_url: width: 750 }} 750w, {{ hero_mobile | image_url: width: 1100 }} 1100w" sizes="100vw">
+        {{ section.settings.hero_image | image_url: width: 2400 | image_tag: class: 'home-hero__image', widths: '1100, 1500, 1920, 2400', sizes: '100vw', fetchpriority: 'high', loading: 'eager', alt: section.settings.hero_image.alt }}
+      </picture>
+    {%- else -%}
+      <picture><source media="(max-width: 749px)" srcset="{{ 'home-hero-mobile.webp' | asset_url }}"><img class="home-hero__image" src="{{ 'home-hero.webp' | asset_url }}" width="1440" height="883" alt="" fetchpriority="high"></picture>
+    {%- endif -%}
+    <div class="home-hero__copy">
+      <h2 id="home-title-{{ section.id }}">{{ section.settings.hero_heading }}</h2>
+      {%- if section.settings.hero_text != blank -%}<p>{{ section.settings.hero_text | escape | newline_to_br }}</p>{%- endif -%}
     </div>
     <div class="home-hero__actions">
-      <a class="home-pill home-pill--red" href="#our-products">Explore the rituals</a>
-      <a class="home-pill home-pill--light" href="{{ section.settings.quiz_link | default: '/pages/body-type-quiz' }}">Find your rhythm</a>
+      {%- if section.settings.hero_primary_label != blank -%}<a class="home-pill home-pill--red" href="{{ section.settings.hero_primary_link | default: '#our-products' }}">{{ section.settings.hero_primary_label | escape }}</a>{%- endif -%}
+      {%- if section.settings.hero_secondary_label != blank -%}<a class="home-pill home-pill--light" href="{{ section.settings.quiz_link | default: '/pages/body-type-quiz' }}">{{ section.settings.hero_secondary_label | escape }}</a>{%- endif -%}
     </div>
   </section>
 
-  <a class="home-join" href="#home-newsletter">Join us &amp; get 20% off</a>
+  {%- comment -%} 4. Membership banner {%- endcomment -%}
+  {%- if section.settings.join_text != blank -%}
+    <a class="home-join" href="{{ section.settings.join_link | default: '/pages/membership' }}">{{ section.settings.join_text | escape }}</a>
+  {%- endif -%}
 
-  <section class="home-products" id="our-products" aria-labelledby="products-heading">
-    <div class="home-products__heading">
-      <h2 id="products-heading">Our product</h2>
-      <p>Seven daily formulas come together as one complete weekly botanical ritual.</p>
-    </div>
-    <div class="home-products__track" tabindex="0" aria-label="Products">
-      <a class="home-product" href="{{ section.settings.product_1_link | default: routes.all_products_collection_url }}">
-        {% render 'thyling-home-product-image', image: section.settings.product_1_image, fallback_asset: 'home-product-1.webp', fallback_alt: 'Seven-day set' %}
-      </a>
-      <a class="home-product" href="{{ section.settings.product_2_link | default: routes.all_products_collection_url }}">
-        {% render 'thyling-home-product-image', image: section.settings.product_2_image, fallback_asset: 'home-product-2.webp', fallback_alt: 'Gift set' %}
-      </a>
-      {% if section.settings.product_3_link != blank %}<a class="home-product" href="{{ section.settings.product_3_link }}">{% else %}<div class="home-product">{% endif %}
-        {% render 'thyling-home-product-image', image: section.settings.product_3_image, fallback_asset: 'home-product-3.webp', fallback_alt: 'Herbal formula 3' %}
-      {% if section.settings.product_3_link != blank %}</a>{% else %}</div>{% endif %}
-      {% if section.settings.product_4_link != blank %}<a class="home-product" href="{{ section.settings.product_4_link }}">{% else %}<div class="home-product">{% endif %}
-        {% render 'thyling-home-product-image', image: section.settings.product_4_image, fallback_asset: 'home-product-4.webp', fallback_alt: 'Herbal formula 4' %}
-      {% if section.settings.product_4_link != blank %}</a>{% else %}</div>{% endif %}
-    </div>
+  {%- comment -%} 5. Product cards: every image/text editable, arrow navigation {%- endcomment -%}
+  <section class="home-products" id="our-products" aria-labelledby="products-heading-{{ section.id }}">
+    <thyling-carousel class="home-products__carousel">
+      <div class="home-products__heading">
+        <h2 id="products-heading-{{ section.id }}">{{ section.settings.products_heading | escape }}</h2>
+        <div class="home-products__aside">
+          {%- if section.settings.products_text != blank -%}<p>{{ section.settings.products_text | escape }}</p>{%- endif -%}
+          <div class="home-arrows" role="group" aria-label="Browse products">
+            <button type="button" class="home-arrows__button" data-carousel-prev aria-label="Previous products">{% render 'thyling-arrow', direction: 'left' %}</button>
+            <button type="button" class="home-arrows__button" data-carousel-next aria-label="Next products">{% render 'thyling-arrow', direction: 'right' %}</button>
+          </div>
+        </div>
+      </div>
+      <div class="home-products__track" data-carousel-track tabindex="0" aria-label="{{ section.settings.products_heading | escape }}">
+        {%- for block in product_blocks -%}
+          {%- liquid
+            assign fallback_asset = 'home-product-' | append: forloop.index | append: '.webp'
+            assign has_custom_image = false
+            if block.settings.image != blank
+              assign has_custom_image = true
+            endif
+            assign card_tag = 'div'
+            if block.settings.link != blank
+              assign card_tag = 'a'
+            endif
+          -%}
+          <{{ card_tag }} class="home-product{% if has_custom_image %} home-product--custom{% endif %}"{% if card_tag == 'a' %} href="{{ block.settings.link }}"{% endif %} {{ block.shopify_attributes }}>
+            {%- if has_custom_image -%}
+              {%- assign card_alt = block.settings.image.alt | default: block.settings.title -%}
+              {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 750px) 25vw, 65vw', alt: card_alt }}
+            {%- elsif forloop.index <= 4 -%}
+              <img src="{{ fallback_asset | asset_url }}" width="314" height="570" alt="{{ block.settings.title | escape }} {{ block.settings.subtitle | escape }}" loading="lazy">
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'home-product__placeholder' }}
+            {%- endif -%}
+            {%- unless has_custom_image == false and forloop.index <= 4 -%}
+              <span class="home-product__copy">
+                {%- if block.settings.badge != blank -%}<span class="home-product__badge">{{ block.settings.badge | escape }}</span>{%- endif -%}
+                {%- if block.settings.title != blank -%}<span class="home-product__title">{{ block.settings.title | escape }}</span>{%- endif -%}
+                {%- if block.settings.subtitle != blank -%}<span class="home-product__subtitle">{{ block.settings.subtitle | escape }}</span>{%- endif -%}
+                {%- if block.settings.button_label != blank -%}<span class="home-product__button">{{ block.settings.button_label | escape }} <span aria-hidden="true">→</span></span>{%- endif -%}
+              </span>
+            {%- endunless -%}
+          </{{ card_tag }}>
+        {%- endfor -%}
+      </div>
+    </thyling-carousel>
   </section>
 
-  <section class="home-herbs" id="meet-the-herbs" aria-label="Meet the herbs">
-    {% if section.settings.herbs_page_link != blank %}<a class="home-herbs__scene-link" href="{{ section.settings.herbs_page_link }}">{% endif %}
-      <img class="home-herbs__scene" src="{{ 'home-herbs-scene.webp' | asset_url }}" width="2200" height="1997" alt="Meet the herbs. Trace every formula back to place, climate, texture and the traditions that shaped it." loading="lazy">
-    {% if section.settings.herbs_page_link != blank %}</a>{% endif %}
-    <div class="home-herbs__cards">
-      {% if section.settings.herb_1_link != blank %}<a href="{{ section.settings.herb_1_link }}">{% endif %}
-        <img src="{{ 'home-herb-1.webp' | asset_url }}" width="1324" height="1844" alt="Shu Di Huang" loading="lazy">
-      {% if section.settings.herb_1_link != blank %}</a>{% endif %}
-      {% if section.settings.herb_2_link != blank %}<a href="{{ section.settings.herb_2_link }}">{% endif %}
-        <img src="{{ 'home-herb-2.webp' | asset_url }}" width="1324" height="1844" alt="Suan Zao Ren" loading="lazy">
-      {% if section.settings.herb_2_link != blank %}</a>{% endif %}
-      {% if section.settings.herb_3_link != blank %}<a href="{{ section.settings.herb_3_link }}">{% endif %}
-        <img src="{{ 'home-herb-3.webp' | asset_url }}" width="1324" height="1844" alt="Wu Zhi Mao Tao" loading="lazy">
-      {% if section.settings.herb_3_link != blank %}</a>{% endif %}
-    </div>
+  {%- comment -%} 6. Meet the herbs: editable text + 16:9 image/video stage + 3 video thumbnails {%- endcomment -%}
+  <section class="home-herbs{% if herbs_stage %} home-herbs--stage{% endif %}" id="meet-the-herbs" aria-labelledby="herbs-heading-{{ section.id }}">
+    {%- if herbs_stage -%}
+      <thyling-media-stage class="home-stage" {% render 'thyling-video-attrs', video: section.settings.herbs_video, video_url: section.settings.herbs_video_url, poster: section.settings.herbs_poster, title: section.settings.herbs_heading_2 %}>
+        <div class="home-stage__canvas">
+          <h2 class="home-stage__title" id="herbs-heading-{{ section.id }}">
+            <span class="home-stage__title-1">{{ section.settings.herbs_heading_1 | escape }}</span>
+            <span class="home-stage__title-2">{{ section.settings.herbs_heading_2 | escape }}</span>
+          </h2>
+          {%- if section.settings.herbs_text != blank -%}<p class="home-stage__text">{{ section.settings.herbs_text | escape }}</p>{%- endif -%}
+          <div class="home-stage__frame">
+            {%- liquid
+              assign stage_poster = section.settings.herbs_poster
+              if stage_poster == blank and section.settings.herbs_video != blank
+                assign stage_poster = section.settings.herbs_video.preview_image
+              endif
+              if stage_poster == blank
+                for block in herb_blocks
+                  if stage_poster == blank and block.settings.video != blank
+                    assign stage_poster = block.settings.video.preview_image
+                  endif
+                endfor
+              endif
+            -%}
+            <div class="home-stage__poster" data-stage-poster>
+              {%- if stage_poster != blank -%}
+                {{ stage_poster | image_url: width: 1920 | image_tag: widths: '750, 1100, 1500, 1920', sizes: '(min-width: 750px) 70vw, 100vw', loading: 'lazy', alt: '' }}
+              {%- else -%}
+                <img src="{{ 'home-herb-1.webp' | asset_url }}" width="1324" height="1844" alt="" loading="lazy">
+              {%- endif -%}
+            </div>
+            <div class="home-stage__player" data-stage-player></div>
+            <button type="button" class="home-stage__play" data-stage-play aria-label="Play video" hidden><span aria-hidden="true"></span></button>
+          </div>
+        </div>
+        {%- if herb_blocks.size > 0 -%}
+          <div class="home-stage__thumbs">
+            {%- for block in herb_blocks -%}
+              {%- liquid
+                assign thumb_image = block.settings.image
+                if thumb_image == blank and block.settings.video != blank
+                  assign thumb_image = block.settings.video.preview_image
+                endif
+                assign has_video = false
+                if block.settings.video != blank or block.settings.video_url != blank
+                  assign has_video = true
+                endif
+                assign fallback_asset = 'home-herb-' | append: forloop.index | append: '.webp'
+              -%}
+              {%- capture thumb_media -%}
+                {%- if thumb_image != blank -%}
+                  {{ thumb_image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '300, 500, 800', sizes: '(min-width: 750px) 25vw, 33vw', alt: '' }}
+                {%- elsif forloop.index <= 3 -%}
+                  <img src="{{ fallback_asset | asset_url }}" width="1324" height="1844" alt="" loading="lazy">
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag }}
+                {%- endif -%}
+                {%- if has_video -%}<span class="home-stage__thumb-play" aria-hidden="true"></span>{%- endif -%}
+                {%- if block.settings.title != blank -%}<span class="home-stage__thumb-title">{{ block.settings.title | escape }}</span>{%- endif -%}
+              {%- endcapture -%}
+              {%- if has_video -%}
+                <button type="button" class="home-stage__thumb" data-media-thumb aria-pressed="false" {% render 'thyling-video-attrs', video: block.settings.video, video_url: block.settings.video_url, poster: thumb_image, title: block.settings.title %} {{ block.shopify_attributes }}>
+                  <span class="visually-hidden">Play</span>{{ thumb_media }}
+                </button>
+              {%- elsif block.settings.link != blank -%}
+                <a class="home-stage__thumb" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{{ thumb_media }}</a>
+              {%- else -%}
+                <div class="home-stage__thumb" {{ block.shopify_attributes }}>{{ thumb_media }}</div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </thyling-media-stage>
+    {%- else -%}
+      {%- comment -%} Default design artwork until images/videos are uploaded in the theme editor. {%- endcomment -%}
+      <h2 class="visually-hidden" id="herbs-heading-{{ section.id }}">{{ section.settings.herbs_heading_1 | escape }} {{ section.settings.herbs_heading_2 | escape }}</h2>
+      {% if section.settings.herbs_page_link != blank %}<a class="home-herbs__scene-link" href="{{ section.settings.herbs_page_link }}">{% endif %}
+        <img class="home-herbs__scene" src="{{ 'home-herbs-scene.webp' | asset_url }}" width="2200" height="1997" alt="{{ section.settings.herbs_text | escape }}" loading="lazy">
+      {% if section.settings.herbs_page_link != blank %}</a>{% endif %}
+      <div class="home-herbs__cards">
+        {%- for block in herb_blocks limit: 3 -%}
+          {%- assign fallback_asset = 'home-herb-' | append: forloop.index | append: '.webp' -%}
+          {% if block.settings.link != blank %}<a href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{% else %}<div {{ block.shopify_attributes }}>{% endif %}
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '300, 500, 800', sizes: '25vw', alt: block.settings.title }}
+            {%- else -%}
+              <img src="{{ fallback_asset | asset_url }}" width="1324" height="1844" alt="{{ block.settings.title | escape }}" loading="lazy">
+            {%- endif -%}
+          {% if block.settings.link != blank %}</a>{% else %}</div>{% endif %}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   </section>
 
-  <section class="home-ritual" aria-label="A ritual for everyday">
-    <img src="{{ 'home-ritual.webp' | asset_url }}" width="1440" height="851" alt="A ritual for everyday. Lotus leaf and winter melon open the seven-day rhythm." loading="lazy">
-    <a href="{{ section.settings.ritual_link | default: routes.all_products_collection_url }}" class="home-ritual__button">Shop now <span aria-hidden="true">→</span></a>
-  </section>
+  {%- comment -%} 7. Ritual slideshow: multiple slides, image or button links to the product page {%- endcomment -%}
+  {%- if ritual_blocks.size > 0 -%}
+    <section class="home-ritual" aria-roledescription="carousel" aria-label="{{ section.settings.ritual_label | escape }}">
+      <thyling-carousel class="home-ritual__carousel" data-autoplay="{{ section.settings.ritual_autoplay }}" data-loop="true">
+        <div class="home-ritual__track" data-carousel-track>
+          {%- for block in ritual_blocks -%}
+            {%- liquid
+              assign has_custom_image = false
+              if block.settings.image != blank
+                assign has_custom_image = true
+              endif
+              assign slide_link = block.settings.link | default: routes.all_products_collection_url
+            -%}
+            <a class="home-ritual__slide{% if has_custom_image %} home-ritual__slide--custom{% endif %}" href="{{ slide_link }}" aria-roledescription="slide" aria-label="{{ forloop.index }} / {{ forloop.length }}{% if block.settings.heading != blank %}: {{ block.settings.heading | escape }}{% endif %}" {{ block.shopify_attributes }}>
+              {%- if has_custom_image -%}
+                {%- assign mobile_image = block.settings.image_mobile | default: block.settings.image -%}
+                <picture>
+                  <source media="(max-width: 749px)" srcset="{{ mobile_image | image_url: width: 750 }} 750w, {{ mobile_image | image_url: width: 1100 }} 1100w" sizes="100vw">
+                  {{ block.settings.image | image_url: width: 2400 | image_tag: class: 'home-ritual__image', widths: '1100, 1500, 1920, 2400', sizes: '100vw', loading: 'lazy', alt: block.settings.image.alt }}
+                </picture>
+                <span class="home-ritual__copy">
+                  {%- if block.settings.heading != blank -%}<span class="home-ritual__heading">{{ block.settings.heading | escape }}</span>{%- endif -%}
+                  {%- if block.settings.text != blank -%}<span class="home-ritual__text">{{ block.settings.text | escape }}</span>{%- endif -%}
+                </span>
+              {%- else -%}
+                <img class="home-ritual__image" src="{{ 'home-ritual.webp' | asset_url }}" width="1440" height="851" alt="{{ block.settings.heading | escape }}. {{ block.settings.text | escape }}" loading="lazy">
+              {%- endif -%}
+              {%- if block.settings.button_label != blank -%}<span class="home-ritual__button">{{ block.settings.button_label | escape }} <span aria-hidden="true">→</span></span>{%- endif -%}
+            </a>
+          {%- endfor -%}
+        </div>
+        {%- if ritual_blocks.size > 1 -%}
+          <div class="home-ritual__controls">
+            <button type="button" class="home-ritual__arrow" data-carousel-prev aria-label="Previous slide">{% render 'thyling-arrow', direction: 'left' %}</button>
+            <div class="home-ritual__dots">
+              {%- for block in ritual_blocks -%}
+                <button type="button" class="home-ritual__dot" data-carousel-dot aria-label="Go to slide {{ forloop.index }}"></button>
+              {%- endfor -%}
+            </div>
+            <button type="button" class="home-ritual__arrow" data-carousel-next aria-label="Next slide">{% render 'thyling-arrow', direction: 'right' %}</button>
+          </div>
+        {%- endif -%}
+      </thyling-carousel>
+    </section>
+  {%- endif -%}
 
-  <section class="home-wisdom" id="the-wisdom" style="background-image: url('{{ 'home-wisdom.webp' | asset_url }}')">
-    <h2>Wisdom,<br>passed through time.</h2>
-    <p>Trace every formula back to place, climate,<br>texture and the traditions that shaped it.</p>
+  {%- comment -%} 8. Wisdom: the text links to the About Us page {%- endcomment -%}
+  {%- if section.settings.wisdom_image != blank -%}
+    {%- assign wisdom_bg = section.settings.wisdom_image | image_url: width: 2000 -%}
+  {%- else -%}
+    {%- assign wisdom_bg = 'home-wisdom.webp' | asset_url -%}
+  {%- endif -%}
+  <section class="home-wisdom" id="the-wisdom" style="background-image: url('{{ wisdom_bg }}')">
+    <a class="home-wisdom__link" href="{{ section.settings.wisdom_link | default: '/pages/about-us' }}">
+      <h2>{{ section.settings.wisdom_heading | escape | newline_to_br }}</h2>
+      {%- if section.settings.wisdom_text != blank -%}<p>{{ section.settings.wisdom_text | escape | newline_to_br }}</p>{%- endif -%}
+    </a>
   </section>
 
   <section class="home-social" id="about-us">
@@ -75,9 +258,15 @@
 
   <footer class="home-footer">
     <div class="home-footer__columns">
-      <div><h2>Shop</h2><a href="{{ section.settings.all_products_link | default: routes.all_products_collection_url }}">All products</a>{% if section.settings.product_1_link != blank %}<a href="{{ section.settings.product_1_link }}">Seven-day set</a>{% endif %}{% if section.settings.product_2_link != blank %}<a href="{{ section.settings.product_2_link }}">Gift sets</a>{% endif %}</div>
-      <div><h2>Discover</h2><a href="{{ section.settings.herbs_page_link | default: '#meet-the-herbs' }}">Meet the herbs</a><a href="{{ section.settings.story_link | default: '#the-wisdom' }}">Our story</a></div>
-      <div><h2>About us</h2><a href="{{ section.settings.contact_link | default: '/pages/contact' }}">Contact us</a></div>
+      <div>
+        <h2>Shop</h2>
+        <a href="{{ section.settings.all_products_link | default: routes.all_products_collection_url }}">All products</a>
+        {%- for block in product_blocks -%}
+          {%- if block.settings.link != blank and block.settings.title != blank -%}<a href="{{ block.settings.link }}">{{ block.settings.title | escape }}</a>{%- endif -%}
+        {%- endfor -%}
+      </div>
+      <div><h2>Discover</h2><a href="{{ section.settings.herbs_page_link | default: '#meet-the-herbs' }}">Meet the herbs</a><a href="{{ section.settings.story_link | default: section.settings.wisdom_link | default: '#the-wisdom' }}">Our story</a></div>
+      <div><h2>About us</h2><a href="{{ section.settings.wisdom_link | default: '/pages/about-us' }}">About THYLING</a><a href="{{ section.settings.join_link | default: '/pages/membership' }}">Membership</a><a href="{{ section.settings.contact_link | default: '/pages/contact' }}">Contact us</a></div>
       <div class="home-footer__newsletter" id="home-newsletter">
         <h2>Join the ritual</h2>
         {% form 'customer', id: 'HomeNewsletter' %}
@@ -96,26 +285,94 @@
 {% schema %}
 {
   "name": "THYLING homepage",
+  "max_blocks": 24,
   "settings": [
-    {"type":"url","id":"quiz_link","label":"Find your rhythm link"},
-    {"type":"image_picker","id":"product_1_image","label":"First product image"},
-    {"type":"url","id":"product_1_link","label":"Seven-day set link"},
-    {"type":"image_picker","id":"product_2_image","label":"Second product image"},
-    {"type":"url","id":"product_2_link","label":"Gift set link"},
-    {"type":"image_picker","id":"product_3_image","label":"Third product image"},
-    {"type":"url","id":"product_3_link","label":"Third product image link"},
-    {"type":"image_picker","id":"product_4_image","label":"Fourth product image"},
-    {"type":"url","id":"product_4_link","label":"Fourth product image link"},
-    {"type":"url","id":"ritual_link","label":"Everyday ritual link"},
-    {"type":"url","id":"herbs_page_link","label":"Meet the herbs page link","info":"Used for the herb banner and footer link."},
-    {"type":"url","id":"herb_1_link","label":"Shu Di Huang page link"},
-    {"type":"url","id":"herb_2_link","label":"Suan Zao Ren page link"},
-    {"type":"url","id":"herb_3_link","label":"Wu Zhi Mao Tao page link"},
-    {"type":"url","id":"all_products_link","label":"All products page link"},
-    {"type":"url","id":"story_link","label":"Our story page link"},
-    {"type":"url","id":"xiaohongshu_link","label":"Xiaohongshu link"},
-    {"type":"url","id":"contact_link","label":"Contact link"}
+    { "type": "header", "content": "Hero / 首图" },
+    { "type": "paragraph", "content": "未上传图片时显示默认设计图（文字已在图中）。上传无文字底图后，下方标题和正文会叠加显示在图片上。" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image (desktop)" },
+    { "type": "image_picker", "id": "hero_image_mobile", "label": "Hero image (mobile)", "info": "Optional. Uses the desktop image when empty." },
+    { "type": "inline_richtext", "id": "hero_heading", "label": "Heading", "default": "From a centuries-old library to your <em>daily ritual.</em>", "info": "Italic text is shown in the gold accent colour." },
+    { "type": "textarea", "id": "hero_text", "label": "Text", "default": "Time-honoured herbal wisdom, reimagined as simple daily rituals to help you live in rhythm with your body and the seasons." },
+    { "type": "text", "id": "hero_primary_label", "label": "First button label", "default": "Explore the rituals" },
+    { "type": "url", "id": "hero_primary_link", "label": "First button link", "info": "Defaults to the product section below." },
+    { "type": "text", "id": "hero_secondary_label", "label": "Second button label", "default": "Find your rhythm" },
+    { "type": "url", "id": "quiz_link", "label": "Second button link" },
+
+    { "type": "header", "content": "Membership banner / 会员横幅" },
+    { "type": "text", "id": "join_text", "label": "Banner text", "default": "Join us & get 20% off" },
+    { "type": "url", "id": "join_link", "label": "Membership page link", "info": "Defaults to /pages/membership." },
+
+    { "type": "header", "content": "Products / 产品展示" },
+    { "type": "paragraph", "content": "在左侧“Product card”块中逐个修改图片和文字，可拖动排序、增删。" },
+    { "type": "text", "id": "products_heading", "label": "Heading", "default": "Our product" },
+    { "type": "textarea", "id": "products_text", "label": "Text", "default": "Seven daily formulas come together as one complete weekly botanical ritual." },
+
+    { "type": "header", "content": "Meet the herbs / 药材视频" },
+    { "type": "paragraph", "content": "上传主视频或封面图、或在“Herb video”块中上传视频后，切换为 16:9 视频播放区；点击下方缩略图会在上方播放对应视频，播放时视频盖住标题重叠部分。" },
+    { "type": "text", "id": "herbs_heading_1", "label": "Heading line 1", "default": "Meet" },
+    { "type": "text", "id": "herbs_heading_2", "label": "Heading line 2", "default": "The herbs" },
+    { "type": "textarea", "id": "herbs_text", "label": "Text", "default": "Trace every formula back to place, climate, texture and the traditions that shaped it." },
+    { "type": "image_picker", "id": "herbs_poster", "label": "Main stage cover image (16:9)" },
+    { "type": "video", "id": "herbs_video", "label": "Main video (16:9)" },
+    { "type": "video_url", "id": "herbs_video_url", "label": "Or YouTube / Vimeo URL", "accept": ["youtube", "vimeo"] },
+    { "type": "url", "id": "herbs_page_link", "label": "Meet the herbs page link", "info": "Used by the default artwork and the footer link." },
+
+    { "type": "header", "content": "Ritual slideshow / 轮播" },
+    { "type": "text", "id": "ritual_label", "label": "Slideshow name (accessibility)", "default": "A ritual for everyday" },
+    { "type": "range", "id": "ritual_autoplay", "label": "Auto-rotate every", "min": 0, "max": 10, "step": 1, "unit": "s", "default": 5, "info": "0 turns auto-rotate off." },
+
+    { "type": "header", "content": "Wisdom / 品牌理念" },
+    { "type": "textarea", "id": "wisdom_heading", "label": "Heading", "default": "Wisdom,\npassed through time." },
+    { "type": "textarea", "id": "wisdom_text", "label": "Text", "default": "Trace every formula back to place, climate,\ntexture and the traditions that shaped it." },
+    { "type": "url", "id": "wisdom_link", "label": "About Us page link", "info": "Clicking the text opens this page. Defaults to /pages/about-us." },
+    { "type": "image_picker", "id": "wisdom_image", "label": "Background image" },
+
+    { "type": "header", "content": "Footer links / 页脚" },
+    { "type": "url", "id": "all_products_link", "label": "All products page link" },
+    { "type": "url", "id": "story_link", "label": "Our story page link", "info": "Used when the About Us link above is empty." },
+    { "type": "url", "id": "xiaohongshu_link", "label": "Xiaohongshu link" },
+    { "type": "url", "id": "contact_link", "label": "Contact link" }
   ],
-  "presets": [{"name":"THYLING homepage"}]
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product card",
+      "settings": [
+        { "type": "paragraph", "content": "前 4 张卡片在未上传图片时使用默认设计图（文字在图内）；上传图片后，下方文字会叠加显示。" },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Portrait, approx. 11:20." },
+        { "type": "text", "id": "title", "label": "Title", "default": "七日酝" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Lotus leaf & winter melon tea" },
+        { "type": "text", "id": "badge", "label": "Badge", "info": "e.g. Coming soon" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Leave empty for products that are not on sale yet." }
+      ]
+    },
+    {
+      "type": "herb_video",
+      "name": "Herb video",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Thumbnail image" },
+        { "type": "video", "id": "video", "label": "Video" },
+        { "type": "video_url", "id": "video_url", "label": "Or YouTube / Vimeo URL", "accept": ["youtube", "vimeo"] },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Used only when this block has no video." }
+      ]
+    },
+    {
+      "type": "ritual_slide",
+      "name": "Ritual slide",
+      "settings": [
+        { "type": "paragraph", "content": "未上传图片时使用默认设计图（文字在图内）。" },
+        { "type": "image_picker", "id": "image", "label": "Image (desktop)" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Image (mobile)" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "A ritual for everyday" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Lotus leaf and winter melon open the seven-day rhythm." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" },
+        { "type": "url", "id": "link", "label": "Product page link", "info": "Clicking the image or button opens this page." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "THYLING homepage" }]
 }
 {% endschema %}

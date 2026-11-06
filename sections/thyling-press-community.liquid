@@ -1,0 +1,93 @@
+{{ 'thyling-pages.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Press & Community. Each story can point at a blog article (SEO article link):
+  when an article is chosen, its image, title and URL are used unless overridden in the block.
+{%- endcomment -%}
+<section class="tp tp-wrap tp-press" style="--tp-press-bg: {{ section.settings.background }}; --tp-press-ink: {{ section.settings.text_color }};" aria-labelledby="Press-{{ section.id }}">
+  <div class="tp-story tp-story--end">
+    <h2 class="tp-h2" id="Press-{{ section.id }}">{{ section.settings.heading | escape | newline_to_br }}</h2>
+    {%- if section.settings.subheading != blank -%}<p class="tp-copy">{{ section.settings.subheading | escape }}</p>{%- endif -%}
+  </div>
+
+  <div class="tp-journal">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign story_article = block.settings.article
+        assign story_image = block.settings.image | default: story_article.image
+        assign story_title = block.settings.title | default: story_article.title
+        assign story_link = block.settings.link | default: story_article.url
+        assign story_alt = story_image.alt | default: story_title
+        assign story_number = forloop.index | prepend: '0' | slice: -2, 2
+      -%}
+      <figure {{ block.shopify_attributes }}>
+        {%- if story_link != blank -%}<a class="tp-journal__card" href="{{ story_link }}">{%- else -%}<div class="tp-journal__card">{%- endif -%}
+          <span class="tp-journal__media">
+            {%- if story_image != blank -%}
+              {{ story_image | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 761px) 45vw, 100vw', loading: 'lazy', alt: story_alt }}
+            {%- elsif block.settings.default_asset != blank -%}
+              <img src="{{ block.settings.default_asset | asset_url }}" width="1400" height="933" alt="{{ story_title | escape }}" loading="lazy">
+            {%- else -%}
+              {{ 'lifestyle-2' | placeholder_svg_tag }}
+            {%- endif -%}
+          </span>
+          <figcaption>
+            <small>{{ story_number }}{% if block.settings.label != blank %} / {{ block.settings.label | escape }}{% endif %}</small>
+            {%- if story_title != blank -%}<h3>{{ story_title | escape }}</h3>{%- endif -%}
+          </figcaption>
+        {%- if story_link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+      </figure>
+    {%- endfor -%}
+  </div>
+
+  <div class="tp-pressline">
+    <small>{{ section.settings.footer_left | escape }}</small>
+    <span>{{ section.settings.footer_center | escape }}</span>
+    {%- if section.settings.footer_link != blank -%}
+      <small><a href="{{ section.settings.footer_link }}">{{ section.settings.footer_right | escape }}</a></small>
+    {%- else -%}
+      <small>{{ section.settings.footer_right | escape }}</small>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "THYLING press & community",
+  "settings": [
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "PRESS &\nCOMMUNITY" },
+    { "type": "text", "id": "subheading", "label": "Text", "default": "Notes from the people and places that shape our rituals." },
+    { "type": "color", "id": "background", "label": "Background", "default": "#b6c9ca" },
+    { "type": "color", "id": "text_color", "label": "Text colour", "default": "#2b2018" },
+    { "type": "text", "id": "footer_left", "label": "Bottom left text", "default": "THYLING Journal" },
+    { "type": "text", "id": "footer_center", "label": "Bottom centre text", "default": "Stories and community updates" },
+    { "type": "text", "id": "footer_right", "label": "Bottom right text", "default": "Coming soon" },
+    { "type": "url", "id": "footer_link", "label": "Bottom right link", "info": "e.g. the blog. When set, the right text becomes a link." }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Story",
+      "limit": 6,
+      "settings": [
+        { "type": "paragraph", "content": "选择一篇博客文章即可自动使用其封面图、标题和链接（SEO 文章链接）；下方字段可单独覆盖。" },
+        { "type": "article", "id": "article", "label": "Blog article" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Together" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "default_asset", "label": "Built-in default image", "info": "Theme file used until an image or article is chosen." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "THYLING press & community",
+      "blocks": [
+        { "type": "story", "settings": { "label": "Together", "title": "The people behind the everyday.", "default_asset": "thyling-community.webp" } },
+        { "type": "story", "settings": { "label": "A human touch", "title": "Time, held in the hands.", "default_asset": "thyling-craft.webp" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

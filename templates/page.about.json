@@ -1,0 +1,95 @@
+{
+  "sections": {
+    "title": {
+      "type": "thyling-page-title",
+      "settings": {
+        "eyebrow": "Our story / 时之令",
+        "heading": "WISDOM, PASSED\nTHROUGH TIME.",
+        "text": "",
+        "rule_below": false,
+        "bottom_spacing": true
+      }
+    },
+    "library": {
+      "type": "thyling-story",
+      "settings": {
+        "eyebrow": "01 / Tianyi Pavilion",
+        "heading": "A library built\nto endure.",
+        "text": "<p>In the mid-sixteenth century, Ming scholar and official Fan Qin founded Tianyi Pavilion. Its pool, ventilation and separation from the family quarters helped protect the books. His descendants kept the collection together across generations.</p><p>Medical books form part of this inheritance. Manuscripts and early editions preserve centuries of thinking about herbs, formula-making and the practice of Chinese medicine.</p>",
+        "align": "center",
+        "rules": true,
+        "image_fill": false,
+        "image_position": "left",
+        "default_asset": "thyling-library.webp"
+      }
+    },
+    "inheritance": {
+      "type": "thyling-feature-media",
+      "settings": {
+        "eyebrow": "02 / A living inheritance",
+        "heading": "From the archive to the everyday.",
+        "layout": "full",
+        "top_spacing": false,
+        "focal": "object-position: 50% 50%",
+        "default_asset": "thyling-lake.webp"
+      }
+    },
+    "rituals": {
+      "type": "thyling-story",
+      "settings": {
+        "heading": "OLD KNOWLEDGE.\nDAILY RITUALS.",
+        "text": "<p>Drawing on this heritage and the Fan family’s medical tradition, THYLING reimagines herbal combinations and the rhythms of their use as simple rituals for modern life.</p>",
+        "align": "center",
+        "rules": false,
+        "image_fill": true,
+        "image_position": "left",
+        "default_asset": "thyling-hands.webp"
+      }
+    },
+    "press": {
+      "type": "thyling-press-community",
+      "blocks": {
+        "story_together": {
+          "type": "story",
+          "settings": {
+            "label": "Together",
+            "title": "The people behind the everyday.",
+            "default_asset": "thyling-community.webp"
+          }
+        },
+        "story_hands": {
+          "type": "story",
+          "settings": {
+            "label": "A human touch",
+            "title": "Time, held in the hands.",
+            "default_asset": "thyling-craft.webp"
+          }
+        }
+      },
+      "block_order": [
+        "story_together",
+        "story_hands"
+      ],
+      "settings": {
+        "heading": "PRESS &\nCOMMUNITY",
+        "subheading": "Notes from the people and places that shape our rituals."
+      }
+    },
+    "closing": {
+      "type": "thyling-closing",
+      "settings": {
+        "heading": "KEEP THE\nRITUAL\nGOING.",
+        "text": "Seasonal herbal stories, new rituals and thoughtful notes from THYLING.",
+        "button_label": "Explore membership"
+      }
+    }
+  },
+  "order": [
+    "title",
+    "library",
+    "inheritance",
+    "rituals",
+    "press",
+    "closing"
+  ]
+}

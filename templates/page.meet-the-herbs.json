@@ -1,0 +1,117 @@
+{
+  "sections": {
+    "title": {
+      "type": "thyling-page-title",
+      "settings": {
+        "eyebrow": "THYLING Field notes / 本草溯源",
+        "heading": "MEET THE HERBS.",
+        "text": "Trace every formula back to place, climate, texture and the traditions that shaped it.",
+        "rule_below": false,
+        "bottom_spacing": false
+      }
+    },
+    "origins": {
+      "type": "thyling-feature-media",
+      "settings": {
+        "eyebrow": "01 / Origins",
+        "heading": "Where the ritual begins.",
+        "layout": "contained",
+        "top_spacing": false,
+        "caption_left": "Field notes / Sourcing story",
+        "caption_right": "THYLING / A study of nature",
+        "focal": "object-position: 50% 50%",
+        "default_asset": "thyling-forest.webp"
+      }
+    },
+    "land": {
+      "type": "thyling-story",
+      "settings": {
+        "heading": "FROM THE LAND\nTO THE CUP.",
+        "text": "<p>Look closely at the ingredients behind our daily rituals. A root, a seed, a slice of stem: each has its own texture and story. Explore the index to meet the ingredients one by one.</p>",
+        "align": "center",
+        "rules": true,
+        "image_fill": false,
+        "image_position": "left",
+        "default_asset": ""
+      }
+    },
+    "index": {
+      "type": "thyling-herb-index",
+      "blocks": {
+        "herb_wu": {
+          "type": "herb",
+          "settings": {
+            "name": "Wu Zhi Mao Tao",
+            "chinese_name": "五指毛桃",
+            "default_asset": "thyling-herb-wu.webp",
+            "specimen": true
+          }
+        },
+        "herb_shu": {
+          "type": "herb",
+          "settings": {
+            "name": "Shu Di Huang",
+            "chinese_name": "熟地黄",
+            "default_asset": "thyling-herb-shu.webp",
+            "specimen": true
+          }
+        },
+        "herb_suan": {
+          "type": "herb",
+          "settings": {
+            "name": "Suan Zao Ren",
+            "chinese_name": "酸枣仁",
+            "default_asset": "thyling-herb-suan.webp",
+            "specimen": true
+          }
+        },
+        "herb_shen": {
+          "type": "herb",
+          "settings": {
+            "name": "Xi Yang Shen",
+            "chinese_name": "西洋参",
+            "default_asset": "thyling-herb-shen.webp",
+            "specimen": false
+          }
+        },
+        "herb_ling": {
+          "type": "herb",
+          "settings": {
+            "name": "Ling Zhi",
+            "chinese_name": "灵芝",
+            "default_asset": "thyling-herb-ling.webp",
+            "specimen": false
+          }
+        }
+      },
+      "block_order": [
+        "herb_wu",
+        "herb_shu",
+        "herb_suan",
+        "herb_shen",
+        "herb_ling"
+      ],
+      "settings": {
+        "eyebrow": "02 / The botanical index",
+        "heading": "ROOTED IN NATURE.",
+        "columns": 5,
+        "rules": true
+      }
+    },
+    "closing": {
+      "type": "thyling-closing",
+      "settings": {
+        "heading": "KEEP THE\nRITUAL\nGOING.",
+        "text": "Seasonal herbal stories, new rituals and thoughtful notes from THYLING.",
+        "button_label": "Explore membership"
+      }
+    }
+  },
+  "order": [
+    "title",
+    "origins",
+    "land",
+    "index",
+    "closing"
+  ]
+}

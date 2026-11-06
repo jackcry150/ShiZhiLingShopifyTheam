@@ -1,0 +1,194 @@
+{
+  "sections": {
+    "hero": {
+      "type": "thyling-membership-hero",
+      "settings": {}
+    },
+    "rituals": {
+      "type": "thyling-slideshow",
+      "blocks": {
+        "slide_fu_yao": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Seasonal selection / 扶摇上",
+            "heading": "Fu Yao Shang",
+            "button_label": "Explore products",
+            "default_asset": "thyling-gold.webp"
+          }
+        },
+        "slide_yu_feng": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Seasonal selection / 御风游",
+            "heading": "Yu Feng You",
+            "button_label": "Explore products",
+            "default_asset": "thyling-wind.webp"
+          }
+        },
+        "slide_yue_xia": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Seasonal selection / 月下酣",
+            "heading": "Yue Xia Han",
+            "button_label": "Explore products",
+            "default_asset": "thyling-rest.webp"
+          }
+        }
+      },
+      "block_order": [
+        "slide_fu_yao",
+        "slide_yu_feng",
+        "slide_yue_xia"
+      ],
+      "settings": {
+        "eyebrow": "01 / Explore the rituals",
+        "autoplay": 0
+      }
+    },
+    "daily": {
+      "type": "thyling-story",
+      "settings": {
+        "eyebrow": "Small moments / Everyday rituals",
+        "heading": "A LITTLE TIME.\nJUST FOR YOU.",
+        "text": "<p>Make room for a slower moment. Explore herbal rituals that fit into the rhythm of your day.</p>",
+        "button_label": "Meet the herbs",
+        "button_link": "",
+        "align": "center",
+        "rules": true,
+        "image_fill": true,
+        "image_position": "left",
+        "default_asset": "thyling-daily.webp"
+      }
+    },
+    "press": {
+      "type": "thyling-press-community",
+      "blocks": {
+        "story_together": {
+          "type": "story",
+          "settings": {
+            "label": "Together",
+            "title": "The people behind the everyday.",
+            "default_asset": "thyling-community.webp"
+          }
+        },
+        "story_hands": {
+          "type": "story",
+          "settings": {
+            "label": "A human touch",
+            "title": "Time, held in the hands.",
+            "default_asset": "thyling-craft.webp"
+          }
+        }
+      },
+      "block_order": [
+        "story_together",
+        "story_hands"
+      ],
+      "settings": {
+        "heading": "PRESS &\nCOMMUNITY",
+        "subheading": "Notes from the people and places that shape our rituals."
+      }
+    },
+    "faq": {
+      "type": "thyling-faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "What is THYLING Membership?",
+            "answer": "<p>A more personal way to explore Chinese herbal rituals, with early access, seasonal gifts and recommendations based on your preferences and Rhythm Quiz results.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "Is it free to become a member?",
+            "answer": "<p>Yes. Create a free membership account using your email address.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "How do I receive my 20% discount?",
+            "answer": "<p>Create a membership account and sign in before checking out with your first eligible order. The offer cannot be combined with other promotional codes unless otherwise stated.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "What else do members receive?",
+            "answer": "<p>Members get early access to new and limited releases, seasonal gifts, personalised recommendations, ingredient guides and invitations to selected events. Benefits may evolve as the programme develops.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "How are my products personalised?",
+            "answer": "<p>The Rhythm Quiz asks about your energy, sleep, routine and preferences, then uses your answers to suggest products from the THYLING collection.</p>"
+          }
+        },
+        "q6": {
+          "type": "question",
+          "settings": {
+            "question": "Can I cancel my membership?",
+            "answer": "<p>You can unsubscribe from membership emails or request account closure at any time. Separate product subscriptions and processed orders are handled independently.</p>"
+          }
+        },
+        "q7": {
+          "type": "question",
+          "settings": {
+            "question": "Is the Rhythm Quiz a medical assessment?",
+            "answer": "<p>The quiz offers general wellbeing and product guidance. It does not provide medical advice, diagnosis or treatment.</p>"
+          }
+        },
+        "q8": {
+          "type": "question",
+          "settings": {
+            "question": "Do membership benefits apply internationally?",
+            "answer": "<p>You can register internationally. Availability, gifts, delivery options and shipping fees may vary by destination. Check the details at checkout.</p>"
+          }
+        },
+        "q9": {
+          "type": "question",
+          "settings": {
+            "question": "How can I contact you about my membership?",
+            "answer": "<p>Email <a href=\"mailto:Contact@thyling.com\" title=\"mailto:Contact@thyling.com\">Contact@thyling.com</a> for help with your account, discount or recommendations.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7",
+        "q8",
+        "q9"
+      ],
+      "settings": {
+        "eyebrow": "Membership / Questions",
+        "heading": "MEMBERSHIP FAQ.",
+        "anchor": "faq",
+        "rules": true
+      }
+    },
+    "closing": {
+      "type": "thyling-closing",
+      "settings": {
+        "heading": "KEEP THE\nRITUAL\nGOING.",
+        "text": "Seasonal herbal stories, new rituals and thoughtful notes from THYLING.",
+        "button_label": "Explore membership"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "rituals",
+    "daily",
+    "press",
+    "faq",
+    "closing"
+  ]
+}

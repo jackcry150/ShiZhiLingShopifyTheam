@@ -1,0 +1,142 @@
+{{ 'thyling-pages.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'thyling-ui.js' | asset_url }}" defer="defer"></script>
+
+{%- comment -%}
+  Herb detail page. One "herb" page template serves every herb:
+  - Title and description: the page's own title and content (Online Store > Pages).
+  - Optional page metafields (namespace "custom"):
+    herb_chinese_name (single line text), herb_image (file), herb_video (file),
+    herb_cup_text (multi-line text), herb_related_product (product).
+  - Built-in defaults exist for the prototype herbs, matched by page handle:
+    wu-zhi-mao-tao, shu-di-huang, suan-zao-ren, xi-yang-shen, ling-zhi.
+{%- endcomment -%}
+{%- liquid
+  assign herb = page.metafields.custom
+  assign key = page.handle | default: ''
+
+  assign default_asset = ''
+  assign default_cn = ''
+  assign default_desc = ''
+  assign default_cup = ''
+  assign default_cup_asset = ''
+  assign default_cup_label = ''
+  if key contains 'wu-zhi' or key contains 'wuzhi'
+    assign default_asset = 'thyling-herb-wu.webp'
+    assign default_cn = '五指毛桃'
+    assign default_desc = 'A woody root with a softly sweet, coconut-like aroma. In southern Chinese kitchens, the sliced root is traditionally simmered in soups.'
+    assign default_cup = 'Explore Yun Kai Jian, the five-finger fig root and Chinese yam tea.'
+    assign default_cup_asset = 'thyling-cup-yun.webp'
+    assign default_cup_label = 'Yun Kai Jian / 云开见'
+  elsif key contains 'shu-di' or key contains 'shudi'
+    assign default_asset = 'thyling-herb-shu.webp'
+    assign default_cn = '熟地黄'
+    assign default_desc = 'Prepared rehmannia root has a dark, glossy surface and a soft, dense texture. Its appearance changes as the root is processed.'
+  elsif key contains 'suan-zao' or key contains 'suanzao'
+    assign default_asset = 'thyling-herb-suan.webp'
+    assign default_cn = '酸枣仁'
+    assign default_desc = 'The small, reddish-brown seed of the sour jujube. Its smooth surface catches the light when the seeds are turned in the hand.'
+    assign default_cup = 'Explore Yue Xia Han, the sour jujube seed and lingzhi tea.'
+    assign default_cup_asset = 'thyling-rest.webp'
+    assign default_cup_label = 'Yue Xia Han / 月下酣'
+  elsif key contains 'xi-yang' or key contains 'xiyang' or key contains 'ginseng'
+    assign default_asset = 'thyling-herb-shen.webp'
+    assign default_cn = '西洋参'
+    assign default_desc = 'American ginseng is prized for its distinctive root. Sliced crosswise, the root reveals a pale interior and fine growth rings.'
+  elsif key contains 'ling-zhi' or key contains 'lingzhi' or key contains 'reishi'
+    assign default_asset = 'thyling-herb-ling.webp'
+    assign default_cn = '灵芝'
+    assign default_desc = 'The lacquered surface of this fungus records its growth in bands of colour, from pale gold to deep russet.'
+    assign default_cup = 'Explore Yue Xia Han, the sour jujube seed and lingzhi tea.'
+    assign default_cup_asset = 'thyling-rest.webp'
+    assign default_cup_label = 'Yue Xia Han / 月下酣'
+  endif
+
+  assign chinese_name = herb.herb_chinese_name.value | default: default_cn
+  assign herb_image = herb.herb_image.value
+  assign herb_video = herb.herb_video.value
+  assign poster = herb_image
+  if poster == blank and herb_video != blank
+    assign poster = herb_video.preview_image
+  endif
+  assign title = page.title | default: section.settings.fallback_title
+
+  assign cup_text = herb.herb_cup_text.value | default: default_cup | default: section.settings.cup_text
+  assign related_product = herb.herb_related_product.value
+-%}
+
+<section class="tp tp-wrap">
+  <a class="tp-tag tp-eyebrow tp-red" href="{{ section.settings.back_link | default: '/pages/meet-the-herbs' }}">← {{ section.settings.back_label | escape }}</a>
+  <div class="tp-story">
+    <thyling-media-stage class="tp-detail-art" {% render 'thyling-video-attrs', video: herb_video, poster: poster, title: title %}>
+      <div class="tp-detail-art__poster" data-stage-poster>
+        {%- if poster != blank -%}
+          {%- assign poster_alt = poster.alt | default: chinese_name | default: title -%}
+          {{ poster | image_url: width: 1200 | image_tag: widths: '500, 800, 1200', sizes: '(min-width: 761px) 40vw, 80vw', loading: 'eager', alt: poster_alt }}
+        {%- elsif default_asset != blank -%}
+          <img src="{{ default_asset | asset_url }}" width="750" height="600" alt="{{ chinese_name | default: title | escape }}">
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag }}
+        {%- endif -%}
+      </div>
+      <div class="tp-detail-art__player" data-stage-player></div>
+      <button type="button" class="tp-play" data-stage-play aria-label="Play video" hidden><span aria-hidden="true"></span></button>
+    </thyling-media-stage>
+    <div>
+      <span class="tp-eyebrow tp-red">{{ section.settings.eyebrow | escape }}{% if chinese_name != blank %} / {{ chinese_name | escape }}{% endif %}</span>
+      <h1 class="tp-h1">{{ title | escape }}</h1>
+      <div class="tp-body" style="margin-top: 18px;">
+        {%- if page.content != blank -%}
+          {{ page.content }}
+        {%- elsif default_desc != blank -%}
+          <p>{{ default_desc }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- if section.settings.show_cup -%}
+  <section class="tp tp-wrap tp-rules tp-cup">
+    <span class="tp-eyebrow tp-red">{{ section.settings.cup_eyebrow | escape }}</span>
+    <h2 class="tp-h2">{{ section.settings.cup_heading | escape }}</h2>
+    {%- if cup_text != blank -%}<p class="tp-copy">{{ cup_text | escape | newline_to_br }}</p>{%- endif -%}
+    {%- if related_product != blank -%}
+      <a class="tp-related" href="{{ related_product.url }}">
+        {%- if related_product.featured_image != blank -%}
+          {{ related_product.featured_image | image_url: width: 880 | image_tag: widths: '440, 880', sizes: '440px', loading: 'lazy', alt: related_product.title }}
+        {%- endif -%}
+        <span>{{ related_product.title | escape }} ⟶</span>
+      </a>
+    {%- elsif default_cup_asset != blank -%}
+      <a class="tp-related" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+        <img src="{{ default_cup_asset | asset_url }}" width="1000" height="500" alt="{{ default_cup_label | escape }}" loading="lazy">
+        <span>{{ default_cup_label | escape }} ⟶</span>
+      </a>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <p class="tp-cup__actions"><a class="tp-btn" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }} <span aria-hidden="true">⟶</span></a></p>
+    {%- endif -%}
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "THYLING herb detail",
+  "settings": [
+    { "type": "paragraph", "content": "所有药材页共用此模板：标题和正文在“在线商店 > 页面”中编辑。每个药材的图片/视频、中文名、杯中文案、关联产品可通过页面元字段 custom.herb_image / herb_video / herb_chinese_name / herb_cup_text / herb_related_product 单独设置。" },
+    { "type": "text", "id": "back_label", "label": "Back link label", "default": "Meet the herbs" },
+    { "type": "url", "id": "back_link", "label": "Back link", "info": "Defaults to /pages/meet-the-herbs." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Botanical notes" },
+    { "type": "text", "id": "fallback_title", "label": "Title when the page has none", "default": "Herb" },
+    { "type": "header", "content": "In the cup / 关联产品" },
+    { "type": "checkbox", "id": "show_cup", "label": "Show", "default": true },
+    { "type": "text", "id": "cup_eyebrow", "label": "Eyebrow", "default": "From herb to ritual" },
+    { "type": "text", "id": "cup_heading", "label": "Heading", "default": "IN THE CUP." },
+    { "type": "textarea", "id": "cup_text", "label": "Default text", "default": "Explore the herbal rituals collection.", "info": "Used when the page has no herb_cup_text metafield." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore products" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Defaults to all products." }
+  ],
+  "enabled_on": { "templates": ["page"] },
+  "presets": [{ "name": "THYLING herb detail" }]
+}
+{% endschema %}

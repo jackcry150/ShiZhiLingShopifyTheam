@@ -1,6 +1,0 @@
-{%- if image != blank -%}
-  {%- assign image_alt = image.alt | default: fallback_alt -%}
-  {{ image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '314, 628, 1000', alt: image_alt }}
-{%- else -%}
-  <img src="{{ fallback_asset | asset_url }}" width="314" height="570" alt="{{ fallback_alt | escape }}" loading="lazy">
-{%- endif -%}

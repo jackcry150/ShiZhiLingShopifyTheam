@@ -1,16 +1,61 @@
+{{ 'thyling-collection.css' | asset_url | stylesheet_tag }}
+
 <section class="plp-ingredients" aria-labelledby="PlpIngredients-{{ section.id }}">
   <h2 id="PlpIngredients-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
   <div class="plp-ingredients__grid">
-    <img src="{{ 'plp-ingredient-1.webp' | asset_url }}" width="280" height="420" alt="American ginseng" loading="lazy">
-    <img src="{{ 'plp-ingredient-2.webp' | asset_url }}" width="280" height="420" alt="Reishi mushroom" loading="lazy">
-    <img src="{{ 'plp-ingredient-3.webp' | asset_url }}" width="280" height="420" alt="Solomon's seal" loading="lazy">
-    <img src="{{ 'plp-ingredient-4.webp' | asset_url }}" width="280" height="420" alt="Buddha's hand citron" loading="lazy">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign fallback_asset = 'plp-ingredient-' | append: forloop.index | append: '.webp'
+        assign item_alt = block.settings.image.alt | default: block.settings.name
+      -%}
+      {%- capture item_media -%}
+        {%- if block.settings.image != blank -%}
+          {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '280, 420, 560, 800', sizes: '(min-width: 750px) 25vw, 50vw', alt: item_alt }}
+        {%- elsif forloop.index <= 4 -%}
+          <img src="{{ fallback_asset | asset_url }}" width="280" height="420" alt="{{ block.settings.name | escape }}" loading="lazy">
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'plp-ingredients__placeholder' }}
+        {%- endif -%}
+        {%- if section.settings.show_names and block.settings.name != blank -%}<span class="plp-ingredients__name">{{ block.settings.name | escape }}</span>{%- endif -%}
+      {%- endcapture -%}
+      {%- if block.settings.link != blank -%}
+        <a class="plp-ingredients__item" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{{ item_media }}</a>
+      {%- else -%}
+        <div class="plp-ingredients__item" {{ block.shopify_attributes }}>{{ item_media }}</div>
+      {%- endif -%}
+    {%- endfor -%}
   </div>
 </section>
+
 {% schema %}
 {
   "name": "THYLING ingredients",
-  "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "What's inside our products" }],
-  "presets": [{ "name": "THYLING ingredients" }]
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What's inside our products" },
+    { "type": "checkbox", "id": "show_names", "label": "Show herb names under images", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Herb",
+      "settings": [
+        { "type": "paragraph", "content": "前 4 个未上传图片时使用默认图片。链接请选择该药材在 MEET THE HERBS 下的页面。" },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Portrait, 2:3." },
+        { "type": "text", "id": "name", "label": "Herb name", "info": "Used as image alt text for SEO and accessibility." },
+        { "type": "url", "id": "link", "label": "Herb page link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "THYLING ingredients",
+      "blocks": [
+        { "type": "ingredient", "settings": { "name": "American ginseng" } },
+        { "type": "ingredient", "settings": { "name": "Reishi mushroom" } },
+        { "type": "ingredient", "settings": { "name": "Solomon's seal" } },
+        { "type": "ingredient", "settings": { "name": "Buddha's hand citron" } }
+      ]
+    }
+  ]
 }
 {% endschema %}

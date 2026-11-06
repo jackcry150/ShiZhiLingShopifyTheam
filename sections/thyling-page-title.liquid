@@ -1,0 +1,29 @@
+{{ 'thyling-pages.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  if heading == blank and page != blank
+    assign heading = page.title
+  endif
+-%}
+<section class="tp tp-wrap{% if section.settings.rule_below %} tp-rules{% endif %}"{% if section.settings.bottom_spacing == false %} style="padding-bottom: 0;"{% endif %}>
+  {%- if section.settings.eyebrow != blank -%}<span class="tp-eyebrow tp-red">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+  <div class="tp-titlebar{% if section.settings.text == blank %} tp-title--solo{% endif %}">
+    <h1 class="tp-h1">{{ heading | escape | newline_to_br }}</h1>
+    {%- if section.settings.text != blank -%}<p>{{ section.settings.text | escape }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "THYLING page title",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THYLING Field notes / 本草溯源" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "info": "Uses the page title when empty. Press Enter for a new line.", "default": "MEET THE HERBS." },
+    { "type": "textarea", "id": "text", "label": "Text on the right" },
+    { "type": "checkbox", "id": "rule_below", "label": "Divider line below", "default": false },
+    { "type": "checkbox", "id": "bottom_spacing", "label": "Space below", "info": "Turn off when a photo / video section follows directly.", "default": true }
+  ],
+  "presets": [{ "name": "THYLING page title" }]
+}
+{% endschema %}

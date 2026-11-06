@@ -1,0 +1,74 @@
+{{ 'thyling-pages.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'thyling-ui.js' | asset_url }}" defer="defer"></script>
+
+{%- comment -%}
+  Photo or video feature with copy at the bottom-left.
+  The copy is hidden while a video plays.
+{%- endcomment -%}
+{%- liquid
+  assign contained = false
+  if section.settings.layout == 'contained'
+    assign contained = true
+  endif
+  assign poster = section.settings.image
+  if poster == blank and section.settings.video != blank
+    assign poster = section.settings.video.preview_image
+  endif
+-%}
+<section class="tp{% if contained %} tp-wrap{% endif %}"{% if contained and section.settings.top_spacing == false %} style="padding-top: 0;"{% endif %}>
+  <thyling-media-stage class="tp-picture{% if contained %} tp-picture--contained{% endif %}" {% render 'thyling-video-attrs', video: section.settings.video, video_url: section.settings.video_url, poster: poster, title: section.settings.heading %}>
+    <div class="tp-picture__poster" data-stage-poster>
+      {%- if poster != blank -%}
+        {%- assign poster_alt = poster.alt | default: section.settings.heading -%}
+        {{ poster | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw', loading: 'lazy', alt: poster_alt, style: section.settings.focal }}
+      {%- elsif section.settings.default_asset != blank -%}
+        <img src="{{ section.settings.default_asset | asset_url }}" width="1800" height="1200" alt="{{ section.settings.heading | escape }}" loading="lazy" style="{{ section.settings.focal }}">
+      {%- else -%}
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+    <div class="tp-picture__content">
+      {%- if section.settings.eyebrow != blank -%}<span class="tp-eyebrow">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading | escape }}</h2>{%- endif -%}
+    </div>
+    <div class="tp-picture__player" data-stage-player></div>
+    <button type="button" class="tp-play" data-stage-play aria-label="Play video" hidden><span aria-hidden="true"></span></button>
+  </thyling-media-stage>
+  {%- if contained and section.settings.caption_left != blank or contained and section.settings.caption_right != blank -%}
+    <div class="tp-caption"><span>{{ section.settings.caption_left | escape }}</span><span>{{ section.settings.caption_right | escape }}</span></div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "THYLING photo / video",
+  "settings": [
+    { "type": "paragraph", "content": "可上传图片，或上传视频（同时可设封面图）。视频播放时，图上的文字自动隐藏。" },
+    { "type": "image_picker", "id": "image", "label": "Image / video cover" },
+    { "type": "video", "id": "video", "label": "Video" },
+    { "type": "video_url", "id": "video_url", "label": "Or YouTube / Vimeo URL", "accept": ["youtube", "vimeo"] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "01 / Origins" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Where the ritual begins." },
+    {
+      "type": "select", "id": "layout", "label": "Layout", "default": "contained",
+      "options": [
+        { "value": "contained", "label": "Within page margins" },
+        { "value": "full", "label": "Full width" }
+      ]
+    },
+    { "type": "checkbox", "id": "top_spacing", "label": "Space above (within page margins only)", "default": false },
+    { "type": "text", "id": "caption_left", "label": "Caption left", "info": "Shown under the image (within page margins only)." },
+    { "type": "text", "id": "caption_right", "label": "Caption right" },
+    {
+      "type": "select", "id": "focal", "label": "Image focus", "default": "object-position: 50% 50%",
+      "options": [
+        { "value": "object-position: 50% 50%", "label": "Centre" },
+        { "value": "object-position: 50% 20%", "label": "Top" },
+        { "value": "object-position: 50% 80%", "label": "Bottom" }
+      ]
+    },
+    { "type": "text", "id": "default_asset", "label": "Built-in default image", "info": "Theme file used until an image is uploaded. Leave as is." }
+  ],
+  "presets": [{ "name": "THYLING photo / video" }]
+}
+{% endschema %}

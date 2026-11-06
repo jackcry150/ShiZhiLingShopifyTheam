@@ -1,0 +1,68 @@
+{{ 'thyling-pages.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'thyling-ui.js' | asset_url }}" defer="defer"></script>
+
+{%- assign slide_count = section.blocks.size -%}
+<section class="tp tp-wrap" aria-roledescription="carousel" aria-label="{{ section.settings.eyebrow | default: 'Slideshow' | escape }}">
+  {%- if section.settings.eyebrow != blank -%}<span class="tp-eyebrow tp-red">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+  <thyling-carousel class="tp-slides" data-loop="true" data-inert-inactive data-autoplay="{{ section.settings.autoplay }}">
+    <div class="tp-slides__track" data-carousel-track>
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign number = forloop.index | prepend: '0' | slice: -2, 2
+          assign total = slide_count | prepend: '0' | slice: -2, 2
+        -%}
+        <div class="tp-picture tp-slide" role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} / {{ slide_count }}" {{ block.shopify_attributes }}>
+          <div class="tp-picture__poster">
+            {%- if block.settings.image != blank -%}
+              {%- assign slide_alt = block.settings.image.alt | default: block.settings.heading -%}
+              {{ block.settings.image | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1920, 2400', sizes: '90vw', loading: 'lazy', alt: slide_alt }}
+            {%- elsif block.settings.default_asset != blank -%}
+              <img src="{{ block.settings.default_asset | asset_url }}" width="1066" height="1600" alt="{{ block.settings.heading | escape }}" loading="lazy">
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag }}
+            {%- endif -%}
+          </div>
+          <div class="tp-picture__content">
+            {%- if block.settings.eyebrow != blank -%}<span class="tp-eyebrow">{{ block.settings.eyebrow | escape }}</span>{%- endif -%}
+            <h2>{{ block.settings.heading | escape }}</h2>
+            {%- if block.settings.button_label != blank -%}
+              <div><a class="tp-btn" href="{{ block.settings.link | default: routes.all_products_collection_url }}">{{ block.settings.button_label | escape }} <span aria-hidden="true">⟶</span></a></div>
+            {%- endif -%}
+            {%- if slide_count > 1 -%}
+              <div class="tp-slide__controls">
+                <small>{{ number }} / {{ total }}</small>
+                <button type="button" class="tp-circle" data-carousel-prev aria-label="Previous selection">←</button>
+                <button type="button" class="tp-circle" data-carousel-next aria-label="Next selection">→</button>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </thyling-carousel>
+</section>
+
+{% schema %}
+{
+  "name": "THYLING slideshow",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "01 / Explore the rituals" },
+    { "type": "range", "id": "autoplay", "label": "Auto-rotate every", "min": 0, "max": 10, "step": 1, "unit": "s", "default": 0, "info": "0 turns auto-rotate off." }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Seasonal selection / 扶摇上" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Fu Yao Shang" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore products" },
+        { "type": "url", "id": "link", "label": "Button link", "info": "Defaults to all products." },
+        { "type": "text", "id": "default_asset", "label": "Built-in default image", "info": "Theme file used until an image is uploaded." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "THYLING slideshow", "blocks": [{ "type": "slide" }] }]
+}
+{% endschema %}

@@ -1,0 +1,97 @@
+{{ 'thyling-pages.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'thyling-ui.js' | asset_url }}" defer="defer"></script>
+
+{%- comment -%}
+  Membership hero (50/50 split) + email registration dialog.
+  The form creates / updates a Shopify customer with marketing consent and the tags below,
+  so members can be segmented and given the first-order discount in Shopify.
+{%- endcomment -%}
+{%- liquid
+  assign dialog_id = 'MembershipRegister-' | append: section.id
+  assign form_id = 'MembershipForm-' | append: section.id
+  assign email_id = 'MembershipEmail-' | append: section.id
+  assign reopen = false
+-%}
+
+<section class="tp tp-split tp-rules">
+  <div class="tp-split__media">
+    {%- if section.settings.image != blank -%}
+      {%- assign image_alt = section.settings.image.alt | default: section.settings.heading -%}
+      {{ section.settings.image | image_url: width: 1600 | image_tag: widths: '750, 1100, 1600', sizes: '(min-width: 761px) 50vw, 100vw', fetchpriority: 'high', loading: 'eager', alt: image_alt }}
+    {%- else -%}
+      <img src="{{ 'thyling-gold.webp' | asset_url }}" width="1066" height="1600" alt="A hand holding a THYLING tea tin in a field of golden grass" fetchpriority="high">
+    {%- endif -%}
+  </div>
+  <div class="tp-split__copy">
+    {%- if section.settings.eyebrow != blank -%}<span class="tp-eyebrow tp-red">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+    <h1 class="tp-h1">{{ section.settings.heading | escape | newline_to_br }}</h1>
+    {%- if section.settings.offer != blank -%}<p class="tp-copy tp-split__offer">{{ section.settings.offer | escape }}</p>{%- endif -%}
+    {%- if section.settings.text != blank -%}<p class="tp-split__text">{{ section.settings.text | escape }}</p>{%- endif -%}
+    <button type="button" class="tp-btn tp-pill" data-dialog-open="{{ dialog_id }}" aria-haspopup="dialog">{{ section.settings.button_label | escape }} <span aria-hidden="true">⟶</span></button>
+  </div>
+</section>
+
+{%- capture register_form -%}
+  {%- form 'customer', id: form_id -%}
+    <input type="hidden" name="contact[tags]" value="{{ section.settings.customer_tags | escape }}">
+    {%- if section.settings.dialog_text != blank -%}<p>{{ section.settings.dialog_text | escape }}</p>{%- endif -%}
+    <label for="{{ email_id }}">{{ section.settings.email_label | escape }}</label>
+    <input id="{{ email_id }}" type="email" name="contact[email]" value="{{ form.email }}" autocomplete="email" required{% if form.errors %} aria-invalid="true" aria-describedby="{{ form_id }}-status"{% endif %}>
+    <button type="submit" class="tp-btn">{{ section.settings.submit_label | escape }} <span aria-hidden="true">⟶</span></button>
+    {%- if form.posted_successfully? -%}
+      {%- assign reopen = true -%}
+      <p class="tp-dialog__status" id="{{ form_id }}-status" role="status">{{ section.settings.success_text | escape }}</p>
+    {%- elsif form.errors -%}
+      {%- assign reopen = true -%}
+      <p class="tp-dialog__status" id="{{ form_id }}-status" role="alert">{{ form.errors | default_errors }}</p>
+    {%- endif -%}
+    {%- if section.settings.note != blank -%}<p class="tp-dialog__note">{{ section.settings.note | escape }}</p>{%- endif -%}
+  {%- endform -%}
+{%- endcapture -%}
+
+<thyling-dialog id="{{ dialog_id }}" data-section-id="{{ section.id }}"{% if reopen %} data-open-on-load{% endif %}>
+  <dialog class="tp tp-dialog" aria-labelledby="{{ dialog_id }}-title">
+    <button type="button" class="tp-dialog__close" data-dialog-close aria-label="Close dialog">×</button>
+    <div class="tp-split">
+      <div class="tp-split__media">
+        {%- if section.settings.dialog_image != blank -%}
+          {{ section.settings.dialog_image | image_url: width: 900 | image_tag: widths: '450, 900', sizes: '(min-width: 761px) 424px, 100vw', loading: 'lazy', alt: '' }}
+        {%- else -%}
+          <img src="{{ 'thyling-lake.webp' | asset_url }}" width="1066" height="1600" alt="" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="tp-split__copy">
+        {%- if section.settings.dialog_eyebrow != blank -%}<span class="tp-eyebrow tp-red">{{ section.settings.dialog_eyebrow | escape }}</span>{%- endif -%}
+        <h2 id="{{ dialog_id }}-title">{{ section.settings.dialog_heading | escape }}</h2>
+        {{ register_form }}
+      </div>
+    </div>
+  </dialog>
+</thyling-dialog>
+
+{% schema %}
+{
+  "name": "THYLING membership hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THYLING Membership / A year in rhythm" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "BEGIN WITH\nYOUR RHYTHM." },
+    { "type": "text", "id": "offer", "label": "Offer", "default": "Join and enjoy 20% off your first order." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Herbal care that changes with the seasons and with you. Discover member offers, early access, seasonal gifts and herbal selections curated around your rhythm." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Join us now" },
+    { "type": "header", "content": "Registration dialog / 注册弹窗" },
+    { "type": "paragraph", "content": "提交后会在 Shopify“客户”中创建或更新该邮箱，订阅营销邮件并打上下方标签。首单 20% 折扣需在“折扣”中按客户标签 / 客户细分设置。" },
+    { "type": "image_picker", "id": "dialog_image", "label": "Image" },
+    { "type": "text", "id": "dialog_eyebrow", "label": "Eyebrow", "default": "A year in rhythm / THYLING" },
+    { "type": "text", "id": "dialog_heading", "label": "Heading", "default": "BEGIN WITH YOUR RHYTHM." },
+    { "type": "text", "id": "dialog_text", "label": "Text", "default": "Join for 20% off your first eligible order." },
+    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email address" },
+    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Join now" },
+    { "type": "text", "id": "success_text", "label": "Success message", "default": "Thank you for joining THYLING." },
+    { "type": "textarea", "id": "note", "label": "Consent note", "default": "By joining, you agree to receive emails from THYLING. You can unsubscribe at any time." },
+    { "type": "text", "id": "customer_tags", "label": "Customer tags", "default": "newsletter,membership" }
+  ],
+  "enabled_on": { "templates": ["page"] },
+  "presets": [{ "name": "THYLING membership hero" }]
+}
+{% endschema %}

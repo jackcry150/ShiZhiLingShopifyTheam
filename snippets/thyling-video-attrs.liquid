@@ -1,0 +1,35 @@
+{%- comment -%}
+  Outputs data attributes for <thyling-media-stage> / thumbnails.
+  Accepts:
+  - video: Shopify-hosted video (video setting or video file metafield value)
+  - video_url: YouTube / Vimeo url setting
+  - poster: optional image used when the video is selected
+  - title: optional accessible title
+{%- endcomment -%}
+{%- liquid
+  assign video_src = ''
+  if video != blank
+    for source in video.sources
+      if source.mime_type == 'video/mp4'
+        assign video_src = source.url
+      endif
+    endfor
+  endif
+
+  assign embed_src = ''
+  if video_url != blank
+    if video_url.type == 'youtube'
+      assign embed_src = 'https://www.youtube.com/embed/' | append: video_url.id | append: '?autoplay=1&rel=0&playsinline=1'
+    elsif video_url.type == 'vimeo'
+      assign embed_src = 'https://player.vimeo.com/video/' | append: video_url.id | append: '?autoplay=1'
+    endif
+  endif
+
+  assign poster_src = ''
+  if poster != blank
+    assign poster_src = poster | image_url: width: 1920
+  elsif video != blank and video.preview_image != blank
+    assign poster_src = video.preview_image | image_url: width: 1920
+  endif
+-%}
+data-video-src="{{ video_src }}" data-embed-src="{{ embed_src }}" data-poster="{{ poster_src }}" data-title="{{ title | escape }}"

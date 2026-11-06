@@ -1,0 +1,92 @@
+{
+  "sections": {
+    "main": {
+      "type": "thyling-herb-detail",
+      "settings": {
+        "back_label": "Meet the herbs",
+        "eyebrow": "Botanical notes",
+        "show_cup": true,
+        "cup_eyebrow": "From herb to ritual",
+        "cup_heading": "IN THE CUP.",
+        "cup_text": "Explore the herbal rituals collection.",
+        "button_label": "Explore products"
+      }
+    },
+    "index": {
+      "type": "thyling-herb-index",
+      "blocks": {
+        "herb_wu": {
+          "type": "herb",
+          "settings": {
+            "name": "Wu Zhi Mao Tao",
+            "chinese_name": "五指毛桃",
+            "default_asset": "thyling-herb-wu.webp",
+            "specimen": true
+          }
+        },
+        "herb_shu": {
+          "type": "herb",
+          "settings": {
+            "name": "Shu Di Huang",
+            "chinese_name": "熟地黄",
+            "default_asset": "thyling-herb-shu.webp",
+            "specimen": true
+          }
+        },
+        "herb_suan": {
+          "type": "herb",
+          "settings": {
+            "name": "Suan Zao Ren",
+            "chinese_name": "酸枣仁",
+            "default_asset": "thyling-herb-suan.webp",
+            "specimen": true
+          }
+        },
+        "herb_shen": {
+          "type": "herb",
+          "settings": {
+            "name": "Xi Yang Shen",
+            "chinese_name": "西洋参",
+            "default_asset": "thyling-herb-shen.webp",
+            "specimen": false
+          }
+        },
+        "herb_ling": {
+          "type": "herb",
+          "settings": {
+            "name": "Ling Zhi",
+            "chinese_name": "灵芝",
+            "default_asset": "thyling-herb-ling.webp",
+            "specimen": false
+          }
+        }
+      },
+      "block_order": [
+        "herb_wu",
+        "herb_shu",
+        "herb_suan",
+        "herb_shen",
+        "herb_ling"
+      ],
+      "settings": {
+        "eyebrow": "02 / The botanical index",
+        "heading": "ROOTED IN NATURE.",
+        "columns": 5,
+        "rules": true
+      }
+    },
+    "closing": {
+      "type": "thyling-closing",
+      "settings": {
+        "heading": "KEEP THE\nRITUAL\nGOING.",
+        "text": "Seasonal herbal stories, new rituals and thoughtful notes from THYLING.",
+        "button_label": "Explore membership"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "index",
+    "closing"
+  ]
+}

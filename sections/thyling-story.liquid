@@ -1,0 +1,73 @@
+{{ 'thyling-pages.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Two-column story. With an image: image | eyebrow + heading + text.
+  Without an image: heading | text (e.g. "From the land to the cup").
+{%- endcomment -%}
+{%- liquid
+  assign has_image = false
+  if section.settings.image != blank or section.settings.default_asset != blank
+    assign has_image = true
+  endif
+  assign heading_class = 'tp-h2'
+  assign button_href = section.settings.button_link
+  if button_href == blank
+    assign button_handle = section.settings.button_label | handleize
+    assign button_href = '/pages/' | append: button_handle
+  endif
+-%}
+<section class="tp tp-wrap{% if section.settings.rules %} tp-rules{% endif %}">
+  <div class="tp-story tp-story--{{ section.settings.align }}{% if section.settings.image_position == 'right' %} tp-story--image-right{% endif %}">
+    {%- if has_image -%}
+      <div class="tp-story__media{% if section.settings.image_fill %} tp-story__media--fill{% endif %}">
+        {%- if section.settings.image != blank -%}
+          {%- assign image_alt = section.settings.image.alt | default: section.settings.heading -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 761px) 45vw, 100vw', loading: 'lazy', alt: image_alt }}
+        {%- else -%}
+          <img src="{{ section.settings.default_asset | asset_url }}" width="1200" height="1600" alt="{{ section.settings.heading | escape }}" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="tp-story__copy">
+        {%- if section.settings.eyebrow != blank -%}<span class="tp-eyebrow tp-red">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="{{ heading_class }}">{{ section.settings.heading | escape | newline_to_br }}</h2>{%- endif -%}
+        {%- if section.settings.text != blank -%}<div class="tp-body" style="margin-top: 24px;">{{ section.settings.text }}</div>{%- endif -%}
+        {%- if section.settings.button_label != blank -%}<a class="tp-btn" href="{{ button_href }}">{{ section.settings.button_label | escape }} <span aria-hidden="true">⟶</span></a>{%- endif -%}
+      </div>
+    {%- else -%}
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<span class="tp-eyebrow tp-red">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+        <h2 class="{{ heading_class }}">{{ section.settings.heading | escape | newline_to_br }}</h2>
+      </div>
+      <div class="tp-story__copy">
+        {%- if section.settings.text != blank -%}<div class="tp-body">{{ section.settings.text }}</div>{%- endif -%}
+        {%- if section.settings.button_label != blank -%}<a class="tp-btn" href="{{ button_href }}">{{ section.settings.button_label | escape }} <span aria-hidden="true">⟶</span></a>{%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "THYLING story",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty for a heading + text layout." },
+    { "type": "checkbox", "id": "image_fill", "label": "Crop image to fixed height", "default": false },
+    {
+      "type": "select", "id": "image_position", "label": "Image position", "default": "left",
+      "options": [{ "value": "left", "label": "Left" }, { "value": "right", "label": "Right" }]
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "FROM THE LAND\nTO THE CUP." },
+    { "type": "richtext", "id": "text", "label": "Text", "info": "The first paragraph uses the large serif style.", "default": "<p>Look closely at the ingredients behind our daily rituals. A root, a seed, a slice of stem: each has its own texture and story. Explore the index to meet the ingredients one by one.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Defaults to /pages/ + the button label, e.g. Meet the herbs -> /pages/meet-the-herbs." },
+    {
+      "type": "select", "id": "align", "label": "Vertical alignment", "default": "center",
+      "options": [{ "value": "start", "label": "Top" }, { "value": "center", "label": "Centre" }, { "value": "end", "label": "Bottom" }]
+    },
+    { "type": "checkbox", "id": "rules", "label": "Divider lines above and below", "default": true },
+    { "type": "text", "id": "default_asset", "label": "Built-in default image", "info": "Theme file used until an image is uploaded. Clear it for a text-only layout." }
+  ],
+  "presets": [{ "name": "THYLING story" }]
+}
+{% endschema %}

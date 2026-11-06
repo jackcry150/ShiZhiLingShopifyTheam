@@ -1,4 +1,95 @@
 {
-  "sections": {"home": {"type": "thyling-home", "settings": {}}},
-  "order": ["home"]
+  "sections": {
+    "home": {
+      "type": "thyling-home",
+      "blocks": {
+        "product_seven_day": {
+          "type": "product_card",
+          "settings": {
+            "title": "七日酝",
+            "subtitle": "Lotus leaf & winter melon tea",
+            "badge": "",
+            "button_label": "Shop now",
+            "link": "shopify://collections/all"
+          }
+        },
+        "product_travel": {
+          "type": "product_card",
+          "settings": {
+            "title": "随行包",
+            "subtitle": "Lotus leaf & winter melon tea",
+            "badge": "",
+            "button_label": "Shop now",
+            "link": "shopify://collections/all"
+          }
+        },
+        "product_paste": {
+          "type": "product_card",
+          "settings": {
+            "title": "膏方",
+            "subtitle": "Lotus leaf & winter melon tea",
+            "badge": "Coming soon",
+            "button_label": "Shop now",
+            "link": ""
+          }
+        },
+        "product_ferment": {
+          "type": "product_card",
+          "settings": {
+            "title": "发酵印",
+            "subtitle": "Lotus leaf & winter melon tea",
+            "badge": "Coming soon",
+            "button_label": "Shop now",
+            "link": ""
+          }
+        },
+        "herb_shu_di_huang": {
+          "type": "herb_video",
+          "settings": {
+            "title": "Shu Di Huang",
+            "link": ""
+          }
+        },
+        "herb_suan_zao_ren": {
+          "type": "herb_video",
+          "settings": {
+            "title": "Suan Zao Ren",
+            "link": ""
+          }
+        },
+        "herb_wu_zhi_mao_tao": {
+          "type": "herb_video",
+          "settings": {
+            "title": "Wu Zhi Mao Tao",
+            "link": ""
+          }
+        },
+        "ritual_seven_day": {
+          "type": "ritual_slide",
+          "settings": {
+            "heading": "A ritual for everyday",
+            "text": "Lotus leaf and winter melon open the seven-day rhythm.",
+            "button_label": "Shop now",
+            "link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "product_seven_day",
+        "product_travel",
+        "product_paste",
+        "product_ferment",
+        "herb_shu_di_huang",
+        "herb_suan_zao_ren",
+        "herb_wu_zhi_mao_tao",
+        "ritual_seven_day"
+      ],
+      "settings": {
+        "ritual_autoplay": 5
+      }
+    }
+  },
+  "order": [
+    "home"
+  ]
 }
