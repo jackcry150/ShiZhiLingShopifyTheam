@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "home": {
@@ -36,7 +45,7 @@
         "product_ferment": {
           "type": "product_card",
           "settings": {
-            "title": "发酵印",
+            "title": "发酵饮",
             "subtitle": "Lotus leaf & winter melon tea",
             "badge": "Coming soon",
             "button_label": "Shop now",
@@ -46,6 +55,7 @@
         "herb_shu_di_huang": {
           "type": "herb_video",
           "settings": {
+            "video_url": "",
             "title": "Shu Di Huang",
             "link": ""
           }
@@ -53,6 +63,7 @@
         "herb_suan_zao_ren": {
           "type": "herb_video",
           "settings": {
+            "video_url": "",
             "title": "Suan Zao Ren",
             "link": ""
           }
@@ -60,6 +71,7 @@
         "herb_wu_zhi_mao_tao": {
           "type": "herb_video",
           "settings": {
+            "video_url": "",
             "title": "Wu Zhi Mao Tao",
             "link": ""
           }
@@ -85,8 +97,31 @@
         "ritual_seven_day"
       ],
       "settings": {
+        "hero_image": "shopify://shop_images/Weixin_Image_20261105171418_66_78.jpg",
+        "hero_heading": "From a centuries-old library to your <em>daily ritual.</em>",
+        "hero_text": "Time-honoured herbal wisdom, reimagined as simple daily rituals to help you live in rhythm with your body and the seasons.",
+        "hero_primary_label": "Explore the rituals",
+        "hero_primary_link": "",
+        "hero_secondary_label": "Find your rhythm",
+        "quiz_link": "shopify://pages/body-type-quiz",
+        "join_text": "Join us & get 20% off",
+        "join_link": "",
+        "products_heading": "Our product",
+        "products_text": "Seven daily formulas come together as one complete weekly botanical ritual.",
+        "herbs_heading_1": "Meet",
+        "herbs_heading_2": "The herbs",
+        "herbs_text": "Trace every formula back to place, climate, texture and the traditions that shaped it.",
+        "herbs_video_url": "",
+        "herbs_page_link": "",
+        "ritual_label": "A ritual for everyday",
         "ritual_autoplay": 5,
-        "quiz_link": "shopify://pages/body-type-quiz"
+        "wisdom_heading": "Wisdom,\npassed through time.",
+        "wisdom_text": "Trace every formula back to place, climate,\ntexture and the traditions that shaped it.",
+        "wisdom_link": "",
+        "all_products_link": "",
+        "story_link": "",
+        "xiaohongshu_link": "",
+        "contact_link": ""
       }
     }
   },
