@@ -12,8 +12,8 @@
     "title": {
       "type": "thyling-page-title",
       "settings": {
-        "eyebrow": "Our story / 时之令",
-        "heading": "WISDOM, PASSED\nTHROUGH TIME.",
+        "eyebrow": "Our story / THYLING 时之令",
+        "heading": "WISDOM, \nPASSED THROUGH TIME.",
         "text": "",
         "rule_below": false,
         "bottom_spacing": true
@@ -22,23 +22,28 @@
     "library": {
       "type": "thyling-story",
       "settings": {
-        "eyebrow": "01 / Tianyi Pavilion",
-        "heading": "A library built\nto endure.",
-        "text": "<p>In the mid-sixteenth century, Ming scholar and official Fan Qin founded Tianyi Pavilion. Its pool, ventilation and separation from the family quarters helped protect the books. His descendants kept the collection together across generations.</p><p>Medical books form part of this inheritance. Manuscripts and early editions preserve centuries of thinking about herbs, formula-making and the practice of Chinese medicine.</p>",
-        "align": "center",
-        "rules": true,
         "image_fill": false,
         "image_position": "left",
+        "eyebrow": "01 / Tianyi Pavilion",
+        "heading": "",
+        "text": "<p>For 450 years, Tianyi Pavilion has stood as more than a library. Founded in the mid-16th century by Fan Qin, a Ming dynasty official who spent his career collecting books from every corner of the empire, it is the oldest surviving private library in China and one of the oldest in the world. Its name comes from the I Ching: \"Heaven creates water, earth completes it in six.\" Water conquers fire—the greatest threat to any house of books. The architecture itself was a prayer for permanence: a pool before the pavilion, a fire lane separating the library from the family's living quarters, windows placed for ventilation, herbs tucked between pages to ward off insects.</p>",
+        "button_label": "",
+        "button_link": "",
+        "align": "center",
+        "rules": true,
         "default_asset": "thyling-library.webp"
       }
     },
     "inheritance": {
       "type": "thyling-feature-media",
       "settings": {
+        "video_url": "",
         "eyebrow": "02 / A living inheritance",
         "heading": "From the archive to the everyday.",
         "layout": "full",
         "top_spacing": false,
+        "caption_left": "",
+        "caption_right": "",
         "focal": "object-position: 50% 50%",
         "default_asset": "thyling-lake.webp"
       }
@@ -46,12 +51,15 @@
     "rituals": {
       "type": "thyling-story",
       "settings": {
-        "heading": "OLD KNOWLEDGE.\nDAILY RITUALS.",
-        "text": "<p>Drawing on this heritage and the Fan family’s medical tradition, THYLING reimagines herbal combinations and the rhythms of their use as simple rituals for modern life.</p>",
-        "align": "center",
-        "rules": false,
         "image_fill": true,
         "image_position": "left",
+        "eyebrow": "",
+        "heading": "",
+        "text": "<p>Within those collections, Chinese medicine held a quiet but enduring place. Tianyi Pavilion's holdings include hundreds of medical texts, among them rare manuscripts and Ming-era editions that survive nowhere else—treatises on acupuncture, formularies, works of diagnosis and pharmacology that trace the long conversation of Chinese healing across dynasties. The pavilion did not merely store these texts. It kept them alive long enough for later generations to read them. We carry that inheritance forward—not as something to remain in old books, but as rituals to be lived every day. Drawing on this legacy and the medical tradition of the Fan family, we treat old texts not as relics of the past but as living knowledge. Their intricate herbal combinations and carefully considered order of use are reimagined as simple, approachable products made for modern everyday life.</p><p></p>",
+        "button_label": "",
+        "button_link": "",
+        "align": "center",
+        "rules": false,
         "default_asset": "thyling-hands.webp"
       }
     },
@@ -61,16 +69,20 @@
         "story_together": {
           "type": "story",
           "settings": {
+            "article": "",
             "label": "Together",
             "title": "The people behind the everyday.",
+            "link": "",
             "default_asset": "thyling-community.webp"
           }
         },
         "story_hands": {
           "type": "story",
           "settings": {
+            "article": "",
             "label": "A human touch",
             "title": "Time, held in the hands.",
+            "link": "",
             "default_asset": "thyling-craft.webp"
           }
         }
@@ -81,7 +93,13 @@
       ],
       "settings": {
         "heading": "PRESS &\nCOMMUNITY",
-        "subheading": "Notes from the people and places that shape our rituals."
+        "subheading": "Notes from the people and places that shape our rituals.",
+        "background": "#b6c9ca",
+        "text_color": "#2b2018",
+        "footer_left": "THYLING Journal",
+        "footer_center": "Stories and community updates",
+        "footer_right": "Coming soon",
+        "footer_link": ""
       }
     },
     "closing": {
@@ -89,7 +107,8 @@
       "settings": {
         "heading": "KEEP THE\nRITUAL\nGOING.",
         "text": "Seasonal herbal stories, new rituals and thoughtful notes from THYLING.",
-        "button_label": "Explore membership"
+        "button_label": "Explore membership",
+        "button_link": ""
       }
     }
   },

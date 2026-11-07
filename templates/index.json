@@ -45,6 +45,7 @@
         "product_ferment": {
           "type": "product_card",
           "settings": {
+            "image": "shopify://shop_images/close-up-of-a-pine-tree-showing-texture-of-pine-needles.jpg",
             "title": "发酵饮",
             "subtitle": "Lotus leaf & winter melon tea",
             "badge": "Coming soon",
@@ -97,7 +98,6 @@
         "ritual_seven_day"
       ],
       "settings": {
-        "hero_image": "shopify://shop_images/Weixin_Image_20261105171418_66_78.jpg",
         "hero_heading": "From a centuries-old library to your <em>daily ritual.</em>",
         "hero_text": "Time-honoured herbal wisdom, reimagined as simple daily rituals to help you live in rhythm with your body and the seasons.",
         "hero_primary_label": "Explore the rituals",
