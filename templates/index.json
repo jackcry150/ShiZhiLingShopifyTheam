@@ -45,7 +45,7 @@
         "product_ferment": {
           "type": "product_card",
           "settings": {
-            "image": "shopify://shop_images/close-up-of-a-pine-tree-showing-texture-of-pine-needles.jpg",
+            "image": "shopify://shop_images/home-ferment.jpg",
             "title": "发酵饮",
             "subtitle": "Lotus leaf & winter melon tea",
             "badge": "Coming soon",
