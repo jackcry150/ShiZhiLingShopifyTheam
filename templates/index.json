@@ -37,9 +37,10 @@
         "product_paste": {
           "type": "product_card",
           "settings": {
-            "title": "膏方",
-            "subtitle": "Lotus leaf & winter melon tea",
-            "badge": "Coming soon",
+            "image": "shopify://shop_images/4_3.png",
+            "title": "",
+            "subtitle": "",
+            "badge": "",
             "button_label": "Shop now",
             "link": ""
           }
