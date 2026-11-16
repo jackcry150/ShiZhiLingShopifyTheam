@@ -15,8 +15,9 @@
         "product_seven_day": {
           "type": "product_card",
           "settings": {
-            "title": "七日酝",
-            "subtitle": "Lotus leaf & winter melon tea",
+            "image": "shopify://shop_images/4_1.png",
+            "title": "",
+            "subtitle": "",
             "badge": "",
             "button_label": "Shop now",
             "link": "shopify://collections/all"
@@ -25,8 +26,9 @@
         "product_travel": {
           "type": "product_card",
           "settings": {
-            "title": "随行包",
-            "subtitle": "Lotus leaf & winter melon tea",
+            "image": "shopify://shop_images/4_2.png",
+            "title": "",
+            "subtitle": "",
             "badge": "",
             "button_label": "Shop now",
             "link": "shopify://collections/all"
