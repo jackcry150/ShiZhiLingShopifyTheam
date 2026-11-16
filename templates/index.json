@@ -48,10 +48,10 @@
         "product_ferment": {
           "type": "product_card",
           "settings": {
-            "image": "shopify://shop_images/home-ferment.jpg",
-            "title": "发酵饮",
-            "subtitle": "Lotus leaf & winter melon tea",
-            "badge": "Coming soon",
+            "image": "shopify://shop_images/4_4.png",
+            "title": "",
+            "subtitle": "",
+            "badge": "",
             "button_label": "Shop now",
             "link": ""
           }
