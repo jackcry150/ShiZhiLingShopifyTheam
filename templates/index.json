@@ -15,7 +15,7 @@
         "product_seven_day": {
           "type": "product_card",
           "settings": {
-            "image": "shopify://shop_images/4_1.png",
+            "image": "shopify://shop_images/4_1_a1ed975c-1ca7-41a2-9501-f4458f8e488f.png",
             "title": "",
             "subtitle": "",
             "badge": "",
@@ -26,7 +26,7 @@
         "product_travel": {
           "type": "product_card",
           "settings": {
-            "image": "shopify://shop_images/4_2.png",
+            "image": "shopify://shop_images/4_2_d4f2630b-9311-402c-8d16-6c28515c186c.png",
             "title": "",
             "subtitle": "",
             "badge": "",
@@ -37,7 +37,7 @@
         "product_paste": {
           "type": "product_card",
           "settings": {
-            "image": "shopify://shop_images/4_3.png",
+            "image": "shopify://shop_images/4_3_f801c05d-1eb5-487c-8bec-083aef88af58.png",
             "title": "",
             "subtitle": "",
             "badge": "",
@@ -48,7 +48,7 @@
         "product_ferment": {
           "type": "product_card",
           "settings": {
-            "image": "shopify://shop_images/4_4.png",
+            "image": "shopify://shop_images/4_4_601ac08e-ba0c-49c8-880e-13f713775737.png",
             "title": "",
             "subtitle": "",
             "badge": "",
